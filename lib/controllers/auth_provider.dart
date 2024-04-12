@@ -1,0 +1,101 @@
+import 'package:flutter/material.dart';
+import 'package:appwrite/appwrite.dart';
+import 'package:money_ger/views/auth/login/login_screen.dart';
+import 'package:money_ger/views/home/home_screen.dart';
+import '../utils/app_storage.dart';
+import '../utils/constant/appwrite_constant.dart';
+import '../utils/custom_snack.dart';
+
+class AuthProvider extends ChangeNotifier {
+  Client client = Client();
+  late Databases db;
+  late Account account;
+  late Storage _appWriteStorage;
+
+  AuthProvider() {
+    _init();
+  }
+
+  _init() {
+    client
+        .setEndpoint(AppWriteConstant.endPoint)
+        .setProject(AppWriteConstant.projectId);
+    account = Account(client);
+    db = Databases(client);
+    _appWriteStorage = Storage(client);
+  }
+
+  /// login ///
+
+  late bool isLogin = false;
+
+  Future<void> login(
+      String email, String password, BuildContext context) async {
+    try {
+      isLogin = true;
+      notifyListeners();
+
+      // var result =
+      var result = await account.createEmailPasswordSession(
+          email: email, password: password);
+      //     await account.createEmailSession(email: email, password: password);
+
+      await storage.write(key: 'sessionId', value: result.$id);
+      await storage.write(key: 'userId', value: result.userId);
+
+      if (result.userId.isNotEmpty) {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => HomeScreen()));
+      }
+    } catch (e) {
+      print('error is $e');
+    } finally {
+      isLogin = false;
+      notifyListeners();
+    }
+  }
+
+  /// sign up ///
+
+  late bool isAccountCreating = false;
+
+  Future<void> signUp(
+      String email, String password, String name, BuildContext context) async {
+    try {
+      isAccountCreating = true;
+      notifyListeners();
+
+      var result = await account
+          .create(
+        userId: ID.unique(),
+        email: email,
+        password: password,
+        name: name,
+      ).then((value) {
+        print('value is $value');
+        Navigator.push(
+            context, MaterialPageRoute(builder: (_) => const LoginScreen()));
+
+      });
+    } catch (e) {
+      CustomSnack.warningSnack(e.toString(), context);
+    } finally {
+      isAccountCreating = false;
+      notifyListeners();
+    }
+  }
+
+  logout(BuildContext context) async {
+    try {
+      final sessionId = await storage.read(key: 'sessionId');
+      final res = await account.deleteSession(sessionId: sessionId!);
+      await storage.delete(key: 'sessionId');
+
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (_) => LoginScreen()));
+    } catch (e) {
+      print(e.toString());
+      notifyListeners();
+    }
+  }
+}
