@@ -1,5 +1,6 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
+import 'package:money_ger/models/expense_model.dart';
 import 'package:money_ger/utils/constant/constant.dart';
 import '../utils/app_storage.dart';
 import '../utils/constant/appwrite_constant.dart';
@@ -20,7 +21,7 @@ class MonthlyBudgetProvider extends ChangeNotifier {
         .setProject(AppWriteConstant.projectId);
     db = Databases(client);
     getMonthlyBudget();
-    //getAllTaskList();
+    getExpenseList();
   }
 
   /// Monthly Budget ///
@@ -134,6 +135,55 @@ class MonthlyBudgetProvider extends ChangeNotifier {
 
   /// daily expense list ///
 
+  late bool isExpenseListLoading = false;
+  late List<ExpenseModel> expenseList = [];
+
+  Future<void> getExpenseList() async {
+    try {
+      isExpenseListLoading = true;
+      notifyListeners();
+
+      final String? uid = await AppStorage.getUserId();
+
+      final res = await db.listDocuments(
+        databaseId: AppWriteConstant.primaryDBId,
+        collectionId: AppWriteConstant.expenseListCollectionId,
+        // queries: [
+        //   Query.equal("userID", uid)
+        // ]
+        // queries: [Query.equal("userID", '6619a55b3e79c45178a6')]
+      );
+
+      if (res.documents.isNotEmpty) {
+        expenseList.clear();
+        notifyListeners();
+
+        res.documents.forEach((e) {
+          if (e.data['userID'] == uid &&
+              AppConstant.currentMonthId == e.data['monthlyBudgetId']) {
+
+            /// there will be list ///
+            expenseList.add(ExpenseModel(
+                monthlyBudgetId: e.data['monthlyBudgetId'] ?? '',
+                description:  e.data['description'] ?? '',
+                expenseType:  e.data['expenseType'] ?? '',
+                expenseAmount:  e.data['expenseAmount'] ?? '',
+                uid:  e.data['userID'] ?? '',
+                createdAt:  e.data['createdAt'] ?? ''));
+            notifyListeners();
+          }
+        });
+      } else {
+        //CustomSnack.warningSnack('No task on your queue', context);
+      }
+    } catch (e) {
+      // CustomSnack.warningSnack(e.toString(), context);
+    } finally {
+      isExpenseListLoading = false;
+      notifyListeners();
+    }
+  }
+
   late bool isExpenseAdding = false;
 
   Future<void> addExpense(String monthlyBudgetId, String description,
@@ -157,6 +207,7 @@ class MonthlyBudgetProvider extends ChangeNotifier {
             'createdAt': DateTime.now().toString()
           }).then((value) {
         getMonthlyBudget();
+        getExpenseList();
         Navigator.pop(context);
         CustomDialog.autoDialog(
             context, Icons.check, 'Expense is added successfully');

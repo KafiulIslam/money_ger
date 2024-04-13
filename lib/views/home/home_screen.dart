@@ -34,14 +34,16 @@ class HomeScreen extends StatelessWidget {
               Expanded(
                 child: ListView.separated(
                     itemBuilder: (_, index) {
+                      var data = monthlyBudgetState.expenseList[index];
                       return Container(
                         height: 50,
                         width: double.infinity,
                         color: white,
+                        child: Text(data.expenseType),
                       );
                     },
                     separatorBuilder: (_, index) => sixteenVerticalSpace,
-                    itemCount: 5),
+                    itemCount: monthlyBudgetState.expenseList.length),
               )
             ],
           );
