@@ -24,6 +24,32 @@ class AppConstant{
 
   static final primaryRadius = BorderRadius.circular(12);
 
+  /// expense type list ///
+
+  static final List<String> expenseTypeList = [
+    'Food or Drinks',
+    'Phone Bill',
+    'Transport',
+    'House Rent',
+    'Electricity Bill',
+    'Fuel Bill',
+    'Fix & Maintenance',
+    'Cosmetics',
+    'Groceries',
+    'Entertainment',
+    'Sports',
+    'Fashion',
+    'Travel',
+    'Beauty Care',
+    'Party',
+    'Gift',
+    'Donation',
+    'Social Work',
+    'Doctor',
+    'Medicine',
+    'Fee & charge',
+    'Internet Bill'
+  ];
 
   /// for current month, year , id ///
   static final String currentMonth =

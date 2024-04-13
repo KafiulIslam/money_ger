@@ -22,7 +22,7 @@ class CommonTextField extends StatelessWidget {
       decoration: InputDecoration(
         filled: true,
         fillColor: assColor,
-        contentPadding: const EdgeInsets.all(12),
+        contentPadding: const EdgeInsets.all(16),
         hintText: hintText,
         hintStyle: hintTextStyle,
         focusedBorder: AppConstant.focusOutLineBorder,

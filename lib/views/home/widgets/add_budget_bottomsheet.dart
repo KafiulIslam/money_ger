@@ -59,11 +59,17 @@ class _AddBudgetBottomSheetState extends State<AddBudgetBottomSheet> {
                   sixteenVerticalSpace,
                   PrimaryButton(
                     onTap: () {
-                      monthlyBudgetState.setMonthlyBudget(
-                          int.parse(_budgetController.text),
-                          DateTime.now().toString(),
-                          AppConstant.currentMonth,
-                          context);
+                      monthlyBudgetState.monthlyBudget == 00
+                          ? monthlyBudgetState.setMonthlyBudget(
+                              int.parse(_budgetController.text),
+                              DateTime.now().toString(),
+                              AppConstant.currentMonth,
+                              context)
+                          : monthlyBudgetState.editMonthlyBudget(
+                              int.parse(_budgetController.text),
+                              DateTime.now().toString(),
+                              AppConstant.currentMonth,
+                              context);
                     },
                     buttonTitle: 'Save',
                     isLoading: monthlyBudgetState.isMonthlyBudgetSetting,

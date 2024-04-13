@@ -28,39 +28,33 @@ class MonthlyBudgetProvider extends ChangeNotifier {
   late bool isBudgetLoading = false;
   late int monthlyBudget = 00;
 
-
   Future<void> getMonthlyBudget() async {
     try {
       isBudgetLoading = true;
       notifyListeners();
 
-      final uid = await AppStorage.getUserId();
+      final String? uid = await AppStorage.getUserId();
 
       final res = await db.listDocuments(
-          databaseId: AppWriteConstant.primaryDBId,
-          collectionId: AppWriteConstant.monthlyBudgetCollectionId,
-          queries: [Query.equal("userId", uid)]);
+        databaseId: AppWriteConstant.primaryDBId,
+        collectionId: AppWriteConstant.monthlyBudgetCollectionId,
+        // queries: [
+        //   Query.equal("userID", uid)
+        // ]
+        // queries: [Query.equal("userID", '6619a55b3e79c45178a6')]
+      );
 
-      print('one0');
       if (res.documents.isNotEmpty) {
-
-        print('two');
         res.documents.forEach((e) {
-
-          print('alkdfjakld ${e.data['monthlyBudget']}');
-
-          if (AppConstant.currentMonthId == e.$id) {
+          if (e.data['userID'] == uid && AppConstant.currentMonthId == e.$id) {
             monthlyBudget = e.data['monthlyBudget'] ?? 00;
             notifyListeners();
-            print('tgree');
           }
         });
       } else {
-        print('four');
         //CustomSnack.warningSnack('No task on your queue', context);
       }
     } catch (e) {
-      print('five ${e.toString()}');
       // CustomSnack.warningSnack(e.toString(), context);
     } finally {
       isBudgetLoading = false;
@@ -68,12 +62,12 @@ class MonthlyBudgetProvider extends ChangeNotifier {
     }
   }
 
-  /// add task state ///
+  /// add budget state ///
 
   late bool isMonthlyBudgetSetting = false;
 
-  Future<void> setMonthlyBudget(int monthlyBudget, String createdAt, monthName,
-      BuildContext context) async {
+  Future<void> setMonthlyBudget(int monthlyBudget, String createdAt,
+      String monthName, BuildContext context) async {
     try {
       isMonthlyBudgetSetting = true;
       notifyListeners();
@@ -88,13 +82,12 @@ class MonthlyBudgetProvider extends ChangeNotifier {
             'monthlyBudget': monthlyBudget,
             'createdAt': createdAt,
             'monthName': monthName,
-            'userId': uid
+            'userID': uid
           }).then((value) {
+        getMonthlyBudget();
         Navigator.pop(context);
         CustomDialog.autoDialog(
             context, Icons.check, 'Budget is set successfully!');
-        // getTodayTaskList();
-        // getAllTaskList();
       });
       notifyListeners();
     } catch (e) {
@@ -102,6 +95,78 @@ class MonthlyBudgetProvider extends ChangeNotifier {
       CustomSnack.warningSnack(e.toString(), context);
     } finally {
       isMonthlyBudgetSetting = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> editMonthlyBudget(int monthlyBudget, String createdAt,
+      String monthName, BuildContext context) async {
+    try {
+      isMonthlyBudgetSetting = true;
+      notifyListeners();
+
+      final uid = await AppStorage.getUserId();
+
+      var res = await db.updateDocument(
+          databaseId: AppWriteConstant.primaryDBId,
+          collectionId: AppWriteConstant.monthlyBudgetCollectionId,
+          documentId: AppConstant.currentMonthId,
+          data: {
+            'monthlyBudget': monthlyBudget,
+            'createdAt': createdAt,
+            'monthName': monthName,
+            'userID': uid
+          }).then((value) {
+        getMonthlyBudget();
+        Navigator.pop(context);
+        CustomDialog.autoDialog(
+            context, Icons.check, 'Budget is updated successfully!');
+      });
+      notifyListeners();
+    } catch (e) {
+      print('catch error ${e.toString()}');
+      CustomSnack.warningSnack(e.toString(), context);
+    } finally {
+      isMonthlyBudgetSetting = false;
+      notifyListeners();
+    }
+  }
+
+  /// daily expense list ///
+
+  late bool isExpenseAdding = false;
+
+  Future<void> addExpense(String monthlyBudgetId, String description,
+      String expenseType, int expenseAmount, BuildContext context) async {
+    try {
+      isExpenseAdding = true;
+      notifyListeners();
+
+      final uid = await AppStorage.getUserId();
+
+      var res = await db.createDocument(
+          databaseId: AppWriteConstant.primaryDBId,
+          collectionId: AppWriteConstant.expenseListCollectionId,
+          documentId: ID.unique(),
+          data: {
+            'monthlyBudgetId': monthlyBudgetId,
+            'description': description,
+            'expenseType': expenseType,
+            'expenseAmount': expenseAmount,
+            'userID': uid,
+            'createdAt': DateTime.now().toString()
+          }).then((value) {
+        getMonthlyBudget();
+        Navigator.pop(context);
+        CustomDialog.autoDialog(
+            context, Icons.check, 'Expense is added successfully');
+      });
+      notifyListeners();
+    } catch (e) {
+      print('catch error ${e.toString()}');
+      CustomSnack.warningSnack(e.toString(), context);
+    } finally {
+      isExpenseAdding = false;
       notifyListeners();
     }
   }

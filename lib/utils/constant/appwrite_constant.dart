@@ -10,6 +10,7 @@ class AppWriteConstant {
   static const String primaryDBId = "money_ger_primary_db";
   static const String moneyGerBucketId = "661a2b95992fe9347881";
   static const String monthlyBudgetCollectionId = 'monthly_budget';
+  static const String expenseListCollectionId = 'expense_list';
 
 
   // static const String userImageBucketId = '65d872347bcd376062c8';

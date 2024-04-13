@@ -5,6 +5,7 @@ import 'package:money_ger/utils/custom_dialog.dart';
 import 'package:money_ger/utils/spacer.dart';
 import 'package:money_ger/utils/typograpgy.dart';
 import 'package:money_ger/views/home/widgets/add_budget_bottomsheet.dart';
+import 'package:money_ger/views/home/widgets/add_expense_bottomsheet.dart';
 import 'package:provider/provider.dart';
 import '../../utils/color.dart';
 
@@ -25,18 +26,43 @@ class HomeScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Consumer<MonthlyBudgetProvider>(builder: (_, monthlyBudgetState, child){
+        child: Consumer<MonthlyBudgetProvider>(
+            builder: (_, monthlyBudgetState, child) {
           return Column(
-            children: [_monthlyBudgetCard(context)],
+            children: [
+              _monthlyBudgetCard(context),
+              Expanded(
+                child: ListView.separated(
+                    itemBuilder: (_, index) {
+                      return Container(
+                        height: 50,
+                        width: double.infinity,
+                        color: white,
+                      );
+                    },
+                    separatorBuilder: (_, index) => sixteenVerticalSpace,
+                    itemCount: 5),
+              )
+            ],
           );
         }),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: secondaryColor,
+        onPressed: () {
+          CustomDialog.bottomSheet(context, const AddExpenseBottomSheet());
+        },
+        child: const Icon(
+          Icons.add,
+          color: white,
+        ),
       ),
     );
   }
 
   Widget _monthlyBudgetCard(BuildContext context) {
-
-    final monthlyBudgetState = Provider.of<MonthlyBudgetProvider>(context, listen: false);
+    final monthlyBudgetState =
+        Provider.of<MonthlyBudgetProvider>(context, listen: false);
 
     return Container(
       width: double.infinity,
@@ -44,50 +70,57 @@ class HomeScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(12), color: primaryColor),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Text(
-                  AppConstant.currentMonth,
-                  style: tTextStyleBold.copyWith(fontSize: 18, color: white),
-                ),
-                Text(
-                  '  /  ${monthlyBudgetState.monthlyBudget.toString()}',
-                  style: tTextStyle700.copyWith(fontSize: 16, color: white),
-                ),
-                const Spacer(),
-                IconButton(
-                    onPressed: () {
-                      monthlyBudgetState.getMonthlyBudget();
-                      //CustomDialog.bottomSheet(context, const AddBudgetBottomSheet());
-                    },
-                    icon: const Icon(
-                      Icons.add_circle,
-                      size: 32,
-                      color: secondaryColor,
-                    )),
-              ],
-            ),
-            eightVerticalSpace,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Balance in ${AppConstant.currentMonth}",
-                  style: tTextStyleBold.copyWith(fontSize: 18, color: white),
-                ),
-                Text(
-                  'Budget',
-                  style: tTextStyle700.copyWith(fontSize: 16, color: white),
-                ),
-              ],
-            ),
-          ],
-        ),
+        child: monthlyBudgetState.isBudgetLoading
+            ? const Center(child: CircularProgressIndicator())
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        AppConstant.currentMonth,
+                        style:
+                            tTextStyleBold.copyWith(fontSize: 18, color: white),
+                      ),
+                      Text(
+                        '  /  ${monthlyBudgetState.monthlyBudget.toString()}',
+                        style:
+                            tTextStyle700.copyWith(fontSize: 16, color: white),
+                      ),
+                      const Spacer(),
+                      IconButton(
+                          onPressed: () {
+                            CustomDialog.bottomSheet(
+                                context, const AddBudgetBottomSheet());
+                          },
+                          icon: Icon(
+                            monthlyBudgetState.monthlyBudget == 00
+                                ? Icons.add_circle
+                                : Icons.edit,
+                            size: 32,
+                            color: secondaryColor,
+                          )),
+                    ],
+                  ),
+                  eightVerticalSpace,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Balance in ${AppConstant.currentMonth}",
+                        style:
+                            tTextStyleBold.copyWith(fontSize: 18, color: white),
+                      ),
+                      Text(
+                        'Budget',
+                        style:
+                            tTextStyle700.copyWith(fontSize: 16, color: white),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
       ),
     );
   }
-
 }
