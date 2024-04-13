@@ -1,7 +1,10 @@
+import 'package:appwrite/enums.dart';
 import 'package:flutter/material.dart';
+import 'package:money_ger/controllers/auth_provider.dart';
 import 'package:money_ger/views/auth/signup/signup_screen.dart';
 import 'package:money_ger/widgets/components/inputFields/common_textfield.dart';
 import 'package:money_ger/widgets/components/inputFields/password_inputfield.dart';
+import 'package:provider/provider.dart';
 import '../../../utils/color.dart';
 import '../../../utils/spacer.dart';
 import '../../../utils/typograpgy.dart';
@@ -30,68 +33,67 @@ class _LoginScreenState extends State<LoginScreen> {
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  Text(
-                    'Log in',
-                    style: tTextStyle500.copyWith(
-                        fontSize: 24, color: textPrimaryColor),
-                  ),
-                  sixteenVerticalSpace,
-                  CommonTextField(
-                    fieldController: _email,
-                    hintText: 'Enter your email',
-                  ),
-                  sixteenVerticalSpace,
-                  PasswordInputField(
-                    title: 'Password',
-                    passwordController: _password,
-                    hintText: 'Enter the password',
-                  ),
-                  sixteenVerticalSpace,
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                        onPressed: () {},
-                        child: Text(
-                          'Forgot password?',
-                          style: tTextStyleRegular.copyWith(
-                              fontSize: 12, color: textPrimaryColor),
-                        )),
-                  ),
-                  primaryVerticalSpace,
-                  PrimaryButton(
-                    onTap: () async {
-                      // await _authState.login(
-                      //     _loginFormKey.currentState?.value['email'],
-                      //     _loginFormKey
-                      //         .currentState?.value['password'],
-                      //     context);
-                    },
-                    buttonTitle: 'Log in',
-                    //  isLoading: _authState.isLogin,
-                  ),
-                  const SizedBox(
-                    height: 36,
-                  ),
-                  Text(
-                    'Don’t have an account?',
-                    style: tTextStyleRegular.copyWith(fontSize: 14),
-                  ),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => const SignUpScreen()));
+              child: Consumer<AuthProvider>(builder: (_, authProvider, child) {
+                return Column(
+                  children: [
+                    Text(
+                      'Log in',
+                      style: tTextStyle500.copyWith(
+                          fontSize: 24, color: textPrimaryColor),
+                    ),
+                    sixteenVerticalSpace,
+                    CommonTextField(
+                      fieldController: _email,
+                      hintText: 'Enter your email',
+                    ),
+                    sixteenVerticalSpace,
+                    PasswordInputField(
+                      title: 'Password',
+                      passwordController: _password,
+                      hintText: 'Enter the password',
+                    ),
+                    sixteenVerticalSpace,
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                          onPressed: () {},
+                          child: Text(
+                            'Forgot password?',
+                            style: tTextStyleRegular.copyWith(
+                                fontSize: 12, color: textPrimaryColor),
+                          )),
+                    ),
+                    primaryVerticalSpace,
+                    PrimaryButton(
+                      onTap: () async {
+                        authProvider.login(
+                            _email.text, _password.text, context);
                       },
-                      child: Text(
-                        'Sign up',
-                        style: tTextStyle500.copyWith(
-                            fontSize: 16, color: primaryColor),
-                      )),
-                ],
-              ),
+                      buttonTitle: 'Log in',
+                      isLoading: authProvider.isLogin,
+                    ),
+                    const SizedBox(
+                      height: 36,
+                    ),
+                    Text(
+                      'Don’t have an account?',
+                      style: tTextStyleRegular.copyWith(fontSize: 14),
+                    ),
+                    TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => const SignUpScreen()));
+                        },
+                        child: Text(
+                          'Sign up',
+                          style: tTextStyle500.copyWith(
+                              fontSize: 16, color: primaryColor),
+                        )),
+                  ],
+                );
+              }),
             ),
           ),
         ),

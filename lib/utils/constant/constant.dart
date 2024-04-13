@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import '../color.dart';
 
 
@@ -22,6 +23,16 @@ class AppConstant{
   );
 
   static final primaryRadius = BorderRadius.circular(12);
+
+
+  /// for current month, year , id ///
+  static final String currentMonth =
+  DateFormat.MMMM().format(DateTime.now()).toString();
+
+  static final String currentYear =
+  DateFormat.y().format(DateTime.now()).toString();
+
+  static final String currentMonthId = AppConstant.currentMonth + AppConstant.currentYear;
 
 
   /// user image url ///

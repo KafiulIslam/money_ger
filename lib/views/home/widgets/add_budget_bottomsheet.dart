@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:money_ger/controllers/monthly_budget_provider.dart';
 import 'package:money_ger/widgets/components/buttons/primary_button.dart';
+import 'package:provider/provider.dart';
 import '../../../../utils/color.dart';
 import '../../../../utils/spacer.dart';
 import '../../../utils/constant/constant.dart';
@@ -23,7 +25,6 @@ class _AddBudgetBottomSheetState extends State<AddBudgetBottomSheet> {
     return Material(
       color: Colors.transparent,
       child: Container(
-        // height: MediaQuery.of(context).size.height / 2,
         width: double.infinity,
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(
@@ -32,32 +33,45 @@ class _AddBudgetBottomSheetState extends State<AddBudgetBottomSheet> {
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _header(),
-                sixteenVerticalSpace,
-                TextFormField(
-                  controller: _budgetController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: assColor,
-                    contentPadding: const EdgeInsets.all(12),
-                    hintText: 'Enter your this month\'s budget',
-                    hintStyle: hintTextStyle,
-                    focusedBorder: AppConstant.focusOutLineBorder,
-                    enabledBorder: AppConstant.enableOutLineBorder,
-                    errorBorder: AppConstant.outlineErrorBorder,
-                    focusedErrorBorder: AppConstant.outlineErrorBorder,
-                    focusColor: primaryColor,
+            child: Consumer<MonthlyBudgetProvider>(
+                builder: (_, monthlyBudgetState, child) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _header(),
+                  sixteenVerticalSpace,
+                  TextFormField(
+                    controller: _budgetController,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: assColor,
+                      contentPadding: const EdgeInsets.all(12),
+                      hintText: 'Enter your this month\'s budget',
+                      hintStyle: hintTextStyle,
+                      focusedBorder: AppConstant.focusOutLineBorder,
+                      enabledBorder: AppConstant.enableOutLineBorder,
+                      errorBorder: AppConstant.outlineErrorBorder,
+                      focusedErrorBorder: AppConstant.outlineErrorBorder,
+                      focusColor: primaryColor,
+                    ),
                   ),
-                ),
-                sixteenVerticalSpace,
-                PrimaryButton(onTap: () {}, buttonTitle: 'Save'),
-                primaryVerticalSpace
-              ],
-            ),
+                  sixteenVerticalSpace,
+                  PrimaryButton(
+                    onTap: () {
+                      monthlyBudgetState.setMonthlyBudget(
+                          int.parse(_budgetController.text),
+                          DateTime.now().toString(),
+                          AppConstant.currentMonth,
+                          context);
+                    },
+                    buttonTitle: 'Save',
+                    isLoading: monthlyBudgetState.isMonthlyBudgetSetting,
+                  ),
+                  primaryVerticalSpace
+                ],
+              );
+            }),
           ),
         ),
       ),

@@ -62,7 +62,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     primaryVerticalSpace,
                     PrimaryButton(
                       onTap: () {
-                        if (_email != null && _password != null) {
+                        if (_email.text.isNotEmpty &&
+                            _password.text.isNotEmpty) {
                           authProvider.signUp(
                               _email.text, _password.text, _name.text, context);
                         } else {

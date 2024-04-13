@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:money_ger/controllers/monthly_budget_provider.dart';
+import 'package:money_ger/utils/constant/constant.dart';
 import 'package:money_ger/utils/custom_dialog.dart';
 import 'package:money_ger/utils/spacer.dart';
 import 'package:money_ger/utils/typograpgy.dart';
 import 'package:money_ger/views/home/widgets/add_budget_bottomsheet.dart';
+import 'package:provider/provider.dart';
 import '../../utils/color.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -14,6 +16,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: secondaryColor,
+        automaticallyImplyLeading: false,
         centerTitle: true,
         title: Text(
           'Monthly History',
@@ -22,16 +25,19 @@ class HomeScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [_monthlyBudgetCard(context)],
-        ),
+        child: Consumer<MonthlyBudgetProvider>(builder: (_, monthlyBudgetState, child){
+          return Column(
+            children: [_monthlyBudgetCard(context)],
+          );
+        }),
       ),
     );
   }
 
   Widget _monthlyBudgetCard(BuildContext context) {
-    final String currentMonth =
-        DateFormat.MMMM().format(DateTime.now()).toString();
+
+    final monthlyBudgetState = Provider.of<MonthlyBudgetProvider>(context, listen: false);
+
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
@@ -44,17 +50,18 @@ class HomeScreen extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  currentMonth,
+                  AppConstant.currentMonth,
                   style: tTextStyleBold.copyWith(fontSize: 18, color: white),
                 ),
                 Text(
-                  '  /  Budget',
+                  '  /  ${monthlyBudgetState.monthlyBudget.toString()}',
                   style: tTextStyle700.copyWith(fontSize: 16, color: white),
                 ),
                 const Spacer(),
                 IconButton(
                     onPressed: () {
-                      CustomDialog.bottomSheet(context, const AddBudgetBottomSheet());
+                      monthlyBudgetState.getMonthlyBudget();
+                      //CustomDialog.bottomSheet(context, const AddBudgetBottomSheet());
                     },
                     icon: const Icon(
                       Icons.add_circle,
@@ -68,7 +75,7 @@ class HomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Balance in $currentMonth",
+                  "Balance in ${AppConstant.currentMonth}",
                   style: tTextStyleBold.copyWith(fontSize: 18, color: white),
                 ),
                 Text(

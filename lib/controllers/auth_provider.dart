@@ -8,9 +8,11 @@ import '../utils/custom_snack.dart';
 
 class AuthProvider extends ChangeNotifier {
   Client client = Client();
-  late Databases db;
+
+  //late Databases db;
   late Account account;
-  late Storage _appWriteStorage;
+
+  // late Storage _appWriteStorage;
 
   AuthProvider() {
     _init();
@@ -21,8 +23,8 @@ class AuthProvider extends ChangeNotifier {
         .setEndpoint(AppWriteConstant.endPoint)
         .setProject(AppWriteConstant.projectId);
     account = Account(client);
-    db = Databases(client);
-    _appWriteStorage = Storage(client);
+    //db = Databases(client);
+    //_appWriteStorage = Storage(client);
   }
 
   /// login ///
@@ -35,20 +37,18 @@ class AuthProvider extends ChangeNotifier {
       isLogin = true;
       notifyListeners();
 
-      // var result =
       var result = await account.createEmailPasswordSession(
           email: email, password: password);
-      //     await account.createEmailSession(email: email, password: password);
-
-      await storage.write(key: 'sessionId', value: result.$id);
-      await storage.write(key: 'userId', value: result.userId);
 
       if (result.userId.isNotEmpty) {
+        await storage.write(key: 'sessionId', value: result.$id);
+        await storage.write(key: 'userId', value: result.userId);
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (_) => HomeScreen()));
+        CustomSnack.successSnack('You are logged in successfully', context);
       }
     } catch (e) {
-      print('error is $e');
+      CustomSnack.warningSnack(e.toString(), context);
     } finally {
       isLogin = false;
       notifyListeners();
@@ -65,17 +65,16 @@ class AuthProvider extends ChangeNotifier {
       isAccountCreating = true;
       notifyListeners();
 
-      var result = await account
+      var result = account
           .create(
         userId: ID.unique(),
         email: email,
         password: password,
         name: name,
       ).then((value) {
-        print('value is $value');
         Navigator.push(
             context, MaterialPageRoute(builder: (_) => const LoginScreen()));
-
+        CustomSnack.successSnack('Account is created successfully', context);
       });
     } catch (e) {
       CustomSnack.warningSnack(e.toString(), context);
