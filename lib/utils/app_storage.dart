@@ -14,7 +14,6 @@ class AppStorage{
     return sessionId;
   }
 
-
   static Future<String?> getUserId() async {
     String? userId = await storage.read(key: 'userId');
     return userId;

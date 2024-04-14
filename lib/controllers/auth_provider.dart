@@ -71,7 +71,8 @@ class AuthProvider extends ChangeNotifier {
         email: email,
         password: password,
         name: name,
-      ).then((value) {
+      )
+          .then((value) {
         Navigator.push(
             context, MaterialPageRoute(builder: (_) => const LoginScreen()));
         CustomSnack.successSnack('Account is created successfully', context);
@@ -93,8 +94,7 @@ class AuthProvider extends ChangeNotifier {
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (_) => LoginScreen()));
     } catch (e) {
-      print(e.toString());
-      notifyListeners();
+      CustomSnack.warningSnack('You are logged out successfully', context);
     }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:money_ger/controllers/auth_provider.dart';
 import 'package:money_ger/controllers/monthly_budget_provider.dart';
 import 'package:money_ger/utils/constant/constant.dart';
 import 'package:money_ger/utils/custom_dialog.dart';
@@ -15,21 +16,31 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: secondaryColor,
-        automaticallyImplyLeading: false,
-        centerTitle: true,
-        title: Text(
-          '${AppConstant.currentMonth} History',
-          style: tTextStyleBold.copyWith(color: white, fontSize: 20),
+    return Consumer2<AuthProvider, MonthlyBudgetProvider>(
+        builder: (_, authState, monthlyBudgetState, child) {
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: secondaryColor,
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+          title: Text(
+            '${AppConstant.currentMonth} History',
+            style: tTextStyleBold.copyWith(color: white, fontSize: 20),
+          ),
+          actions: [
+            IconButton(
+                onPressed: () {
+                  authState.logout(context);
+                },
+                icon: const Icon(
+                  Icons.logout,
+                  color: white,
+                ))
+          ],
         ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Consumer<MonthlyBudgetProvider>(
-            builder: (_, monthlyBudgetState, child) {
-          return Column(
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
             children: [
               _monthlyBudgetCard(context),
               sixteenVerticalSpace,
@@ -49,20 +60,20 @@ class HomeScreen extends StatelessWidget {
                     itemCount: monthlyBudgetState.expenseList.length),
               )
             ],
-          );
-        }),
-      ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: secondaryColor,
-        onPressed: () {
-          CustomDialog.bottomSheet(context, const AddExpenseBottomSheet());
-        },
-        child: const Icon(
-          Icons.add,
-          color: white,
+          ),
         ),
-      ),
-    );
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: secondaryColor,
+          onPressed: () {
+            CustomDialog.bottomSheet(context, const AddExpenseBottomSheet());
+          },
+          child: const Icon(
+            Icons.add,
+            color: white,
+          ),
+        ),
+      );
+    });
   }
 
   Widget _monthlyBudgetCard(BuildContext context) {
@@ -106,7 +117,7 @@ class HomeScreen extends StatelessWidget {
                     //   ),
                     // ),
                     InkWell(
-                      onTap: (){
+                      onTap: () {
                         CustomDialog.bottomSheet(
                             context, const AddBudgetBottomSheet());
                       },
@@ -114,7 +125,7 @@ class HomeScreen extends StatelessWidget {
                         height: 36,
                         width: 42,
                         decoration: const BoxDecoration(
-                          color: secondaryColor,
+                            color: secondaryColor,
                             borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(12),
                                 topRight: Radius.circular(12))),
