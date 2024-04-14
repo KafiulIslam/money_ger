@@ -28,6 +28,7 @@ class MonthlyBudgetProvider extends ChangeNotifier {
 
   late bool isBudgetLoading = false;
   late int monthlyBudget = 00;
+  late int totalMonthlyExpense = 00;
 
   Future<void> getMonthlyBudget() async {
     try {
@@ -156,6 +157,7 @@ class MonthlyBudgetProvider extends ChangeNotifier {
 
       if (res.documents.isNotEmpty) {
         expenseList.clear();
+        totalMonthlyExpense = 00;
         notifyListeners();
 
         res.documents.forEach((e) {
@@ -170,6 +172,7 @@ class MonthlyBudgetProvider extends ChangeNotifier {
                 expenseAmount:  e.data['expenseAmount'] ?? '',
                 uid:  e.data['userID'] ?? '',
                 createdAt:  e.data['createdAt'] ?? ''));
+            totalMonthlyExpense = totalMonthlyExpense + e.data['expenseAmount'] as int;
             notifyListeners();
           }
         });
@@ -221,4 +224,5 @@ class MonthlyBudgetProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
 }

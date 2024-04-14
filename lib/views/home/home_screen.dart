@@ -6,6 +6,7 @@ import 'package:money_ger/utils/spacer.dart';
 import 'package:money_ger/utils/typograpgy.dart';
 import 'package:money_ger/views/home/widgets/add_budget_bottomsheet.dart';
 import 'package:money_ger/views/home/widgets/add_expense_bottomsheet.dart';
+import 'package:money_ger/views/home/widgets/custom_expansion_tile.dart';
 import 'package:provider/provider.dart';
 import '../../utils/color.dart';
 
@@ -20,7 +21,7 @@ class HomeScreen extends StatelessWidget {
         automaticallyImplyLeading: false,
         centerTitle: true,
         title: Text(
-          'Monthly History',
+          '${AppConstant.currentMonth} History',
           style: tTextStyleBold.copyWith(color: white, fontSize: 20),
         ),
       ),
@@ -31,16 +32,18 @@ class HomeScreen extends StatelessWidget {
           return Column(
             children: [
               _monthlyBudgetCard(context),
+              sixteenVerticalSpace,
               Expanded(
                 child: ListView.separated(
                     itemBuilder: (_, index) {
                       var data = monthlyBudgetState.expenseList[index];
-                      return Container(
-                        height: 50,
-                        width: double.infinity,
-                        color: white,
-                        child: Text(data.expenseType),
-                      );
+                      return CartExpansionTile(
+                          monthlyBudgetId: data.monthlyBudgetId,
+                          description: data.description,
+                          expenseType: data.expenseType,
+                          expenseAmount: data.expenseAmount,
+                          uid: data.uid,
+                          createdAt: data.createdAt);
                     },
                     separatorBuilder: (_, index) => sixteenVerticalSpace,
                     itemCount: monthlyBudgetState.expenseList.length),
@@ -70,59 +73,123 @@ class HomeScreen extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12), color: primaryColor),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: monthlyBudgetState.isBudgetLoading
-            ? const Center(child: CircularProgressIndicator())
-            : Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
+      child: monthlyBudgetState.isBudgetLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Column(
+              children: [
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text(
                         AppConstant.currentMonth,
                         style:
                             tTextStyleBold.copyWith(fontSize: 18, color: white),
                       ),
-                      Text(
-                        '  /  ${monthlyBudgetState.monthlyBudget.toString()}',
-                        style:
-                            tTextStyle700.copyWith(fontSize: 16, color: white),
+                    ),
+                    const Spacer(),
+                    // InkWell(
+                    //   onTap: () {
+                    //     CustomDialog.bottomSheet(
+                    //         context, const AddBudgetBottomSheet());
+                    //   },
+                    //   child: CircleAvatar(
+                    //     radius: 15,
+                    //     backgroundColor: white,
+                    //     child: Icon(
+                    //       monthlyBudgetState.monthlyBudget == 00
+                    //           ? Icons.add
+                    //           : Icons.edit,
+                    //       size: 20,
+                    //       color: secondaryColor,
+                    //     ),
+                    //   ),
+                    // ),
+                    InkWell(
+                      onTap: (){
+                        CustomDialog.bottomSheet(
+                            context, const AddBudgetBottomSheet());
+                      },
+                      child: Container(
+                        height: 36,
+                        width: 42,
+                        decoration: const BoxDecoration(
+                          color: secondaryColor,
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(12),
+                                topRight: Radius.circular(12))),
+                        child: Icon(
+                          monthlyBudgetState.monthlyBudget == 00
+                              ? Icons.add
+                              : Icons.edit,
+                          size: 20,
+                          color: white,
+                        ),
                       ),
-                      const Spacer(),
-                      IconButton(
-                          onPressed: () {
-                            CustomDialog.bottomSheet(
-                                context, const AddBudgetBottomSheet());
-                          },
-                          icon: Icon(
-                            monthlyBudgetState.monthlyBudget == 00
-                                ? Icons.add_circle
-                                : Icons.edit,
-                            size: 32,
-                            color: secondaryColor,
-                          )),
-                    ],
-                  ),
-                  eightVerticalSpace,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    )
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "Balance in ${AppConstant.currentMonth}",
-                        style:
-                            tTextStyleBold.copyWith(fontSize: 18, color: white),
+                      Row(
+                        children: [
+                          Text(
+                            'Budget',
+                            style: tTextStyleBold.copyWith(
+                                fontSize: 18, color: white),
+                          ),
+                          const Spacer(),
+                          Text(
+                            monthlyBudgetState.monthlyBudget.toString(),
+                            style: tTextStyle700.copyWith(
+                                fontSize: 16, color: white),
+                          ),
+                        ],
                       ),
-                      Text(
-                        'Budget',
-                        style:
-                            tTextStyle700.copyWith(fontSize: 16, color: white),
+                      eightVerticalSpace,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            // "Balance in ${AppConstant.currentMonth}",
+                            "Expense",
+                            style: tTextStyleBold.copyWith(
+                                fontSize: 18, color: white),
+                          ),
+                          Text(
+                            monthlyBudgetState.totalMonthlyExpense.toString(),
+                            style: tTextStyle700.copyWith(
+                                fontSize: 16, color: white),
+                          ),
+                        ],
+                      ),
+                      eightVerticalSpace,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            // "Balance in ${AppConstant.currentMonth}",
+                            "Balance",
+                            style: tTextStyleBold.copyWith(
+                                fontSize: 18, color: white),
+                          ),
+                          Text(
+                            (monthlyBudgetState.monthlyBudget -
+                                    monthlyBudgetState.totalMonthlyExpense)
+                                .toString(),
+                            style: tTextStyle700.copyWith(
+                                fontSize: 16, color: white),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
-              ),
-      ),
+                ),
+              ],
+            ),
     );
   }
 }

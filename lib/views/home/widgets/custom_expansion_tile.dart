@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:money_ger/utils/spacer.dart';
 import 'package:money_ger/utils/typograpgy.dart';
 import '../../../../../utils/color.dart';
-import '../../../../../utils/spacer.dart';
 
 class CartExpansionTile extends StatefulWidget {
   final String monthlyBudgetId;
@@ -26,6 +27,23 @@ class CartExpansionTile extends StatefulWidget {
 }
 
 class _CartExpansionTileState extends State<CartExpansionTile> {
+  late String dateName = '';
+  late String date = '';
+
+  getDateDetails() {
+    setState(() {
+      date =
+          DateFormat.d().format(DateTime.parse(widget.createdAt)).toString();
+      dateName = DateFormat('EEEE').format(DateTime.parse(widget.createdAt));
+    });
+  }
+
+  @override
+  void initState() {
+    getDateDetails();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
@@ -41,13 +59,40 @@ class _CartExpansionTileState extends State<CartExpansionTile> {
           side: BorderSide(color: borderColor)),
       collapsedIconColor: black,
       iconColor: black,
-      //leading: SvgPicture.asset(bagIcon),
-      title: Text(
-        widget.expenseType,
-        style: tTextStyle700,
+      childrenPadding: const EdgeInsets.all(16.0),
+      // leading: IconButton(onPressed: (){
+      //   getDateDetails();
+      // }, icon: Icon(Icons.add)),
+      trailing: Text("${widget.expenseAmount.toString()} Tk",
+        style: tTextStyleBold.copyWith(color: black, fontSize: 16),),
+      title: Row(
+        children: [
+          Text(
+            date, style: tTextStyleBold.copyWith(color: black, fontSize: 20),),
+          sixteenHorizontalSpace,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(dateName,
+                style: tTextStyle500.copyWith(color: black, fontSize: 14),),
+              Text(widget.monthlyBudgetId,
+                style: tTextStyle500.copyWith(color: black, fontSize: 16),),
+            ],
+          )
+        ],
       ),
-      children: [
-       Text(widget.description)
+      children: [Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(children: [
+            Text(widget.expenseType,
+              style: tTextStyleBold.copyWith(color: black, fontSize: 16),),
+            const Spacer(),
+            const SizedBox(height: 5, width: 5,),
+          ],),
+          Text(widget.description,
+            style: tTextStyleRegular.copyWith(color: black, fontSize: 14),),
+        ],)
       ],
     );
   }

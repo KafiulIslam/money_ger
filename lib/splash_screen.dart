@@ -43,12 +43,11 @@ class _SplashScreenState extends State<SplashScreen> {
       lightStatusBar();
     });
     return Scaffold(
-      backgroundColor: secondaryColor,
+      backgroundColor: white,
       body: Center(
-        child: Text('Welcome'),
-        // child: Image.asset(
-        //   taskRMLogo,
-        // ),
+        child: Image.asset(
+          'assets/images/demo_logo.png',
+        ),
       ),
     );
   }

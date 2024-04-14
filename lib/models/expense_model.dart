@@ -1,3 +1,10 @@
+class OneDayExpenseTile {
+  final String date;
+  final List<ExpenseModel> dayExpenseList;
+
+  OneDayExpenseTile({required this.date, required this.dayExpenseList});
+}
+
 class ExpenseModel {
   final String monthlyBudgetId;
   final String description;
