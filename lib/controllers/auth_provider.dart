@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:appwrite/appwrite.dart';
 import 'package:money_ger/views/auth/login/login_screen.dart';
-import 'package:money_ger/views/home/home_screen.dart';
-import '../utils/app_storage.dart';
+ import '../utils/app_storage.dart';
 import '../utils/constant/appwrite_constant.dart';
 import '../utils/custom_snack.dart';
+import '../views/dashboard/home/home_screen.dart';
 
 class AuthProvider extends ChangeNotifier {
   Client client = Client();

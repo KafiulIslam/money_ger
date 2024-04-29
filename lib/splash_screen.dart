@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:money_ger/utils/color.dart';
 import 'package:money_ger/views/auth/login/login_screen.dart';
-import 'package:money_ger/views/home/home_screen.dart';
+import 'package:money_ger/views/dashboard/dashboard_screen.dart';
+
 
 class SplashScreen extends StatefulWidget {
   final String sessionId;
@@ -29,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(const Duration(seconds: 2), () {
       if (widget.sessionId != '') {
         Navigator.push(context,
-            MaterialPageRoute(builder: (_) => const HomeScreen()));
+            MaterialPageRoute(builder: (_) => const DashboardScreen()));
       } else {
         Navigator.push(
             context, MaterialPageRoute(builder: (_) => const LoginScreen()));

@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:money_ger/controllers/auth_provider.dart';
 import 'package:money_ger/controllers/monthly_budget_provider.dart';
-import 'package:money_ger/utils/constant/constant.dart';
-import 'package:money_ger/utils/custom_dialog.dart';
 import 'package:money_ger/utils/spacer.dart';
 import 'package:money_ger/utils/typograpgy.dart';
-import 'package:money_ger/views/home/widgets/add_budget_bottomsheet.dart';
-import 'package:money_ger/views/home/widgets/add_expense_bottomsheet.dart';
-import 'package:money_ger/views/home/widgets/custom_expansion_tile.dart';
+import 'package:money_ger/views/dashboard/history/widgets/monthly_history_expansion.dart';
+import 'package:money_ger/widgets/components/monthly_budget_card.dart';
 import 'package:provider/provider.dart';
-import '../../utils/color.dart';
+import '../../../utils/color.dart';
+import '../../../utils/constant/constant.dart';
+import '../../../utils/custom_dialog.dart';
+import '../home/widgets/add_budget_bottomsheet.dart';
+import '../home/widgets/custom_expansion_tile.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class HistoryScreen extends StatelessWidget {
+  const HistoryScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,57 +26,25 @@ class HomeScreen extends StatelessWidget {
           automaticallyImplyLeading: false,
           centerTitle: true,
           title: Text(
-            '${AppConstant.currentMonth} History',
+            'History',
             style: tTextStyleBold.copyWith(color: white, fontSize: 20),
           ),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  authState.logout(context);
-                },
-                icon: const Icon(
-                  Icons.logout,
-                  color: white,
-                ))
-          ],
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: RefreshIndicator(
-            onRefresh: (){
+            onRefresh: () {
               return monthlyBudgetState.getExpenseList();
             },
-            child: Column(
-              children: [
-                _monthlyBudgetCard(context),
-                sixteenVerticalSpace,
-                Expanded(
-                  child: ListView.separated(
-                      itemBuilder: (_, index) {
-                        var data = monthlyBudgetState.expenseList[index];
-                        return CartExpansionTile(
-                            monthlyBudgetId: data.monthlyBudgetId,
-                            description: data.description,
-                            expenseType: data.expenseType,
-                            expenseAmount: data.expenseAmount,
-                            uid: data.uid,
-                            createdAt: data.createdAt);
-                      },
-                      separatorBuilder: (_, index) => sixteenVerticalSpace,
-                      itemCount: monthlyBudgetState.expenseList.length),
-                )
-              ],
-            ),
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: secondaryColor,
-          onPressed: () {
-            CustomDialog.bottomSheet(context, const AddExpenseBottomSheet());
-          },
-          child: const Icon(
-            Icons.add,
-            color: white,
+            child: ListView.separated(
+                itemBuilder: (_, index) {
+                  //var data = monthlyBudgetState.monthlyBudgetList[index];
+                  return MonthlyBudgetCard(
+                      monthId: 'data.monthId',
+                      budget: 100);
+                },
+                separatorBuilder: (_, index) => sixteenVerticalSpace,
+                itemCount: 3),
           ),
         ),
       );
@@ -105,28 +74,8 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     const Spacer(),
-                    // InkWell(
-                    //   onTap: () {
-                    //     CustomDialog.bottomSheet(
-                    //         context, const AddBudgetBottomSheet());
-                    //   },
-                    //   child: CircleAvatar(
-                    //     radius: 15,
-                    //     backgroundColor: white,
-                    //     child: Icon(
-                    //       monthlyBudgetState.monthlyBudget == 00
-                    //           ? Icons.add
-                    //           : Icons.edit,
-                    //       size: 20,
-                    //       color: secondaryColor,
-                    //     ),
-                    //   ),
-                    // ),
                     InkWell(
-                      onTap: () {
-                        CustomDialog.bottomSheet(
-                            context, const AddBudgetBottomSheet());
-                      },
+                      onTap: () {},
                       child: Container(
                         height: 36,
                         width: 42,
@@ -135,10 +84,8 @@ class HomeScreen extends StatelessWidget {
                             borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(12),
                                 topRight: Radius.circular(12))),
-                        child: Icon(
-                          monthlyBudgetState.monthlyBudget == 00
-                              ? Icons.add
-                              : Icons.edit,
+                        child: const Icon(
+                          Icons.delete,
                           size: 20,
                           color: white,
                         ),

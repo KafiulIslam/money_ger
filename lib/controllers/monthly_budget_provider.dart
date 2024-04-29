@@ -1,6 +1,7 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
 import 'package:money_ger/models/expense_model.dart';
+import 'package:money_ger/models/monthly_budget_model.dart';
 import 'package:money_ger/utils/constant/constant.dart';
 import '../utils/app_storage.dart';
 import '../utils/constant/appwrite_constant.dart';
@@ -29,6 +30,7 @@ class MonthlyBudgetProvider extends ChangeNotifier {
   late bool isBudgetLoading = false;
   late int monthlyBudget = 00;
   late int totalMonthlyExpense = 00;
+  late List<MonthlyBudgetModel> monthlyBudgetList = [];
 
   Future<void> getMonthlyBudget() async {
     try {
@@ -47,7 +49,17 @@ class MonthlyBudgetProvider extends ChangeNotifier {
       );
 
       if (res.documents.isNotEmpty) {
+        monthlyBudgetList.clear();
+        notifyListeners();
+
         res.documents.forEach((e) {
+          // monthlyBudgetList.add(MonthlyBudgetModel(
+          //     monthId: e.$id ?? '',
+          //     monthlyBudget: e.data['monthlyBudget'] ?? 00,
+          //     createdAt: e.data['createdAt'] ?? DateTime.now(),
+          //     monthName: e.data['monthName'] ?? '',
+          //     userId: e.data['userID'] ?? ''));
+          // notifyListeners();
           if (e.data['userID'] == uid && AppConstant.currentMonthId == e.$id) {
             monthlyBudget = e.data['monthlyBudget'] ?? 00;
             notifyListeners();
@@ -145,12 +157,11 @@ class MonthlyBudgetProvider extends ChangeNotifier {
       final String? uid = await AppStorage.getUserId();
 
       final res = await db.listDocuments(
-        databaseId: AppWriteConstant.primaryDBId,
-        collectionId: AppWriteConstant.expenseListCollectionId,
+          databaseId: AppWriteConstant.primaryDBId,
+          collectionId: AppWriteConstant.expenseListCollectionId,
           queries: [
             Query.limit(5000),
-          ]
-      );
+          ]);
 
       if (res.documents.isNotEmpty) {
         expenseList.clear();
@@ -160,16 +171,16 @@ class MonthlyBudgetProvider extends ChangeNotifier {
         res.documents.forEach((e) {
           if (e.data['userID'] == uid &&
               AppConstant.currentMonthId == e.data['monthlyBudgetId']) {
-
             /// there will be list ///
             expenseList.add(ExpenseModel(
                 monthlyBudgetId: e.data['monthlyBudgetId'] ?? '',
-                description:  e.data['description'] ?? '',
-                expenseType:  e.data['expenseType'] ?? '',
-                expenseAmount:  e.data['expenseAmount'] ?? '',
-                uid:  e.data['userID'] ?? '',
-                createdAt:  e.data['createdAt'] ?? ''));
-            totalMonthlyExpense = totalMonthlyExpense + e.data['expenseAmount'] as int;
+                description: e.data['description'] ?? '',
+                expenseType: e.data['expenseType'] ?? '',
+                expenseAmount: e.data['expenseAmount'] ?? '',
+                uid: e.data['userID'] ?? '',
+                createdAt: e.data['createdAt'] ?? ''));
+            totalMonthlyExpense =
+                totalMonthlyExpense + e.data['expenseAmount'] as int;
             notifyListeners();
           }
         });
@@ -221,5 +232,4 @@ class MonthlyBudgetProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-
 }
