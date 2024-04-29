@@ -93,7 +93,6 @@ class MonthlyBudgetProvider extends ChangeNotifier {
       });
       notifyListeners();
     } catch (e) {
-      print('catch error ${e.toString()}');
       CustomSnack.warningSnack(e.toString(), context);
     } finally {
       isMonthlyBudgetSetting = false;
@@ -126,7 +125,6 @@ class MonthlyBudgetProvider extends ChangeNotifier {
       });
       notifyListeners();
     } catch (e) {
-      print('catch error ${e.toString()}');
       CustomSnack.warningSnack(e.toString(), context);
     } finally {
       isMonthlyBudgetSetting = false;
@@ -149,10 +147,9 @@ class MonthlyBudgetProvider extends ChangeNotifier {
       final res = await db.listDocuments(
         databaseId: AppWriteConstant.primaryDBId,
         collectionId: AppWriteConstant.expenseListCollectionId,
-        // queries: [
-        //   Query.equal("userID", uid)
-        // ]
-        // queries: [Query.equal("userID", '6619a55b3e79c45178a6')]
+          queries: [
+            Query.limit(5000),
+          ]
       );
 
       if (res.documents.isNotEmpty) {
@@ -215,9 +212,9 @@ class MonthlyBudgetProvider extends ChangeNotifier {
         CustomDialog.autoDialog(
             context, Icons.check, 'Expense is added successfully');
       });
+
       notifyListeners();
     } catch (e) {
-      print('catch error ${e.toString()}');
       CustomSnack.warningSnack(e.toString(), context);
     } finally {
       isExpenseAdding = false;

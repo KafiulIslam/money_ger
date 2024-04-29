@@ -19,6 +19,7 @@ class HomeScreen extends StatelessWidget {
     return Consumer2<AuthProvider, MonthlyBudgetProvider>(
         builder: (_, authState, monthlyBudgetState, child) {
       return Scaffold(
+        resizeToAvoidBottomInset: true,
         appBar: AppBar(
           backgroundColor: secondaryColor,
           automaticallyImplyLeading: false,
@@ -40,26 +41,31 @@ class HomeScreen extends StatelessWidget {
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              _monthlyBudgetCard(context),
-              sixteenVerticalSpace,
-              Expanded(
-                child: ListView.separated(
-                    itemBuilder: (_, index) {
-                      var data = monthlyBudgetState.expenseList[index];
-                      return CartExpansionTile(
-                          monthlyBudgetId: data.monthlyBudgetId,
-                          description: data.description,
-                          expenseType: data.expenseType,
-                          expenseAmount: data.expenseAmount,
-                          uid: data.uid,
-                          createdAt: data.createdAt);
-                    },
-                    separatorBuilder: (_, index) => sixteenVerticalSpace,
-                    itemCount: monthlyBudgetState.expenseList.length),
-              )
-            ],
+          child: RefreshIndicator(
+            onRefresh: (){
+              return monthlyBudgetState.getExpenseList();
+            },
+            child: Column(
+              children: [
+                _monthlyBudgetCard(context),
+                sixteenVerticalSpace,
+                Expanded(
+                  child: ListView.separated(
+                      itemBuilder: (_, index) {
+                        var data = monthlyBudgetState.expenseList[index];
+                        return CartExpansionTile(
+                            monthlyBudgetId: data.monthlyBudgetId,
+                            description: data.description,
+                            expenseType: data.expenseType,
+                            expenseAmount: data.expenseAmount,
+                            uid: data.uid,
+                            createdAt: data.createdAt);
+                      },
+                      separatorBuilder: (_, index) => sixteenVerticalSpace,
+                      itemCount: monthlyBudgetState.expenseList.length),
+                )
+              ],
+            ),
           ),
         ),
         floatingActionButton: FloatingActionButton(
