@@ -50,6 +50,10 @@ class AppConstant{
     'Fee & charge',
     'Internet Bill'
   ];
+  static final List<String> debtsTypeList = [
+    'Debit',
+    'Credit',
+  ];
 
   /// for current month, year , id ///
   static final String currentMonth =

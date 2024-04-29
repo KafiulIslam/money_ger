@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:money_ger/views/dashboard/debitCredit/debit_credit_screen.dart';
 import 'package:money_ger/views/dashboard/history/history_screen.dart';
 import '../../utils/color.dart';
 import 'home/home_screen.dart';
@@ -18,7 +19,8 @@ class _DashboardScreenState
 
   static const List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
-    HistoryScreen()
+    HistoryScreen(),
+    DebitCreditScreen()
   ];
 
   void _onItemTapped(int index) {
@@ -41,6 +43,10 @@ class _DashboardScreenState
           BottomNavigationBarItem(
             icon: Icon(Icons.history),
             label: 'History',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.credit_score_sharp),
+            label: 'Debts',
           ),
         ],
         elevation: 0.0,
