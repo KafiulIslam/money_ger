@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:money_ger/views/dashboard/debitCredit/debit_credit_screen.dart';
 import 'package:money_ger/views/dashboard/history/history_screen.dart';
+import 'package:money_ger/views/dashboard/home/report/report_screen.dart';
 import '../../utils/color.dart';
 import 'home/home_screen.dart';
 
@@ -19,6 +20,7 @@ class _DashboardScreenState
 
   static const List<Widget> _widgetOptions = <Widget>[
     HomeScreen(),
+    ReportScreen(),
     HistoryScreen(),
     DebitCreditScreen()
   ];
@@ -41,6 +43,10 @@ class _DashboardScreenState
             label: 'Home',
           ),
           BottomNavigationBarItem(
+            icon: Icon(Icons.bar_chart),
+            label: 'Report',
+          ),
+          BottomNavigationBarItem(
             icon: Icon(Icons.history),
             label: 'History',
           ),
@@ -51,7 +57,7 @@ class _DashboardScreenState
         ],
         elevation: 0.0,
         type: BottomNavigationBarType.fixed,
-        backgroundColor: white,
+        backgroundColor: scaffoldColor,
         currentIndex: _selectedIndex,
         selectedItemColor: primaryColor,
         onTap: _onItemTapped,

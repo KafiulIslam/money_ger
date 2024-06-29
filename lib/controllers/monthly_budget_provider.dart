@@ -32,6 +32,15 @@ class MonthlyBudgetProvider extends ChangeNotifier {
   late int totalMonthlyExpense = 00;
   late List<MonthlyBudgetModel> monthlyBudgetList = [];
 
+  /// for report ///
+
+  late int family = 00;
+  late int personal = 00;
+  late int transport = 00;
+  late int donation = 00;
+  late int medicine = 00;
+  late int other = 00;
+
   Future<void> getMonthlyBudget() async {
     try {
       isBudgetLoading = true;
@@ -182,6 +191,37 @@ class MonthlyBudgetProvider extends ChangeNotifier {
             totalMonthlyExpense =
                 totalMonthlyExpense + e.data['expenseAmount'] as int;
             notifyListeners();
+
+
+            /// for report ///
+
+            if (e.data['expenseType'] == 'Food or Drinks' ||
+                e.data['expenseType'] == 'Electricity Bill' ||
+                e.data['expenseType'] == 'Cosmetics') {
+              family = family + e.data['expenseAmount'] as int;
+              notifyListeners();
+            } else if (e.data['expenseType'] == 'Phone Bill' ||
+                e.data['expenseType'] == 'Entertainment' ||
+                e.data['expenseType'] == 'Sports' ||
+                e.data['expenseType'] == 'Internet Bill') {
+              personal = personal + e.data['expenseAmount'] as int;
+              notifyListeners();
+            } else if (e.data['expenseType'] == 'Transport' ||
+                e.data['expenseType'] == 'Fuel Bill' ||
+                e.data['expenseType'] == 'Travel') {
+              transport = transport + e.data['expenseAmount'] as int;
+              notifyListeners();
+            } else if (e.data['expenseType'] == 'Donation' ||
+                e.data['expenseType'] == 'Social Work') {
+              donation = donation + e.data['expenseAmount'] as int;
+              notifyListeners();
+            } else if (e.data['expenseType'] == 'Doctor' ||
+                e.data['expenseType'] == 'Medicine') {
+              medicine = medicine + e.data['expenseAmount'] as int;
+              notifyListeners();
+            } else {
+              other = other + e.data['expenseAmount'] as int;
+            }
           }
         });
       } else {

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:money_ger/controllers/debit_credit_provider.dart';
 import 'package:money_ger/controllers/monthly_budget_provider.dart';
 import 'package:money_ger/splash_screen.dart';
+import 'package:money_ger/utils/color.dart';
 import 'package:provider/provider.dart';
 import 'controllers/auth_provider.dart';
 
@@ -70,6 +71,8 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         title: "MoneyGer",
         debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+            drawerTheme: const DrawerThemeData(backgroundColor: secondaryColor)),
         home: SplashScreen(
           sessionId: widget.sessionId,
         ),

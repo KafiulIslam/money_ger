@@ -5,24 +5,41 @@ import 'package:money_ger/utils/constant/constant.dart';
 import 'package:money_ger/utils/custom_dialog.dart';
 import 'package:money_ger/utils/spacer.dart';
 import 'package:money_ger/utils/typograpgy.dart';
+import 'package:money_ger/views/dashboard/home/report/report_screen.dart';
 import 'package:money_ger/views/dashboard/home/widgets/add_budget_bottomsheet.dart';
 import 'package:money_ger/views/dashboard/home/widgets/add_expense_bottomsheet.dart';
 import 'package:money_ger/views/dashboard/home/widgets/custom_expansion_tile.dart';
 import 'package:provider/provider.dart';
 import '../../../utils/color.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     return Consumer2<AuthProvider, MonthlyBudgetProvider>(
         builder: (_, authState, monthlyBudgetState, child) {
       return Scaffold(
+        key: _scaffoldKey,
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
           backgroundColor: secondaryColor,
           automaticallyImplyLeading: false,
+          // leading: IconButton(
+          //     onPressed: () {
+          //       _scaffoldKey.currentState?.openDrawer();
+          //     },
+          //     icon: const Icon(
+          //       Icons.menu,
+          //       color: white,
+          //     )),
           centerTitle: true,
           title: Text(
             '${AppConstant.currentMonth} History',
@@ -39,10 +56,11 @@ class HomeScreen extends StatelessWidget {
                 ))
           ],
         ),
+       // drawer: _drawer(),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: RefreshIndicator(
-            onRefresh: (){
+            onRefresh: () {
               return monthlyBudgetState.getExpenseList();
             },
             child: Column(
@@ -207,6 +225,53 @@ class HomeScreen extends StatelessWidget {
                 ),
               ],
             ),
+    );
+  }
+
+  Drawer _drawer() {
+    return Drawer(
+      width: MediaQuery.of(context).size.width / 1.8,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 10,
+            ),
+            Image.asset(
+              'assets/images/demo_logo.png',
+              height: 150,
+              width: 150,
+            ),
+            primaryVerticalSpace,
+            _drawerTile(Icons.auto_graph_sharp, 'Report', () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (_) => const ReportScreen()));
+            }),
+            const Divider(
+              color: white,
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _drawerTile(IconData icon, String title, VoidCallback onTap) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: InkWell(
+        onTap: onTap,
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              color: white,
+            ),
+            sixteenHorizontalSpace,
+            Text(title, style: tTextStyle700.copyWith(color: white))
+          ],
+        ),
+      ),
     );
   }
 }

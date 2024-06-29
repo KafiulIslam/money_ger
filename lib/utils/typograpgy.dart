@@ -4,30 +4,30 @@ import 'color.dart';
 
 /// new way ///
 
-final tTextStyleRegular = GoogleFonts.poppins(
+final tTextStyleRegular = GoogleFonts.inter(
     textStyle: const TextStyle(
         color: textPrimaryColor, fontSize: 16));
 
-final tTextStyle500 = GoogleFonts.poppins(
+final tTextStyle500 = GoogleFonts.inter(
     textStyle: const TextStyle(
         color: textPrimaryColor, fontSize: 16, fontWeight: FontWeight.w500));
 
-final tTextStyle600 = GoogleFonts.poppins(
+final tTextStyle600 = GoogleFonts.inter(
     textStyle: const TextStyle(
         color: textPrimaryColor, fontSize: 16, fontWeight: FontWeight.w600));
 
-final tTextStyle700 = GoogleFonts.poppins(
+final tTextStyle700 = GoogleFonts.inter(
     textStyle: const TextStyle(
         color: textPrimaryColor, fontSize: 16, fontWeight: FontWeight.w700));
 
-final tTextStyle800 = GoogleFonts.poppins(
+final tTextStyle800 = GoogleFonts.inter(
     textStyle: const TextStyle(
         color: textPrimaryColor, fontSize: 16, fontWeight: FontWeight.w800));
 
-final tTextStyleBold = GoogleFonts.poppins(
+final tTextStyleBold = GoogleFonts.inter(
     textStyle: const TextStyle(
         color: textPrimaryColor, fontSize: 16, fontWeight: FontWeight.bold));
 
-final hintTextStyle = GoogleFonts.urbanist(
+final hintTextStyle = GoogleFonts.inter(
     textStyle: const TextStyle(
         fontSize: 16.0, fontWeight: FontWeight.w400, color: Color(0xFF808080)));
