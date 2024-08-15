@@ -165,6 +165,12 @@ class MonthlyBudgetProvider extends ChangeNotifier {
       if (res.documents.isNotEmpty) {
         expenseList.clear();
         totalMonthlyExpense = 00;
+        family = 00;
+        personal = 00;
+        transport = 00;
+        donation = 00;
+        medicine = 00;
+        other = 00;
         notifyListeners();
 
         res.documents.forEach((e) {
@@ -181,7 +187,6 @@ class MonthlyBudgetProvider extends ChangeNotifier {
             totalMonthlyExpense =
                 totalMonthlyExpense + e.data['expenseAmount'] as int;
             notifyListeners();
-
 
             /// for report ///
 
@@ -227,6 +232,8 @@ class MonthlyBudgetProvider extends ChangeNotifier {
 
   late bool isExpenseAdding = false;
 
+  /// add expense ///
+
   Future<void> addExpense(String monthlyBudgetId, String description,
       String expenseType, int expenseAmount, BuildContext context) async {
     try {
@@ -249,6 +256,7 @@ class MonthlyBudgetProvider extends ChangeNotifier {
           }).then((value) {
         getMonthlyBudget();
         getExpenseList();
+        getMonthlyHistory();
         Navigator.pop(context);
         CustomDialog.autoDialog(
             context, Icons.check, 'Expense is added successfully');
@@ -310,34 +318,35 @@ class MonthlyBudgetProvider extends ChangeNotifier {
               totalMonthlyExpense += e.data['expenseAmount'] as int;
 
               // Update category totals for the report
-              if (e.data['expenseType'] == 'Food or Drinks' ||
-                  e.data['expenseType'] == 'Electricity Bill' ||
-                  e.data['expenseType'] == 'Cosmetics') {
-                family += e.data['expenseAmount'] as int;
-              } else if (e.data['expenseType'] == 'Phone Bill' ||
-                  e.data['expenseType'] == 'Entertainment' ||
-                  e.data['expenseType'] == 'Sports' ||
-                  e.data['expenseType'] == 'Internet Bill') {
-                personal += e.data['expenseAmount'] as int;
-              } else if (e.data['expenseType'] == 'Transport' ||
-                  e.data['expenseType'] == 'Fuel Bill' ||
-                  e.data['expenseType'] == 'Travel') {
-                transport += e.data['expenseAmount'] as int;
-              } else if (e.data['expenseType'] == 'Donation' ||
-                  e.data['expenseType'] == 'Social Work') {
-                donation += e.data['expenseAmount'] as int;
-              } else if (e.data['expenseType'] == 'Doctor' ||
-                  e.data['expenseType'] == 'Medicine') {
-                medicine += e.data['expenseAmount'] as int;
-              } else {
-                other += e.data['expenseAmount'] as int;
-              }
+              // if (e.data['expenseType'] == 'Food or Drinks' ||
+              //     e.data['expenseType'] == 'Electricity Bill' ||
+              //     e.data['expenseType'] == 'Cosmetics') {
+              //   family += e.data['expenseAmount'] as int;
+              // } else if (e.data['expenseType'] == 'Phone Bill' ||
+              //     e.data['expenseType'] == 'Entertainment' ||
+              //     e.data['expenseType'] == 'Sports' ||
+              //     e.data['expenseType'] == 'Internet Bill') {
+              //   personal += e.data['expenseAmount'] as int;
+              // } else if (e.data['expenseType'] == 'Transport' ||
+              //     e.data['expenseType'] == 'Fuel Bill' ||
+              //     e.data['expenseType'] == 'Travel') {
+              //   transport += e.data['expenseAmount'] as int;
+              // } else if (e.data['expenseType'] == 'Donation' ||
+              //     e.data['expenseType'] == 'Social Work') {
+              //   donation += e.data['expenseAmount'] as int;
+              // } else if (e.data['expenseType'] == 'Doctor' ||
+              //     e.data['expenseType'] == 'Medicine') {
+              //   medicine += e.data['expenseAmount'] as int;
+              // } else {
+              //   other += e.data['expenseAmount'] as int;
+              // }
             }
           }
         });
 
         // You can now convert the map to a list of lists if needed
-        List<List<ExpenseModel>> groupedExpenseList = expensesByMonth.values.toList();
+        List<List<ExpenseModel>> groupedExpenseList =
+            expensesByMonth.values.toList();
         notifyListeners();
       } else {
         // CustomSnack.warningSnack('No expenses found', context);
@@ -349,6 +358,4 @@ class MonthlyBudgetProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-
-
 }

@@ -28,14 +28,6 @@ class _ReportScreenState extends State<ReportScreen> {
         appBar: AppBar(
           backgroundColor: secondaryColor,
           centerTitle: true,
-          // leading: IconButton(
-          //     onPressed: () {
-          //       Navigator.pop(context);
-          //     },
-          //     icon: const Icon(
-          //       Icons.arrow_back_ios,
-          //       color: white,
-          //     )),
           automaticallyImplyLeading: false,
           title: Text(
             '${AppConstant.currentMonth} Report',
