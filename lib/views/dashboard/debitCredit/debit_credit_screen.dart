@@ -36,9 +36,15 @@ class _DebitCreditScreenState extends State<DebitCreditScreen> {
               indicatorSize: TabBarIndicatorSize.tab,
               labelStyle: tTextStyle700.copyWith(color: white),
               unselectedLabelColor: iconColor,
-              tabs: const [
-                Tab(child: Text('Debitors')),
-                Tab(child: Text('Creditors')),
+              tabs: [
+                Tab(child: Column(children: [
+                  Text('Debitors'),
+                  Text(debitCreditState.totalDebit.toString())
+                ],)),
+                Tab(child: Column(children: [
+                  Text('Creditors'),
+                  Text(debitCreditState.totalCredit.toString())
+                ],)),
               ],
             ),
           ),

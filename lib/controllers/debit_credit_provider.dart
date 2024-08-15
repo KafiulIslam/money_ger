@@ -30,6 +30,8 @@ class DebitCreditProvider extends ChangeNotifier {
   late bool isDebtListLoading = false;
   late List<DebitCreditModel> debitList = [];
   late List<DebitCreditModel> creditList = [];
+  late int totalDebit = 0;
+  late int totalCredit = 0;
 
   Future<void> getDebtList() async {
     try {
@@ -61,6 +63,7 @@ class DebitCreditProvider extends ChangeNotifier {
                   debtsName: e.data['debtsName'] ?? '',
                   debtsType: e.data['debtsType'] ?? '',
                   debtsAmount: e.data['debtsAmount'] ?? 0));
+              totalDebit = totalDebit + e.data['debtsAmount'] as int;
               notifyListeners();
             } else {
               creditList.add(DebitCreditModel(
@@ -70,6 +73,7 @@ class DebitCreditProvider extends ChangeNotifier {
                   debtsName: e.data['debtsName'] ?? '',
                   debtsType: e.data['debtsType'] ?? '',
                   debtsAmount: e.data['debtsAmount'] ?? 0));
+              totalCredit = totalCredit + e.data['debtsAmount'] as int;
               notifyListeners();
             }
           }
