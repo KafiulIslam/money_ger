@@ -27,7 +27,7 @@ class _PasswordInputFieldState extends State<PasswordInputField> {
     return TextFormField(
       controller: widget.passwordController,
       obscureText: isPassObscure,
-      cursorColor: secondaryColor,
+      cursorColor: primeColor,
       decoration: InputDecoration(
         filled: true,
         fillColor: textFieldFillColor,
@@ -55,7 +55,7 @@ class _PasswordInputFieldState extends State<PasswordInputField> {
         enabledBorder: AppConstant.enableOutLineBorder,
         errorBorder: AppConstant.outlineErrorBorder,
         focusedErrorBorder: AppConstant.outlineErrorBorder,
-        focusColor: primaryColor,
+        focusColor: secondaryColor,
       ),
       autovalidateMode: AutovalidateMode.onUserInteraction,
     );

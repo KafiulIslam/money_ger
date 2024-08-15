@@ -30,16 +30,13 @@ class _HomeScreenState extends State<HomeScreen> {
         key: _scaffoldKey,
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
-          backgroundColor: secondaryColor,
+          backgroundColor: primeColor,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(32),
+                bottomRight: Radius.circular(32)),
+          ),
           automaticallyImplyLeading: false,
-          // leading: IconButton(
-          //     onPressed: () {
-          //       _scaffoldKey.currentState?.openDrawer();
-          //     },
-          //     icon: const Icon(
-          //       Icons.menu,
-          //       color: white,
-          //     )),
           centerTitle: true,
           title: Text(
             '${AppConstant.currentMonth} History',
@@ -56,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ))
           ],
         ),
-       // drawer: _drawer(),
+        // drawer: _drawer(),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: RefreshIndicator(
@@ -87,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          backgroundColor: secondaryColor,
+          backgroundColor: primeColor,
           onPressed: () {
             CustomDialog.bottomSheet(context, const AddExpenseBottomSheet());
           },
@@ -107,7 +104,14 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12), color: primaryColor),
+        image: const DecorationImage(
+            image: AssetImage(
+              'assets/images/budgetCard.png',
+            ),
+            fit: BoxFit.cover),
+        borderRadius: BorderRadius.circular(12),
+        color: secondaryColor
+      ),
       child: monthlyBudgetState.isBudgetLoading
           ? const Center(child: CircularProgressIndicator())
           : Column(
@@ -149,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         height: 36,
                         width: 42,
                         decoration: const BoxDecoration(
-                            color: secondaryColor,
+                            color: primeColor,
                             borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(12),
                                 topRight: Radius.circular(12))),

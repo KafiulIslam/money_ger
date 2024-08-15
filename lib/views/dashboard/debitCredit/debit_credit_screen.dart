@@ -24,7 +24,7 @@ class _DebitCreditScreenState extends State<DebitCreditScreen> {
         child: Scaffold(
           resizeToAvoidBottomInset: true,
           appBar: AppBar(
-            backgroundColor: secondaryColor,
+            backgroundColor: primeColor,
             automaticallyImplyLeading: false,
             centerTitle: true,
             title: Text(
@@ -57,7 +57,7 @@ class _DebitCreditScreenState extends State<DebitCreditScreen> {
                   ],
                 ),
           floatingActionButton: FloatingActionButton(
-            backgroundColor: secondaryColor,
+            backgroundColor: primeColor,
             onPressed: () {
               CustomDialog.bottomSheet(
                   context, const AddDebitCreditBottomSheet());

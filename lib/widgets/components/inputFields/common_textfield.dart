@@ -18,7 +18,7 @@ class CommonTextField extends StatelessWidget {
     return TextFormField(
       controller: fieldController,
       autofocus: false,
-      cursorColor: primaryColor,
+      cursorColor: secondaryColor,
       decoration: InputDecoration(
         filled: true,
         fillColor: assColor,
@@ -29,7 +29,7 @@ class CommonTextField extends StatelessWidget {
         enabledBorder: AppConstant.enableOutLineBorder,
         errorBorder: AppConstant.outlineErrorBorder,
         focusedErrorBorder: AppConstant.outlineErrorBorder,
-        focusColor: primaryColor,
+        focusColor: secondaryColor,
       ),
       autovalidateMode: AutovalidateMode.onUserInteraction,
     );

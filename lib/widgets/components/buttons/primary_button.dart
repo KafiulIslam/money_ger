@@ -17,7 +17,7 @@ class PrimaryButton extends StatelessWidget {
       required this.buttonTitle,
       this.fontSize = 20.0,
       this.isLoading = false,
-      this.buttonColor = primaryColor,
+      this.buttonColor = secondaryColor,
       this.buttonTitleColor = white})
       : super(key: key);
 

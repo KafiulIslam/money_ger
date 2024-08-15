@@ -9,7 +9,7 @@ class AppConstant{
 
   static final focusOutLineBorder = OutlineInputBorder(
     borderRadius: BorderRadius.circular(12.0),
-    borderSide: const BorderSide(color: secondaryColor),
+    borderSide: const BorderSide(color: primeColor),
   );
 
   static final enableOutLineBorder = OutlineInputBorder(

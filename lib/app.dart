@@ -72,7 +72,7 @@ class _MyAppState extends State<MyApp> {
         title: "MoneyGer",
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            drawerTheme: const DrawerThemeData(backgroundColor: secondaryColor)),
+            drawerTheme: const DrawerThemeData(backgroundColor: primeColor)),
         home: SplashScreen(
           sessionId: widget.sessionId,
         ),

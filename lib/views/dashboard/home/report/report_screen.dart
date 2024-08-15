@@ -26,7 +26,7 @@ class _ReportScreenState extends State<ReportScreen> {
         key: _scaffoldKey,
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
-          backgroundColor: secondaryColor,
+          backgroundColor: primeColor,
           centerTitle: true,
           automaticallyImplyLeading: false,
           title: Text(
@@ -48,13 +48,13 @@ class _ReportScreenState extends State<ReportScreen> {
                         //title: 'Family',
                         showTitle: false,
                         radius: 60,
-                        color: primaryColor),
+                        color: secondaryColor),
                     PieChartSectionData(
                         value: monthlyBudgetState.personal.toDouble(),
                         //title: 'Personal',
                         showTitle: false,
                         radius: 60,
-                        color: secondaryColor),
+                        color: primeColor),
                     PieChartSectionData(
                         value: monthlyBudgetState.transport.toDouble(),
                         // title: 'Transport',
@@ -147,8 +147,8 @@ class _ReportScreenState extends State<ReportScreen> {
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _graphColorIndicator(primaryColor, 'Family'),
-          _graphColorIndicator(secondaryColor, 'Personal'),
+          _graphColorIndicator(secondaryColor, 'Family'),
+          _graphColorIndicator(primeColor, 'Personal'),
         ],
       ),
       Column(

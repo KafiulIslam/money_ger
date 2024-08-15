@@ -129,7 +129,7 @@ class _AddExpenseBottomSheetState extends State<AddExpenseBottomSheet> {
         enabledBorder: AppConstant.enableOutLineBorder,
         errorBorder: AppConstant.outlineErrorBorder,
         focusedErrorBorder: AppConstant.outlineErrorBorder,
-        focusColor: primaryColor,
+        focusColor: secondaryColor,
       ),
     );
   }
@@ -138,7 +138,7 @@ class _AddExpenseBottomSheetState extends State<AddExpenseBottomSheet> {
     return TextFormField(
       controller: _expenseAmount,
       autofocus: false,
-      cursorColor: primaryColor,
+      cursorColor: secondaryColor,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
         filled: true,
@@ -150,7 +150,7 @@ class _AddExpenseBottomSheetState extends State<AddExpenseBottomSheet> {
         enabledBorder: AppConstant.enableOutLineBorder,
         errorBorder: AppConstant.outlineErrorBorder,
         focusedErrorBorder: AppConstant.outlineErrorBorder,
-        focusColor: primaryColor,
+        focusColor: secondaryColor,
       ),
       autovalidateMode: AutovalidateMode.onUserInteraction,
     );

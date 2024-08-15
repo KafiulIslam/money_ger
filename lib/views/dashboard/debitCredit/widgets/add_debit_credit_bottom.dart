@@ -133,7 +133,7 @@ class _AddDebitCreditBottomSheetState extends State<AddDebitCreditBottomSheet> {
         enabledBorder: AppConstant.enableOutLineBorder,
         errorBorder: AppConstant.outlineErrorBorder,
         focusedErrorBorder: AppConstant.outlineErrorBorder,
-        focusColor: primaryColor,
+        focusColor: secondaryColor,
       ),
     );
   }
@@ -142,7 +142,7 @@ class _AddDebitCreditBottomSheetState extends State<AddDebitCreditBottomSheet> {
     return TextFormField(
       controller: _debtsAmount,
       autofocus: false,
-      cursorColor: primaryColor,
+      cursorColor: secondaryColor,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
         filled: true,
@@ -154,7 +154,7 @@ class _AddDebitCreditBottomSheetState extends State<AddDebitCreditBottomSheet> {
         enabledBorder: AppConstant.enableOutLineBorder,
         errorBorder: AppConstant.outlineErrorBorder,
         focusedErrorBorder: AppConstant.outlineErrorBorder,
-        focusColor: primaryColor,
+        focusColor: secondaryColor,
       ),
       autovalidateMode: AutovalidateMode.onUserInteraction,
     );

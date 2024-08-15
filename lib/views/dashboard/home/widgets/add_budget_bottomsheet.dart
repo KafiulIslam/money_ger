@@ -53,7 +53,7 @@ class _AddBudgetBottomSheetState extends State<AddBudgetBottomSheet> {
                       enabledBorder: AppConstant.enableOutLineBorder,
                       errorBorder: AppConstant.outlineErrorBorder,
                       focusedErrorBorder: AppConstant.outlineErrorBorder,
-                      focusColor: primaryColor,
+                      focusColor: secondaryColor,
                     ),
                   ),
                   sixteenVerticalSpace,

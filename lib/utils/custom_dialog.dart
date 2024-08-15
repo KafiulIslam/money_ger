@@ -63,7 +63,7 @@ class CustomDialog {
                     backgroundColor: primaryLight,
                     child: Icon(
                       icon,
-                      color: primaryColor,
+                      color: secondaryColor,
                     )),
                 sixteenVerticalSpace,
                 Text(

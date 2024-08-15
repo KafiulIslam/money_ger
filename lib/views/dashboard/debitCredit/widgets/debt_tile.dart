@@ -36,7 +36,7 @@ class _DebtTileState extends State<DebtTile> {
       return Container(
         width: double.infinity,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12), color: primaryColor),
+            borderRadius: BorderRadius.circular(12), color: secondaryColor),
         child: Column(
           children: [
             Row(
@@ -64,7 +64,7 @@ class _DebtTileState extends State<DebtTile> {
                           height: 36,
                           width: 42,
                           decoration: const BoxDecoration(
-                              color: secondaryColor,
+                              color: primeColor,
                               borderRadius: BorderRadius.only(
                                   bottomLeft: Radius.circular(12),
                                   topRight: Radius.circular(12))),

@@ -89,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Text(
                           'Sign up',
                           style: tTextStyle500.copyWith(
-                              fontSize: 16, color: primaryColor),
+                              fontSize: 16, color: secondaryColor),
                         )),
                   ],
                 );

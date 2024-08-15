@@ -18,7 +18,7 @@ class MonthlyBudgetCard extends StatelessWidget {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12), color: primaryColor),
+          borderRadius: BorderRadius.circular(12), color: secondaryColor),
       child: Column(
         children: [
           Row(
@@ -37,7 +37,7 @@ class MonthlyBudgetCard extends StatelessWidget {
                   height: 36,
                   width: 42,
                   decoration: const BoxDecoration(
-                      color: secondaryColor,
+                      color: primeColor,
                       borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(12),
                           topRight: Radius.circular(12))),

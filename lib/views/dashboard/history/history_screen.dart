@@ -28,7 +28,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
       return Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
-          backgroundColor: secondaryColor,
+          backgroundColor: primeColor,
           automaticallyImplyLeading: false,
           centerTitle: true,
           title: Text(
@@ -89,7 +89,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12), color: primaryColor),
+          borderRadius: BorderRadius.circular(12), color: secondaryColor),
       child: monthlyBudgetState.isBudgetLoading
           ? const Center(child: CircularProgressIndicator())
           : Column(
@@ -111,7 +111,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                         height: 36,
                         width: 42,
                         decoration: const BoxDecoration(
-                            color: secondaryColor,
+                            color: primeColor,
                             borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(12),
                                 topRight: Radius.circular(12))),

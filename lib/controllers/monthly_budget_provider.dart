@@ -164,6 +164,7 @@ class MonthlyBudgetProvider extends ChangeNotifier {
 
       if (res.documents.isNotEmpty) {
         expenseList.clear();
+        notifyListeners();
         totalMonthlyExpense = 00;
         family = 00;
         personal = 00;

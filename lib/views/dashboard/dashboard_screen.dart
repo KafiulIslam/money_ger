@@ -59,7 +59,7 @@ class _DashboardScreenState
         type: BottomNavigationBarType.fixed,
         backgroundColor: scaffoldColor,
         currentIndex: _selectedIndex,
-        selectedItemColor: primaryColor,
+        selectedItemColor: primeColor,
         onTap: _onItemTapped,
       ),
     );
