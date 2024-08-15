@@ -23,6 +23,7 @@ class MonthlyBudgetProvider extends ChangeNotifier {
     db = Databases(client);
     getMonthlyBudget();
     getExpenseList();
+    getMonthlyHistory();
   }
 
   /// Monthly Budget ///
@@ -51,10 +52,6 @@ class MonthlyBudgetProvider extends ChangeNotifier {
       final res = await db.listDocuments(
         databaseId: AppWriteConstant.primaryDBId,
         collectionId: AppWriteConstant.monthlyBudgetCollectionId,
-        // queries: [
-        //   Query.equal("userID", uid)
-        // ]
-        // queries: [Query.equal("userID", '6619a55b3e79c45178a6')]
       );
 
       if (res.documents.isNotEmpty) {
@@ -62,13 +59,6 @@ class MonthlyBudgetProvider extends ChangeNotifier {
         notifyListeners();
 
         res.documents.forEach((e) {
-          // monthlyBudgetList.add(MonthlyBudgetModel(
-          //     monthId: e.$id ?? '',
-          //     monthlyBudget: e.data['monthlyBudget'] ?? 00,
-          //     createdAt: e.data['createdAt'] ?? DateTime.now(),
-          //     monthName: e.data['monthName'] ?? '',
-          //     userId: e.data['userID'] ?? ''));
-          // notifyListeners();
           if (e.data['userID'] == uid && AppConstant.currentMonthId == e.$id) {
             monthlyBudget = e.data['monthlyBudget'] ?? 00;
             notifyListeners();
@@ -272,4 +262,93 @@ class MonthlyBudgetProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  /// monthly history of expense ///
+
+  late bool isMonthlyHistoryLoading = false;
+  late Map<String, List<ExpenseModel>> expensesByMonth = {};
+
+  Future<void> getMonthlyHistory() async {
+    try {
+      isMonthlyHistoryLoading = true;
+      notifyListeners();
+
+      final String? uid = await AppStorage.getUserId();
+
+      final res = await db.listDocuments(
+          databaseId: AppWriteConstant.primaryDBId,
+          collectionId: AppWriteConstant.expenseListCollectionId,
+          queries: [
+            Query.limit(5000),
+          ]);
+
+      if (res.documents.isNotEmpty) {
+        expensesByMonth.clear();
+        notifyListeners();
+
+        res.documents.forEach((e) {
+          if (e.data['userID'] == uid) {
+            String monthId = e.data['monthlyBudgetId'];
+
+            if (!expensesByMonth.containsKey(monthId)) {
+              expensesByMonth[monthId] = [];
+            }
+
+            final expense = ExpenseModel(
+              monthlyBudgetId: monthId,
+              description: e.data['description'] ?? '',
+              expenseType: e.data['expenseType'] ?? '',
+              expenseAmount: e.data['expenseAmount'] as int,
+              uid: e.data['userID'] ?? '',
+              createdAt: e.data['createdAt'] ?? '',
+            );
+
+            expensesByMonth[monthId]!.add(expense);
+
+            // Calculate total monthly expense for the current month
+            if (AppConstant.currentMonthId == monthId) {
+              totalMonthlyExpense += e.data['expenseAmount'] as int;
+
+              // Update category totals for the report
+              if (e.data['expenseType'] == 'Food or Drinks' ||
+                  e.data['expenseType'] == 'Electricity Bill' ||
+                  e.data['expenseType'] == 'Cosmetics') {
+                family += e.data['expenseAmount'] as int;
+              } else if (e.data['expenseType'] == 'Phone Bill' ||
+                  e.data['expenseType'] == 'Entertainment' ||
+                  e.data['expenseType'] == 'Sports' ||
+                  e.data['expenseType'] == 'Internet Bill') {
+                personal += e.data['expenseAmount'] as int;
+              } else if (e.data['expenseType'] == 'Transport' ||
+                  e.data['expenseType'] == 'Fuel Bill' ||
+                  e.data['expenseType'] == 'Travel') {
+                transport += e.data['expenseAmount'] as int;
+              } else if (e.data['expenseType'] == 'Donation' ||
+                  e.data['expenseType'] == 'Social Work') {
+                donation += e.data['expenseAmount'] as int;
+              } else if (e.data['expenseType'] == 'Doctor' ||
+                  e.data['expenseType'] == 'Medicine') {
+                medicine += e.data['expenseAmount'] as int;
+              } else {
+                other += e.data['expenseAmount'] as int;
+              }
+            }
+          }
+        });
+
+        // You can now convert the map to a list of lists if needed
+        List<List<ExpenseModel>> groupedExpenseList = expensesByMonth.values.toList();
+        notifyListeners();
+      } else {
+        // CustomSnack.warningSnack('No expenses found', context);
+      }
+    } catch (e) {
+      // CustomSnack.warningSnack(e.toString(), context);
+    } finally {
+      isMonthlyHistoryLoading = false;
+      notifyListeners();
+    }
+  }
+
+
 }

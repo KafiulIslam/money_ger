@@ -38,11 +38,11 @@ class _DebitCreditScreenState extends State<DebitCreditScreen> {
               unselectedLabelColor: iconColor,
               tabs: [
                 Tab(child: Column(children: [
-                  Text('Debitors'),
+                  const Text('Debtors'),
                   Text(debitCreditState.totalDebit.toString())
                 ],)),
                 Tab(child: Column(children: [
-                  Text('Creditors'),
+                  const Text('Creditors'),
                   Text(debitCreditState.totalCredit.toString())
                 ],)),
               ],

@@ -6,19 +6,26 @@ import 'package:money_ger/utils/typograpgy.dart';
 import 'package:money_ger/views/dashboard/history/widgets/monthly_history_expansion.dart';
 import 'package:money_ger/widgets/components/monthly_budget_card.dart';
 import 'package:provider/provider.dart';
+import '../../../models/expense_model.dart';
 import '../../../utils/color.dart';
 import '../../../utils/constant/constant.dart';
 import '../../../utils/custom_dialog.dart';
 import '../home/widgets/add_budget_bottomsheet.dart';
 import '../home/widgets/custom_expansion_tile.dart';
 
-class HistoryScreen extends StatelessWidget {
+class HistoryScreen extends StatefulWidget {
   const HistoryScreen({Key? key}) : super(key: key);
 
   @override
+  State<HistoryScreen> createState() => _HistoryScreenState();
+}
+
+class _HistoryScreenState extends State<HistoryScreen> {
+
+  @override
   Widget build(BuildContext context) {
-    return Consumer2<AuthProvider, MonthlyBudgetProvider>(
-        builder: (_, authState, monthlyBudgetState, child) {
+    return Consumer<MonthlyBudgetProvider>(
+        builder: (_, monthlyBudgetState, child) {
       return Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
@@ -36,15 +43,34 @@ class HistoryScreen extends StatelessWidget {
             onRefresh: () {
               return monthlyBudgetState.getExpenseList();
             },
-            child: ListView.separated(
-                itemBuilder: (_, index) {
-                  //var data = monthlyBudgetState.monthlyBudgetList[index];
-                  return MonthlyBudgetCard(
-                      monthId: 'data.monthId',
-                      budget: 100);
-                },
-                separatorBuilder: (_, index) => sixteenVerticalSpace,
-                itemCount: 3),
+            // child: ListView.separated(
+            //     itemBuilder: (_, index) {
+            //       var data = monthlyBudgetState.expensesByMonth[index];
+            //       return MonthlyBudgetCard(
+            //           monthId: data.,
+            //           budget: 100);
+            //     },
+            //     separatorBuilder: (_, index) => sixteenVerticalSpace,
+            //     itemCount: monthlyBudgetState.expensesByMonth.length),
+            child: ListView.builder(
+              itemCount: monthlyBudgetState.expensesByMonth.length,
+              itemBuilder: (context, index) {
+                // Get the key (monthlyBudgetId) and the corresponding list of expenses
+                String monthlyBudgetId = monthlyBudgetState.expensesByMonth.keys.elementAt(index);
+                List<ExpenseModel> expenses = monthlyBudgetState.expensesByMonth[monthlyBudgetId]!;
+
+                return ExpansionTile(
+                  title: Text('Month: $monthlyBudgetId'),
+                  children: expenses.map((expense) {
+                    return ListTile(
+                      title: Text(expense.description),
+                      subtitle: Text('Type: ${expense.expenseType}'),
+                      trailing: Text('\$${expense.expenseAmount.toString()}'),
+                    );
+                  }).toList(),
+                );
+              },
+            ),
           ),
         ),
       );
