@@ -316,30 +316,6 @@ class MonthlyBudgetProvider extends ChangeNotifier {
             // Calculate total monthly expense for the current month
             if (AppConstant.currentMonthId == monthId) {
               totalMonthlyExpense += e.data['expenseAmount'] as int;
-
-              // Update category totals for the report
-              // if (e.data['expenseType'] == 'Food or Drinks' ||
-              //     e.data['expenseType'] == 'Electricity Bill' ||
-              //     e.data['expenseType'] == 'Cosmetics') {
-              //   family += e.data['expenseAmount'] as int;
-              // } else if (e.data['expenseType'] == 'Phone Bill' ||
-              //     e.data['expenseType'] == 'Entertainment' ||
-              //     e.data['expenseType'] == 'Sports' ||
-              //     e.data['expenseType'] == 'Internet Bill') {
-              //   personal += e.data['expenseAmount'] as int;
-              // } else if (e.data['expenseType'] == 'Transport' ||
-              //     e.data['expenseType'] == 'Fuel Bill' ||
-              //     e.data['expenseType'] == 'Travel') {
-              //   transport += e.data['expenseAmount'] as int;
-              // } else if (e.data['expenseType'] == 'Donation' ||
-              //     e.data['expenseType'] == 'Social Work') {
-              //   donation += e.data['expenseAmount'] as int;
-              // } else if (e.data['expenseType'] == 'Doctor' ||
-              //     e.data['expenseType'] == 'Medicine') {
-              //   medicine += e.data['expenseAmount'] as int;
-              // } else {
-              //   other += e.data['expenseAmount'] as int;
-              // }
             }
           }
         });

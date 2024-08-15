@@ -80,7 +80,7 @@ class _DebitCreditScreenState extends State<DebitCreditScreen> {
       child: debitCreditState.debitList.isEmpty
           ? Center(
             child: Text(
-                'You have no debitors',
+                'You have no debtors',
                 style: tTextStyle600.copyWith(color: black),
               ),
           )

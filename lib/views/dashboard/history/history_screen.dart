@@ -21,7 +21,6 @@ class HistoryScreen extends StatefulWidget {
 }
 
 class _HistoryScreenState extends State<HistoryScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Consumer<MonthlyBudgetProvider>(
@@ -52,25 +51,31 @@ class _HistoryScreenState extends State<HistoryScreen> {
             //     },
             //     separatorBuilder: (_, index) => sixteenVerticalSpace,
             //     itemCount: monthlyBudgetState.expensesByMonth.length),
-            child: ListView.builder(
-              itemCount: monthlyBudgetState.expensesByMonth.length,
-              itemBuilder: (context, index) {
-                // Get the key (monthlyBudgetId) and the corresponding list of expenses
-                String monthlyBudgetId = monthlyBudgetState.expensesByMonth.keys.elementAt(index);
-                List<ExpenseModel> expenses = monthlyBudgetState.expensesByMonth[monthlyBudgetId]!;
+            child: monthlyBudgetState.expensesByMonth.isEmpty
+                ? const Center(child: Text('No available history'))
+                : ListView.builder(
+                    itemCount: monthlyBudgetState.expensesByMonth.length,
+                    itemBuilder: (context, index) {
+                      // Get the key (monthlyBudgetId) and the corresponding list of expenses
+                      String monthlyBudgetId = monthlyBudgetState
+                          .expensesByMonth.keys
+                          .elementAt(index);
+                      List<ExpenseModel> expenses =
+                          monthlyBudgetState.expensesByMonth[monthlyBudgetId]!;
 
-                return ExpansionTile(
-                  title: Text('Month: $monthlyBudgetId'),
-                  children: expenses.map((expense) {
-                    return ListTile(
-                      title: Text(expense.description),
-                      subtitle: Text('Type: ${expense.expenseType}'),
-                      trailing: Text('\$${expense.expenseAmount.toString()}'),
-                    );
-                  }).toList(),
-                );
-              },
-            ),
+                      return ExpansionTile(
+                        title: Text('Month: $monthlyBudgetId'),
+                        children: expenses.map((expense) {
+                          return ListTile(
+                            title: Text(expense.description),
+                            subtitle: Text('Type: ${expense.expenseType}'),
+                            trailing:
+                                Text('\$${expense.expenseAmount.toString()}'),
+                          );
+                        }).toList(),
+                      );
+                    },
+                  ),
           ),
         ),
       );
