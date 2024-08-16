@@ -26,9 +26,15 @@ class _HistoryScreenState extends State<HistoryScreen> {
     return Consumer<MonthlyBudgetProvider>(
         builder: (_, monthlyBudgetState, child) {
       return Scaffold(
+        backgroundColor: const Color(0xFFF5F6FA),
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
           backgroundColor: primeColor,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(32),
+                bottomRight: Radius.circular(32)),
+          ),
           automaticallyImplyLeading: false,
           centerTitle: true,
           title: Text(

@@ -166,11 +166,17 @@ class MonthlyBudgetProvider extends ChangeNotifier {
         expenseList.clear();
         notifyListeners();
         totalMonthlyExpense = 00;
+        notifyListeners();
         family = 00;
+        notifyListeners();
         personal = 00;
+        notifyListeners();
         transport = 00;
+        notifyListeners();
         donation = 00;
+        notifyListeners();
         medicine = 00;
+        notifyListeners();
         other = 00;
         notifyListeners();
 

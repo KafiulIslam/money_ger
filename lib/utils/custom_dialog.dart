@@ -5,7 +5,6 @@ import 'package:money_ger/utils/typograpgy.dart';
 import 'color.dart';
 
 class CustomDialog {
-
   // static void actionDialog(){
   //   Get.defaultDialog(
   //     // title: 'Congratulations !',
@@ -31,7 +30,7 @@ class CustomDialog {
       context: context,
       builder: (BuildContext context) {
         return Theme(
-            data: ThemeData(dialogBackgroundColor: Colors.white),
+          data: ThemeData(dialogBackgroundColor: Colors.white),
           child: AlertDialog(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30.0),
@@ -44,7 +43,8 @@ class CustomDialog {
     );
   }
 
-  static Future<void> autoDialog(BuildContext context, IconData icon, String message) {
+  static Future<void> autoDialog(
+      BuildContext context, IconData icon, String message) {
     return showDialog(
         context: context,
         builder: (context) {
@@ -60,10 +60,10 @@ class CustomDialog {
               children: [
                 CircleAvatar(
                     radius: 24,
-                    backgroundColor: primaryLight,
+                    backgroundColor: primeColor,
                     child: Icon(
                       icon,
-                      color: secondaryColor,
+                      color: white,
                     )),
                 sixteenVerticalSpace,
                 Text(
@@ -77,11 +77,14 @@ class CustomDialog {
         });
   }
 
-  static Future<void> bottomSheet(BuildContext context, Widget content){
-    return showCupertinoModalPopup<void>(
+  static Future<void> bottomSheet(BuildContext context, Widget content) {
+    // return showCupertinoModalPopup<void>(
+    //     context: context,
+    //     builder: (BuildContext context) => content,
+    // );
+    return showModalBottomSheet(
+        isScrollControlled: true,
         context: context,
-        builder: (BuildContext context) => content,
-    );
+        builder: (BuildContext context) => content);
   }
-
 }

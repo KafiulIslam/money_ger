@@ -18,7 +18,7 @@ class CommonTextField extends StatelessWidget {
     return TextFormField(
       controller: fieldController,
       autofocus: false,
-      cursorColor: secondaryColor,
+      cursorColor: primeColor,
       decoration: InputDecoration(
         filled: true,
         fillColor: assColor,

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 const Color secondaryColor = Color(0xFFFF6C22);
-const Color primaryLight = Color(0xFFFFD3BD);
 const Color primeColor = Color(0xFF1937FE);
+const Color primaryLight = Color(0xFFB6BFFF);
 const Color textPrimaryColor = Color(0xFF2A2A2A);
 const textFieldFillColor = Color(0xFFF0F1F8);
 const Color iconColor = Color(0xFF808080);

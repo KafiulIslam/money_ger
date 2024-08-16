@@ -23,10 +23,16 @@ class _ReportScreenState extends State<ReportScreen> {
     return Consumer2<AuthProvider, MonthlyBudgetProvider>(
         builder: (_, authState, monthlyBudgetState, child) {
       return Scaffold(
+        backgroundColor: const Color(0xFFF5F6FA),
         key: _scaffoldKey,
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
           backgroundColor: primeColor,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(32),
+                bottomRight: Radius.circular(32)),
+          ),
           centerTitle: true,
           automaticallyImplyLeading: false,
           title: Text(
@@ -113,12 +119,12 @@ class _ReportScreenState extends State<ReportScreen> {
       children: [
         Text(
           title,
-          style: tTextStyle700.copyWith(color: black, fontSize: 16),
+          style: tTextStyle600.copyWith(color: black, fontSize: 16),
         ),
         const Spacer(),
         Text(
           info,
-          style: tTextStyle700.copyWith(color: iconColor, fontSize: 16),
+          style: tTextStyle600.copyWith(color: iconColor, fontSize: 16),
         )
       ],
     );

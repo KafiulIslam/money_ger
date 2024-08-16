@@ -36,7 +36,17 @@ class _DebtTileState extends State<DebtTile> {
       return Container(
         width: double.infinity,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12), color: secondaryColor),
+          borderRadius: BorderRadius.circular(12),
+          color: white,
+          boxShadow: [
+            BoxShadow(
+              color: assColor.withOpacity(0.1),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: const Offset(0, 3), // changes position of shadow
+            ),
+          ],
+        ),
         child: Column(
           children: [
             Row(
@@ -50,31 +60,30 @@ class _DebtTileState extends State<DebtTile> {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style:
-                          tTextStyleBold.copyWith(fontSize: 18, color: white),
+                          tTextStyle700.copyWith(fontSize: 18, color: black),
                     ),
                   ),
                 ),
                 const Spacer(),
-                 InkWell(
-                        onTap: () {
-                          debitCreditState.deleteDebts(
-                              widget.documentId, context);
-                        },
-                        child: Container(
-                          height: 36,
-                          width: 42,
-                          decoration: const BoxDecoration(
-                              color: primeColor,
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(12),
-                                  topRight: Radius.circular(12))),
-                          child: const Icon(
-                            Icons.delete,
-                            size: 20,
-                            color: white,
-                          ),
-                        ),
-                      )
+                InkWell(
+                  onTap: () {
+                    debitCreditState.deleteDebts(widget.documentId, context);
+                  },
+                  child: Container(
+                    height: 36,
+                    width: 42,
+                    decoration: const BoxDecoration(
+                        color: primeColor,
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(12),
+                            topRight: Radius.circular(12))),
+                    child: const Icon(
+                      Icons.delete,
+                      size: 20,
+                      color: white,
+                    ),
+                  ),
+                )
               ],
             ),
             Padding(
@@ -83,17 +92,17 @@ class _DebtTileState extends State<DebtTile> {
                 children: [
                   const Icon(
                     Icons.calendar_month_outlined,
-                    color: white,
+                    color: iconColor,
                   ),
                   eightHorizontalSpace,
                   Text(
                     getCreatedDate(widget.createdAt),
-                    style: tTextStyleBold.copyWith(fontSize: 14, color: white),
+                    style: tTextStyle600.copyWith(fontSize: 14, color: black),
                   ),
                   const Spacer(),
                   Text(
                     "${widget.amount.toString()} TK",
-                    style: tTextStyle700.copyWith(fontSize: 16, color: white),
+                    style: tTextStyle600.copyWith(fontSize: 16, color: iconColor),
                   ),
                 ],
               ),

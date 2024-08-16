@@ -111,7 +111,7 @@ class _AddDebitCreditBottomSheetState extends State<AddDebitCreditBottomSheet> {
         filled: true,
         fillColor: assColor,
         contentPadding: const EdgeInsets.all(16),
-        hintText: 'Select your debts type',
+        hintText: 'Select transaction type',
         hintStyle: hintTextStyle,
         suffixIcon: DropdownButtonHideUnderline(
           child: DropdownButton<String>(
@@ -142,13 +142,13 @@ class _AddDebitCreditBottomSheetState extends State<AddDebitCreditBottomSheet> {
     return TextFormField(
       controller: _debtsAmount,
       autofocus: false,
-      cursorColor: secondaryColor,
+      cursorColor: primeColor,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
         filled: true,
         fillColor: assColor,
         contentPadding: const EdgeInsets.all(16),
-        hintText: 'Enter your debts amount',
+        hintText: 'Enter transaction amount',
         hintStyle: hintTextStyle,
         focusedBorder: AppConstant.focusOutLineBorder,
         enabledBorder: AppConstant.enableOutLineBorder,

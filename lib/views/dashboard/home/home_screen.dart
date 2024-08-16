@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Consumer2<AuthProvider, MonthlyBudgetProvider>(
         builder: (_, authState, monthlyBudgetState, child) {
       return Scaffold(
-        backgroundColor: Colors.blue.withOpacity(0.1),
+        backgroundColor: const Color(0xFFF5F6FA),
         key: _scaffoldKey,
         resizeToAvoidBottomInset: true,
         appBar: AppBar(

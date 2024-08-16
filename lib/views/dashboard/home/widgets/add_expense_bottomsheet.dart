@@ -138,7 +138,7 @@ class _AddExpenseBottomSheetState extends State<AddExpenseBottomSheet> {
     return TextFormField(
       controller: _expenseAmount,
       autofocus: false,
-      cursorColor: secondaryColor,
+      cursorColor: primeColor,
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
         filled: true,

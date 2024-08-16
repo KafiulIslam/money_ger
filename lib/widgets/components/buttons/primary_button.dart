@@ -34,7 +34,7 @@ class PrimaryButton extends StatelessWidget {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
             image: const DecorationImage(
-                image: AssetImage('assets/images/prime_button_back.png'),
+                image: AssetImage('assets/images/prime_button.png'),
                 fit: BoxFit.cover)),
         child: isLoading
             ? const CustomLoader()

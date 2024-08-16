@@ -22,9 +22,15 @@ class _DebitCreditScreenState extends State<DebitCreditScreen> {
       return DefaultTabController(
         length: 2,
         child: Scaffold(
+          backgroundColor: const Color(0xFFF5F6FA),
           resizeToAvoidBottomInset: true,
           appBar: AppBar(
             backgroundColor: primeColor,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(32),
+                  bottomRight: Radius.circular(32)),
+            ),
             automaticallyImplyLeading: false,
             centerTitle: true,
             title: Text(
@@ -33,7 +39,10 @@ class _DebitCreditScreenState extends State<DebitCreditScreen> {
             ),
             bottom: TabBar(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              indicatorSize: TabBarIndicatorSize.tab,
+              dividerColor: trans,
+              indicatorSize: TabBarIndicatorSize.label,
+              indicatorColor: pink,
+              indicatorWeight: 5,
               labelStyle: tTextStyle700.copyWith(color: white),
               unselectedLabelColor: iconColor,
               tabs: [
