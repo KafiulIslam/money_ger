@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:money_ger/widgets/components/custom_loader.dart';
 import '../../../utils/color.dart';
 import '../../../utils/typograpgy.dart';
 
@@ -23,29 +25,26 @@ class PrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 56,
-      width: double.infinity,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-          elevation: 0.0,
-          backgroundColor: buttonColor,
-          textStyle: tTextStyleBold.copyWith(fontSize: 16, color: white),
-        ),
-        onPressed: isLoading ? null : onTap,
+    return InkWell(
+      onTap: isLoading ? null : onTap,
+      child: Container(
+        height: 56,
+        width: double.infinity,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            image: const DecorationImage(
+                image: AssetImage('assets/images/prime_button_back.png'),
+                fit: BoxFit.cover)),
         child: isLoading
-            ? Center(
-                child: CircularProgressIndicator(
-                color: white.withOpacity(0.5),
-              ))
+            ? const CustomLoader()
             : Text(
                 buttonTitle,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: tTextStyle600.copyWith(fontSize: 16, color: white),
               ),
+        // ),
       ),
     );
   }
