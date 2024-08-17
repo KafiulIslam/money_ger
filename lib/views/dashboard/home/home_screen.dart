@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Consumer2<AuthProvider, MonthlyBudgetProvider>(
         builder: (_, authState, monthlyBudgetState, child) {
       return Scaffold(
-        backgroundColor: const Color(0xFFF5F6FA),
+        backgroundColor: scaffoldColor,
         key: _scaffoldKey,
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
@@ -111,10 +111,22 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             fit: BoxFit.cover),
         borderRadius: BorderRadius.circular(12),
-        color: secondaryColor
+       // color: secondaryColor
       ),
       child: monthlyBudgetState.isBudgetLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? Container(
+        height: 140,
+          width: double.infinity,
+          decoration: BoxDecoration(
+              image: const DecorationImage(
+                  image: AssetImage(
+                    'assets/images/budgetCard.png',
+                  ),
+                  fit: BoxFit.cover),
+              borderRadius: BorderRadius.circular(12),
+              //color: primeColor
+          ),
+          child: const Center(child: CircularProgressIndicator()))
           : Column(
               children: [
                 Row(

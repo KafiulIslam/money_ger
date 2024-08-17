@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-const Color secondaryColor = Color(0xFFFF6C22);
 const Color primeColor = Color(0xFF1937FE);
 const Color primaryLight = Color(0xFFB6BFFF);
+const Color scaffoldColor = Color(0xFFF5F6FA);
 const Color textPrimaryColor = Color(0xFF2A2A2A);
 const textFieldFillColor = Color(0xFFF0F1F8);
 const Color iconColor = Color(0xFF808080);
@@ -10,9 +10,8 @@ const Color pink = Color(0xFFC72FF8);
 
 
 
-
+const Color secondaryColor = Color(0xFFFF6C22);
 const Color assColor = Color(0xFFF2F4F7);
-const Color scaffoldColor = Color(0xFFfefefe);
 const secondaryLightColor = Color(0xFFffe2e4);
 final Color borderColor = black.withOpacity(0.09);
 const Color red = Color(0xFFFF4A54);

@@ -9,13 +9,10 @@ class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
 
   @override
-  State<DashboardScreen> createState() =>
-      _DashboardScreenState();
+  State<DashboardScreen> createState() => _DashboardScreenState();
 }
 
-class _DashboardScreenState
-    extends State<DashboardScreen> {
-
+class _DashboardScreenState extends State<DashboardScreen> {
   int _selectedIndex = 0;
 
   static const List<Widget> _widgetOptions = <Widget>[
@@ -36,7 +33,6 @@ class _DashboardScreenState
     return Scaffold(
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
-
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home_filled),

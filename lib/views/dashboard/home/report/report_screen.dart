@@ -23,7 +23,7 @@ class _ReportScreenState extends State<ReportScreen> {
     return Consumer2<AuthProvider, MonthlyBudgetProvider>(
         builder: (_, authState, monthlyBudgetState, child) {
       return Scaffold(
-        backgroundColor: const Color(0xFFF5F6FA),
+        backgroundColor: scaffoldColor,
         key: _scaffoldKey,
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
@@ -46,7 +46,7 @@ class _ReportScreenState extends State<ReportScreen> {
             child: Column(
               children: [
                 SizedBox(
-                  height: MediaQuery.of(context).size.height / 3,
+                  height: MediaQuery.of(context).size.height / 4,
                   width: double.infinity,
                   child: PieChart(PieChartData(sections: [
                     PieChartSectionData(
@@ -87,10 +87,11 @@ class _ReportScreenState extends State<ReportScreen> {
                         color: Colors.yellowAccent),
                   ])),
                 ),
-                sixteenVerticalSpace,
+                primaryVerticalSpace,
                _buildColorIndicator(),
+                eightVerticalSpace,
                 const Divider(),
-                sixteenVerticalSpace,
+                primaryVerticalSpace,
                 _infoTile('Family', monthlyBudgetState.family.toString()),
                 sixteenVerticalSpace,
                 _infoTile('Personal', monthlyBudgetState.personal.toString()),
@@ -140,7 +141,7 @@ class _ReportScreenState extends State<ReportScreen> {
         eightHorizontalSpace,
         Text(
           title,
-          style: tTextStyle500.copyWith(color: iconColor, fontSize: 14),
+          style: tTextStyle700.copyWith(color: iconColor, fontSize: 14),
         ),
       ],
     );

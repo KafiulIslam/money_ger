@@ -321,9 +321,9 @@ class MonthlyBudgetProvider extends ChangeNotifier {
             expensesByMonth[monthId]!.add(expense);
 
             // Calculate total monthly expense for the current month
-            if (AppConstant.currentMonthId == monthId) {
-              totalMonthlyExpense += e.data['expenseAmount'] as int;
-            }
+            // if (AppConstant.currentMonthId == monthId) {
+            //   totalMonthlyExpense += e.data['expenseAmount'] as int;
+            // }
           }
         });
 

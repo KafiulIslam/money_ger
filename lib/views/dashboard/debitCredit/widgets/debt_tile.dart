@@ -73,14 +73,14 @@ class _DebtTileState extends State<DebtTile> {
                     height: 36,
                     width: 42,
                     decoration: const BoxDecoration(
-                        color: primeColor,
+                        color: primaryLight,
                         borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(12),
                             topRight: Radius.circular(12))),
                     child: const Icon(
                       Icons.delete,
                       size: 20,
-                      color: white,
+                      color: primeColor,
                     ),
                   ),
                 )

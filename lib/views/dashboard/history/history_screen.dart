@@ -26,7 +26,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
     return Consumer<MonthlyBudgetProvider>(
         builder: (_, monthlyBudgetState, child) {
       return Scaffold(
-        backgroundColor: const Color(0xFFF5F6FA),
+        backgroundColor: scaffoldColor,
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
           backgroundColor: primeColor,
