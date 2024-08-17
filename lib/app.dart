@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:money_ger/controllers/debit_credit_provider.dart';
 import 'package:money_ger/controllers/monthly_budget_provider.dart';
+import 'package:money_ger/controllers/monthly_detail_controller.dart';
 import 'package:money_ger/splash_screen.dart';
 import 'package:money_ger/utils/color.dart';
 import 'package:provider/provider.dart';
@@ -43,6 +44,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => AuthProvider()),
         ChangeNotifierProvider(create: (context) => MonthlyBudgetProvider()),
         ChangeNotifierProvider(create: (context) => DebitCreditProvider()),
+        ChangeNotifierProvider(create: (context) => MonthlyDetailController()),
         // ChangeNotifierProvider(create: (context) => goalsListProvider),
         // ChangeNotifierProvider(
         //     create: (context) => HomeProvider(

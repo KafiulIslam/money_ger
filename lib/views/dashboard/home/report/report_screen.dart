@@ -45,52 +45,73 @@ class _ReportScreenState extends State<ReportScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height / 4,
+                Container(
                   width: double.infinity,
-                  child: PieChart(PieChartData(sections: [
-                    PieChartSectionData(
-                        value: monthlyBudgetState.family.toDouble(),
-                        //title: 'Family',
-                        showTitle: false,
-                        radius: 60,
-                        color: secondaryColor),
-                    PieChartSectionData(
-                        value: monthlyBudgetState.personal.toDouble(),
-                        //title: 'Personal',
-                        showTitle: false,
-                        radius: 60,
-                        color: primeColor),
-                    PieChartSectionData(
-                        value: monthlyBudgetState.transport.toDouble(),
-                        // title: 'Transport',
-                        showTitle: false,
-                        radius: 60,
-                        color: Colors.green),
-                    PieChartSectionData(
-                        value: monthlyBudgetState.donation.toDouble(),
-                        //title: 'Donation',
-                        showTitle: false,
-                        radius: 60,
-                        color: red),
-                    PieChartSectionData(
-                        value: monthlyBudgetState.medicine.toDouble(),
-                        //title: 'Medicine',
-                        showTitle: false,
-                        radius: 60,
-                        color: Colors.tealAccent),
-                    PieChartSectionData(
-                        value: monthlyBudgetState.other.toDouble(),
-                        //title: 'Other',
-                        showTitle: false,
-                        radius: 60,
-                        color: Colors.yellowAccent),
-                  ])),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: assBold.withOpacity(0.1),
+                        spreadRadius: 0,
+                        blurRadius: 50,
+                        offset:
+                            const Offset(0, 9), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height / 4,
+                          width: double.infinity,
+                          child: PieChart(PieChartData(sections: [
+                            PieChartSectionData(
+                                value: monthlyBudgetState.family.toDouble(),
+                                //title: 'Family',
+                                showTitle: false,
+                                radius: 40,
+                                color: Color(0xFF1937FE)),
+                            PieChartSectionData(
+                                value: monthlyBudgetState.personal.toDouble(),
+                                //title: 'Personal',
+                                showTitle: false,
+                                radius: 40,
+                                color: Color(0xFF2CBD00)),
+                            PieChartSectionData(
+                                value: monthlyBudgetState.transport.toDouble(),
+                                // title: 'Transport',
+                                showTitle: false,
+                                radius: 40,
+                                color: Color(0xFFFAD400)),
+                            PieChartSectionData(
+                                value: monthlyBudgetState.donation.toDouble(),
+                                //title: 'Donation',
+                                showTitle: false,
+                                radius: 40,
+                                color: Color(0xFFFC5800)),
+                            PieChartSectionData(
+                                value: monthlyBudgetState.medicine.toDouble(),
+                                //title: 'Medicine',
+                                showTitle: false,
+                                radius: 40,
+                                color: Colors.tealAccent),
+                            PieChartSectionData(
+                                value: monthlyBudgetState.other.toDouble(),
+                                //title: 'Other',
+                                showTitle: false,
+                                radius: 40,
+                                color: Colors.purpleAccent),
+                          ])),
+                        ),
+                        primaryVerticalSpace,
+                        _buildColorIndicator(),
+                      ],
+                    ),
+                  ),
                 ),
-                primaryVerticalSpace,
-               _buildColorIndicator(),
-                eightVerticalSpace,
-                const Divider(),
                 primaryVerticalSpace,
                 _infoTile('Family', monthlyBudgetState.family.toString()),
                 sixteenVerticalSpace,
@@ -151,27 +172,28 @@ class _ReportScreenState extends State<ReportScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _graphColorIndicator(secondaryColor, 'Family'),
-          _graphColorIndicator(primeColor, 'Personal'),
-        ],
-      ),
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _graphColorIndicator(Colors.green, 'Transport'),
-          _graphColorIndicator(red, 'Donation'),
-        ],
-      ),
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _graphColorIndicator(Colors.tealAccent, 'Medicine'),
-          _graphColorIndicator(Colors.yellowAccent, 'Other'),
-        ],
-      ),
-    ],);
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _graphColorIndicator(Color(0xFF1937FE), 'Family'),
+            _graphColorIndicator(Color(0xFF2CBD00), 'Personal'),
+          ],
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _graphColorIndicator(Color(0xFFFAD400), 'Transport'),
+            _graphColorIndicator(Color(0xFFFC5800), 'Donation'),
+          ],
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _graphColorIndicator(Colors.tealAccent, 'Medicine'),
+            _graphColorIndicator(Colors.purpleAccent, 'Other'),
+          ],
+        ),
+      ],
+    );
   }
 }

@@ -164,19 +164,12 @@ class MonthlyBudgetProvider extends ChangeNotifier {
 
       if (res.documents.isNotEmpty) {
         expenseList.clear();
-        notifyListeners();
         totalMonthlyExpense = 00;
-        notifyListeners();
         family = 00;
-        notifyListeners();
         personal = 00;
-        notifyListeners();
         transport = 00;
-        notifyListeners();
         donation = 00;
-        notifyListeners();
         medicine = 00;
-        notifyListeners();
         other = 00;
         notifyListeners();
 
@@ -282,6 +275,7 @@ class MonthlyBudgetProvider extends ChangeNotifier {
 
   late bool isMonthlyHistoryLoading = false;
   late Map<String, List<ExpenseModel>> expensesByMonth = {};
+  late Map<String, int> totalExpensesByMonth = {};
 
   Future<void> getMonthlyHistory() async {
     try {
@@ -299,6 +293,7 @@ class MonthlyBudgetProvider extends ChangeNotifier {
 
       if (res.documents.isNotEmpty) {
         expensesByMonth.clear();
+        totalExpensesByMonth.clear();
         notifyListeners();
 
         res.documents.forEach((e) {
@@ -307,6 +302,7 @@ class MonthlyBudgetProvider extends ChangeNotifier {
 
             if (!expensesByMonth.containsKey(monthId)) {
               expensesByMonth[monthId] = [];
+              totalExpensesByMonth[monthId] = 0;
             }
 
             final expense = ExpenseModel(
@@ -319,6 +315,9 @@ class MonthlyBudgetProvider extends ChangeNotifier {
             );
 
             expensesByMonth[monthId]!.add(expense);
+
+            // Add to the total monthly expense for this monthId
+            totalExpensesByMonth[monthId] = totalExpensesByMonth[monthId]! + (e.data['expenseAmount'] as int);
 
             // Calculate total monthly expense for the current month
             // if (AppConstant.currentMonthId == monthId) {

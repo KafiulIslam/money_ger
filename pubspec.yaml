@@ -44,6 +44,8 @@ dependencies:
   dropdown_button2: ^2.3.9
   fl_chart: ^0.68.0
   rename: ^3.0.2
+  pdf: ^3.11.1
+  printing: ^5.13.2
 
 
 dev_dependencies:
