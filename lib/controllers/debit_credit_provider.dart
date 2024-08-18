@@ -49,8 +49,9 @@ class DebitCreditProvider extends ChangeNotifier {
 
       if (res.documents.isNotEmpty) {
         debitList.clear();
-        notifyListeners();
         creditList.clear();
+        totalDebit = 0;
+        totalCredit = 0;
         notifyListeners();
 
         res.documents.forEach((e) {
