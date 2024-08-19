@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:money_ger/utils/assets_path.dart';
 import 'package:money_ger/utils/color.dart';
 import 'package:money_ger/views/auth/login/login_screen.dart';
 import 'package:money_ger/views/dashboard/dashboard_screen.dart';
@@ -47,7 +48,7 @@ class _SplashScreenState extends State<SplashScreen> {
       backgroundColor: white,
       body: Center(
         child: Image.asset(
-          'assets/images/moneyGer.png',
+          splashLogo,
           height: MediaQuery.of(context).size.height / 3,
           width: MediaQuery.of(context).size.width / 2,
         ),

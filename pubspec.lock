@@ -214,6 +214,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.13.1"
+  flutter_mailer:
+    dependency: "direct main"
+    description:
+      name: flutter_mailer
+      sha256: "4fffaa35e911ff5ec2e5a4ebbca62c372e99a154eb3bb2c0bf79f09adf6ecf4c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.2"
+  flutter_rating_bar:
+    dependency: transitive
+    description:
+      name: flutter_rating_bar
+      sha256: d2af03469eac832c591a1eba47c91ecc871fe5708e69967073c043b2d775ed93
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.1"
   flutter_secure_storage:
     dependency: "direct main"
     description:
@@ -568,6 +584,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.2"
+  rating_dialog:
+    dependency: "direct main"
+    description:
+      name: rating_dialog
+      sha256: "4856ba266c255081f05c57148345ea13f0d86c4049859d66e14c47e2ab1f90d3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.4"
   rename:
     dependency: "direct main"
     description:
@@ -597,6 +621,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.11.1"
+  store_redirect:
+    dependency: "direct main"
+    description:
+      name: store_redirect
+      sha256: "72f111f6616cf8ac353449d5b79bbe10e5f7a1b3a47b338f8936a826d4ea6366"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.2"
   stream_channel:
     dependency: transitive
     description:

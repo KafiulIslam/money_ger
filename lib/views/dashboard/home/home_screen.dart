@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mailer/flutter_mailer.dart';
 import 'package:money_ger/controllers/auth_provider.dart';
 import 'package:money_ger/controllers/monthly_budget_provider.dart';
+import 'package:money_ger/utils/assets_path.dart';
 import 'package:money_ger/utils/constant/constant.dart';
 import 'package:money_ger/utils/custom_dialog.dart';
 import 'package:money_ger/utils/spacer.dart';
@@ -10,7 +12,10 @@ import 'package:money_ger/views/dashboard/home/widgets/add_budget_bottomsheet.da
 import 'package:money_ger/views/dashboard/home/widgets/add_expense_bottomsheet.dart';
 import 'package:money_ger/views/dashboard/home/widgets/custom_expansion_tile.dart';
 import 'package:provider/provider.dart';
+import 'package:rating_dialog/rating_dialog.dart';
+import 'package:store_redirect/store_redirect.dart';
 import '../../../utils/color.dart';
+import '../../../utils/custom_snack.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -39,22 +44,33 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           automaticallyImplyLeading: false,
           centerTitle: true,
+          leading: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: IconButton(
+                onPressed: () {
+                  _scaffoldKey.currentState?.openDrawer();
+                },
+                icon: Icon(
+                  Icons.menu,
+                  color: white,
+                )),
+          ),
           title: Text(
             '${AppConstant.currentMonth} History',
             style: tTextStyleBold.copyWith(color: white, fontSize: 20),
           ),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  authState.logout(context);
-                },
-                icon: const Icon(
-                  Icons.logout,
-                  color: white,
-                ))
-          ],
+          // actions: [
+          //   IconButton(
+          //       onPressed: () {
+          //         authState.logout(context);
+          //       },
+          //       icon: const Icon(
+          //         Icons.logout,
+          //         color: white,
+          //       ))
+          // ],
         ),
-        // drawer: _drawer(),
+        drawer: _drawer(),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: RefreshIndicator(
@@ -111,22 +127,22 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             fit: BoxFit.cover),
         borderRadius: BorderRadius.circular(12),
-       // color: secondaryColor
+        // color: secondaryColor
       ),
       child: monthlyBudgetState.isBudgetLoading
           ? Container(
-        height: 140,
-          width: double.infinity,
-          decoration: BoxDecoration(
-              image: const DecorationImage(
-                  image: AssetImage(
-                    'assets/images/budgetCard.png',
-                  ),
-                  fit: BoxFit.cover),
-              borderRadius: BorderRadius.circular(12),
-              //color: primeColor
-          ),
-          child: const Center(child: CircularProgressIndicator()))
+              height: 140,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                image: const DecorationImage(
+                    image: AssetImage(
+                      'assets/images/budgetCard.png',
+                    ),
+                    fit: BoxFit.cover),
+                borderRadius: BorderRadius.circular(12),
+                //color: primeColor
+              ),
+              child: const Center(child: CircularProgressIndicator()))
           : Column(
               children: [
                 Row(
@@ -255,18 +271,48 @@ class _HomeScreenState extends State<HomeScreen> {
               height: MediaQuery.of(context).size.height / 10,
             ),
             Image.asset(
-              'assets/images/demo_logo.png',
+              splashLogo,
               height: 150,
               width: 150,
             ),
-            primaryVerticalSpace,
-            _drawerTile(Icons.auto_graph_sharp, 'Report', () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (_) => const ReportScreen()));
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 20,
+            ),
+            _drawerTile(Icons.star, 'Ratings', () {
+              showDialog(
+                context: context,
+                barrierDismissible: true,
+                builder: (context) => _dialog,
+              );
             }),
             const Divider(
               color: white,
-            )
+            ),
+            _drawerTile(Icons.feedback_outlined, 'Feedback', () async {
+              await FlutterMailer.send(MailOptions(
+                body: 'Hi MoneyGer Team,',
+                subject: 'Feedback on MoneyGer',
+                recipients: ['kafiulislam2022@gmail.com'],
+                isHTML: true,
+                attachments: [
+                  'path/to/image.png',
+                ],
+              ));
+            }),
+            const Divider(
+              color: white,
+            ),
+            _drawerTile(Icons.logout_outlined, 'Logout', () {
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (_) => const ReportScreen()));
+            }),
+            const Divider(
+              color: white,
+            ),
+            _drawerTile(Icons.delete_outline, 'Delete Account', () {
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (_) => const ReportScreen()));
+            }),
           ],
         ),
       ),
@@ -275,20 +321,65 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _drawerTile(IconData icon, String title, VoidCallback onTap) {
     return Padding(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(12),
       child: InkWell(
         onTap: onTap,
         child: Row(
           children: [
             Icon(
               icon,
-              color: white,
+              color: primeColor,
             ),
             sixteenHorizontalSpace,
-            Text(title, style: tTextStyle700.copyWith(color: white))
+            Text(title, style: tTextStyle600.copyWith(color: primeColor, fontSize: 16)),
+            Spacer(),
+            Icon(Icons.arrow_forward_ios, color: primeColor, size: 16,)
           ],
         ),
       ),
     );
   }
+
+  final _dialog = RatingDialog(
+    initialRating: 1.0,
+    title: const Text(
+      '',
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: 5.0,
+        color: black,
+        letterSpacing: 1.5,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+    message: const Text(
+      'Please rate your MoneyGer experience',
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontWeight: FontWeight.w600,
+        fontSize: 14,
+        color: black,
+        letterSpacing: 1,
+      ),
+    ),
+    image: Image.asset(
+      splashLogo,
+     height: 100,
+     width: 100,
+     // fit: BoxFit.contain,
+    ),
+    submitButtonText: 'Submit',
+    submitButtonTextStyle: const TextStyle(color: primeColor, fontSize: 16.0),
+    commentHint: 'Enter your comment here...',
+    onCancelled: () {},
+    onSubmitted: (response) async {
+      if (response.rating < 2.0) {
+      //  CustomSnack.warningSnack('You have to give more than two star!', context);
+      } else {
+        await StoreRedirect.redirect(
+            androidAppId: "com.kafi.money_ger", iOSAppId: "com.kafi.money_ger");
+      }
+    },
+  );
+
 }
