@@ -173,4 +173,42 @@ class DebitCreditProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  /// edit debit credit ///
+
+  late bool isDebitCreditUpdating = false;
+
+  Future<void> updateDebitCredit(String debtsName, String type, int debtsAmount,
+      String docId, BuildContext context) async {
+    try {
+      isDebitCreditUpdating = true;
+      notifyListeners();
+
+      final uid = await AppStorage.getUserId();
+
+      var res = await db.updateDocument(
+          databaseId: AppWriteConstant.primaryDBId,
+          collectionId: AppWriteConstant.debitCreditCollectionId,
+          documentId: docId,
+          data: {
+            'userID': uid,
+            'createdAt': DateTime.now().toString(),
+            'debtsName': debtsName,
+            'debtsType': type,
+            'debtsAmount': debtsAmount,
+          }).then((value) {
+        getDebtList();
+        Navigator.pop(context);
+        CustomDialog.autoDialog(
+            context, Icons.check, 'Transaction is updated successfully');
+      });
+
+      notifyListeners();
+    } catch (e) {
+      CustomSnack.warningSnack(e.toString(), context);
+    } finally {
+      isDebitCreditUpdating = false;
+      notifyListeners();
+    }
+  }
 }

@@ -105,6 +105,7 @@ class _DebitCreditScreenState extends State<DebitCreditScreen> {
                 return DebtTile(
                   documentId: item.id,
                     debtName: item.debtsName,
+                    transactionType: item.debtsType,
                     createdAt: item.createdAt,
                     amount: item.debtsAmount);
               },
@@ -133,6 +134,7 @@ class _DebitCreditScreenState extends State<DebitCreditScreen> {
                 return DebtTile(
                     documentId: item.id,
                     debtName: item.debtsName,
+                    transactionType: item.debtsType,
                     createdAt: item.createdAt,
                     amount: item.debtsAmount);
               },

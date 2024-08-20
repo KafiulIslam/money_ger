@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:money_ger/controllers/debit_credit_provider.dart';
+import 'package:money_ger/utils/custom_dialog.dart';
 import 'package:provider/provider.dart';
 import '../../../../utils/color.dart';
+import '../../../../utils/constant/constant.dart';
 import '../../../../utils/spacer.dart';
 import '../../../../utils/typograpgy.dart';
+import '../../../../widgets/components/buttons/primary_button.dart';
+import '../../../../widgets/components/inputFields/common_textfield.dart';
 
 class DebtTile extends StatefulWidget {
   final String documentId;
   final String debtName;
+  final transactionType;
   final String createdAt;
   final int amount;
 
@@ -15,6 +20,7 @@ class DebtTile extends StatefulWidget {
       {Key? key,
       required this.documentId,
       required this.debtName,
+      required this.transactionType,
       required this.createdAt,
       required this.amount})
       : super(key: key);
@@ -24,10 +30,21 @@ class DebtTile extends StatefulWidget {
 }
 
 class _DebtTileState extends State<DebtTile> {
+  late TextEditingController _name;
+  late TextEditingController _type;
+  late TextEditingController _amount;
+
   String getCreatedDate(date) {
     List<String> parts = date.split('T');
     String timeString = parts[0];
     return timeString;
+  }
+
+  @override
+  void initState() {
+    _name = TextEditingController(text: widget.debtName);
+    _amount = TextEditingController(text: widget.amount.toString());
+    super.initState();
   }
 
   @override
@@ -59,31 +76,36 @@ class _DebtTileState extends State<DebtTile> {
                       widget.debtName,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style:
-                          tTextStyle700.copyWith(fontSize: 18, color: black),
+                      style: tTextStyle700.copyWith(fontSize: 18, color: black),
                     ),
                   ),
                 ),
                 const Spacer(),
-                InkWell(
-                  onTap: () {
-                    debitCreditState.deleteDebts(widget.documentId, context);
+                PopupMenuButton(
+                  onSelected: (value) {
+                    // your logic
                   },
-                  child: Container(
-                    height: 36,
-                    width: 42,
-                    decoration: const BoxDecoration(
-                        color: primaryLight,
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(12),
-                            topRight: Radius.circular(12))),
-                    child: const Icon(
-                      Icons.delete,
-                      size: 20,
-                      color: primeColor,
-                    ),
-                  ),
-                )
+                  iconColor: primeColor,
+                  itemBuilder: (BuildContext bc) {
+                    return [
+                      PopupMenuItem(
+                        child: Text("Edit"),
+                        value: '',
+                        onTap: () {
+                          CustomDialog.dialogBuilder(context, _editDialog());
+                        },
+                      ),
+                      PopupMenuItem(
+                        child: Text("Delete"),
+                        value: '/',
+                        onTap: () {
+                          debitCreditState.deleteDebts(
+                              widget.documentId, context);
+                        },
+                      ),
+                    ];
+                  },
+                ),
               ],
             ),
             Padding(
@@ -102,7 +124,8 @@ class _DebtTileState extends State<DebtTile> {
                   const Spacer(),
                   Text(
                     "${widget.amount.toString()} TK",
-                    style: tTextStyle600.copyWith(fontSize: 16, color: iconColor),
+                    style:
+                        tTextStyle600.copyWith(fontSize: 16, color: iconColor),
                   ),
                 ],
               ),
@@ -111,5 +134,83 @@ class _DebtTileState extends State<DebtTile> {
         ),
       );
     });
+  }
+
+  Widget _editDialog() {
+    final debitCreditState =
+        Provider.of<DebitCreditProvider>(context, listen: false);
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _header(),
+        sixteenVerticalSpace,
+        //_expenseType(),
+        sixteenVerticalSpace,
+        CommonTextField(
+          fieldController: _name,
+          hintText: 'Enter your expense description (Optional)',
+        ),
+        sixteenVerticalSpace,
+        _buildExpenseAmount(),
+        sixteenVerticalSpace,
+        PrimaryButton(
+          onTap: () async {
+            await debitCreditState.updateDebitCredit(_name.text,
+                widget.transactionType, int.parse(_amount.text), widget.documentId, context);
+          },
+          buttonTitle: 'Save',
+          isLoading: debitCreditState.isDebitCreditUpdating,
+        ),
+        primaryVerticalSpace
+      ],
+    );
+  }
+
+  Widget _header() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.clear,
+              color: trans,
+            )),
+        Text(
+          'Edit',
+          style: tTextStyle500.copyWith(fontSize: 20, color: black),
+        ),
+        IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.clear,
+              color: iconColor,
+            )),
+      ],
+    );
+  }
+
+  Widget _buildExpenseAmount() {
+    return TextFormField(
+      controller: _amount,
+      autofocus: false,
+      cursorColor: primeColor,
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: assColor,
+        contentPadding: const EdgeInsets.all(16),
+        hintText: 'Edit transaction amount',
+        hintStyle: hintTextStyle,
+        focusedBorder: AppConstant.focusOutLineBorder,
+        enabledBorder: AppConstant.enableOutLineBorder,
+        errorBorder: AppConstant.outlineErrorBorder,
+        focusedErrorBorder: AppConstant.outlineErrorBorder,
+        focusColor: secondaryColor,
+      ),
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+    );
   }
 }
