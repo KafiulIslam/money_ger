@@ -69,31 +69,27 @@ class _ReportScreenState extends State<ReportScreen> {
                           width: double.infinity,
                           child: PieChart(PieChartData(sections: [
                             PieChartSectionData(
-                                value: monthlyBudgetState.family.toDouble(),
-                                //title: 'Family',
+                                value: monthlyBudgetState.basic.toDouble(),
                                 showTitle: false,
                                 radius: 40,
                                 color: Color(0xFF1937FE)),
                             PieChartSectionData(
-                                value: monthlyBudgetState.personal.toDouble(),
-                                //title: 'Personal',
-                                showTitle: false,
-                                radius: 40,
-                                color: Color(0xFF2CBD00)),
-                            PieChartSectionData(
-                                value: monthlyBudgetState.transport.toDouble(),
-                                // title: 'Transport',
+                                value: monthlyBudgetState.enjoyment.toDouble(),
                                 showTitle: false,
                                 radius: 40,
                                 color: Color(0xFFFAD400)),
                             PieChartSectionData(
                                 value: monthlyBudgetState.donation.toDouble(),
-                                //title: 'Donation',
                                 showTitle: false,
                                 radius: 40,
                                 color: Color(0xFFFC5800)),
                             PieChartSectionData(
-                                value: monthlyBudgetState.medicine.toDouble(),
+                                value: monthlyBudgetState.healthCare.toDouble(),
+                                showTitle: false,
+                                radius: 40,
+                                color: Color(0xFF2CBD00)),
+                            PieChartSectionData(
+                                value: monthlyBudgetState.legal.toDouble(),
                                 //title: 'Medicine',
                                 showTitle: false,
                                 radius: 40,
@@ -113,15 +109,15 @@ class _ReportScreenState extends State<ReportScreen> {
                   ),
                 ),
                 primaryVerticalSpace,
-                _infoTile('Family', monthlyBudgetState.family.toString()),
+                _infoTile('Basic', monthlyBudgetState.basic.toString()),
                 sixteenVerticalSpace,
-                _infoTile('Personal', monthlyBudgetState.personal.toString()),
-                sixteenVerticalSpace,
-                _infoTile('Transport', monthlyBudgetState.transport.toString()),
+                _infoTile('Enjoyment', monthlyBudgetState.enjoyment.toString()),
                 sixteenVerticalSpace,
                 _infoTile('Donation', monthlyBudgetState.donation.toString()),
                 sixteenVerticalSpace,
-                _infoTile('Medicine', monthlyBudgetState.medicine.toString()),
+                _infoTile('HealthCare', monthlyBudgetState.healthCare.toString()),
+                 sixteenVerticalSpace,
+                 _infoTile('Legal', monthlyBudgetState.legal.toString()),
                 sixteenVerticalSpace,
                 _infoTile('Other', monthlyBudgetState.other.toString()),
                 const Divider(),
@@ -175,21 +171,21 @@ class _ReportScreenState extends State<ReportScreen> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _graphColorIndicator(Color(0xFF1937FE), 'Family'),
-            _graphColorIndicator(Color(0xFF2CBD00), 'Personal'),
+            _graphColorIndicator(Color(0xFF1937FE), 'Basic'),
+            _graphColorIndicator(Color(0xFFFAD400), 'Enjoyment'),
           ],
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _graphColorIndicator(Color(0xFFFAD400), 'Transport'),
             _graphColorIndicator(Color(0xFFFC5800), 'Donation'),
+            _graphColorIndicator(Color(0xFF2CBD00), 'HealthCare'),
           ],
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _graphColorIndicator(Colors.tealAccent, 'Medicine'),
+            _graphColorIndicator(Colors.tealAccent, 'Legal'),
             _graphColorIndicator(Colors.purpleAccent, 'Other'),
           ],
         ),
@@ -197,3 +193,4 @@ class _ReportScreenState extends State<ReportScreen> {
     );
   }
 }
+

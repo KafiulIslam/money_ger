@@ -35,11 +35,11 @@ class MonthlyBudgetProvider extends ChangeNotifier {
 
   /// for report ///
 
-  late int family = 00;
-  late int personal = 00;
-  late int transport = 00;
+  late int basic = 00;
+  late int enjoyment = 00;
   late int donation = 00;
-  late int medicine = 00;
+  late int healthCare = 00;
+  late int legal = 00;
   late int other = 00;
 
   Future<void> getMonthlyBudget() async {
@@ -165,11 +165,11 @@ class MonthlyBudgetProvider extends ChangeNotifier {
       if (res.documents.isNotEmpty) {
         expenseList.clear();
         totalMonthlyExpense = 00;
-        family = 00;
-        personal = 00;
-        transport = 00;
+        basic = 00;
+        enjoyment = 00;
         donation = 00;
-        medicine = 00;
+        healthCare = 00;
+        legal = 00;
         other = 00;
         notifyListeners();
 
@@ -191,29 +191,39 @@ class MonthlyBudgetProvider extends ChangeNotifier {
             /// for report ///
 
             if (e.data['expenseType'] == 'Food or Drinks' ||
+                e.data['expenseType'] == 'Phone Bill' ||
+                e.data['expenseType'] == 'Transport' ||
+                e.data['expenseType'] == 'House Rent' ||
                 e.data['expenseType'] == 'Electricity Bill' ||
-                e.data['expenseType'] == 'Cosmetics') {
-              family = family + e.data['expenseAmount'] as int;
-              notifyListeners();
-            } else if (e.data['expenseType'] == 'Phone Bill' ||
-                e.data['expenseType'] == 'Entertainment' ||
-                e.data['expenseType'] == 'Sports' ||
-                e.data['expenseType'] == 'Internet Bill') {
-              personal = personal + e.data['expenseAmount'] as int;
-              notifyListeners();
-            } else if (e.data['expenseType'] == 'Transport' ||
                 e.data['expenseType'] == 'Fuel Bill' ||
-                e.data['expenseType'] == 'Travel') {
-              transport = transport + e.data['expenseAmount'] as int;
+                e.data['expenseType'] == 'Fix & Maintenance' ||
+                e.data['expenseType'] == 'Cosmetics' ||
+                e.data['expenseType'] == 'Groceries' ||
+                e.data['expenseType'] == 'Internet Bill' ||
+                e.data['expenseType'] == 'Kids') {
+              basic = basic + e.data['expenseAmount'] as int;
               notifyListeners();
-            } else if (e.data['expenseType'] == 'Donation' ||
+            } else if (e.data['expenseType'] == 'Entertainment' ||
+                e.data['expenseType'] == 'Fashion' ||
+                e.data['expenseType'] == 'Travel' ||
+                e.data['expenseType'] == 'Party') {
+              enjoyment = enjoyment + e.data['expenseAmount'] as int;
+              notifyListeners();
+            } else if (e.data['expenseType'] == 'Gift' ||
+                e.data['expenseType'] == 'Donation' ||
                 e.data['expenseType'] == 'Social Work') {
               donation = donation + e.data['expenseAmount'] as int;
               notifyListeners();
             } else if (e.data['expenseType'] == 'Doctor' ||
-                e.data['expenseType'] == 'Medicine') {
-              medicine = medicine + e.data['expenseAmount'] as int;
+                e.data['expenseType'] == 'Medicine' ||
+                e.data['expenseType'] == 'Insurance') {
+              healthCare = healthCare + e.data['expenseAmount'] as int;
               notifyListeners();
+            } else if (e.data['expenseType'] == 'Properties' ||
+                e.data['expenseType'] == 'Vehicle' ||
+                e.data['expenseType'] == 'Sue' ||
+                e.data['expenseType'] == 'Consultant fee') {
+              legal = legal + e.data['expenseAmount'] as int;
             } else {
               other = other + e.data['expenseAmount'] as int;
             }
@@ -317,7 +327,8 @@ class MonthlyBudgetProvider extends ChangeNotifier {
             expensesByMonth[monthId]!.add(expense);
 
             // Add to the total monthly expense for this monthId
-            totalExpensesByMonth[monthId] = totalExpensesByMonth[monthId]! + (e.data['expenseAmount'] as int);
+            totalExpensesByMonth[monthId] = totalExpensesByMonth[monthId]! +
+                (e.data['expenseAmount'] as int);
 
             // Calculate total monthly expense for the current month
             // if (AppConstant.currentMonthId == monthId) {
@@ -328,7 +339,7 @@ class MonthlyBudgetProvider extends ChangeNotifier {
 
         // You can now convert the map to a list of lists if needed
         List<List<ExpenseModel>> groupedExpenseList =
-            expensesByMonth.values.toList();
+        expensesByMonth.values.toList();
         notifyListeners();
       } else {
         // CustomSnack.warningSnack('No expenses found', context);
