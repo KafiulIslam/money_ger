@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:appwrite/appwrite.dart';
-import 'package:get/state_manager.dart';
 import 'package:money_ger/views/auth/login/login_screen.dart';
 import '../utils/app_storage.dart';
 import '../utils/constant/appwrite_constant.dart';
@@ -89,7 +88,7 @@ class AuthProvider extends ChangeNotifier {
     try {
       final sessionId = await storage.read(key: 'sessionId');
       final res = await account.deleteSession(sessionId: sessionId!);
-      await storage.delete(key: 'sessionId');
+      await storage.deleteAll();
 
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (_) => LoginScreen()));

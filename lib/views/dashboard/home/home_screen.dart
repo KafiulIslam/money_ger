@@ -1,3 +1,4 @@
+import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mailer/flutter_mailer.dart';
 import 'package:money_ger/controllers/auth_provider.dart';
@@ -303,15 +304,13 @@ class _HomeScreenState extends State<HomeScreen> {
               color: white,
             ),
             _drawerTile(Icons.logout_outlined, 'Logout', () {
-              // Navigator.push(context,
-              //     MaterialPageRoute(builder: (_) => const ReportScreen()));
+              CustomDialog.dialogBuilder(context, _logoutColumn('Logout','Are you sure, you want to logout ?.'));
             }),
             const Divider(
               color: white,
             ),
             _drawerTile(Icons.delete_outline, 'Delete Account', () {
-              // Navigator.push(context,
-              //     MaterialPageRoute(builder: (_) => const ReportScreen()));
+              CustomDialog.dialogBuilder(context, _logoutColumn('Delete Account','Are you sure, you want to Delete account ?.'));
             }),
           ],
         ),
@@ -381,5 +380,82 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     },
   );
+
+  Widget _logoutColumn(String header, String message) {
+    final authState =
+    Provider.of<AuthProvider>(context, listen: false);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.clear,
+                  color: trans,
+                )),
+            Text(
+              header,
+              textAlign: TextAlign.center,
+              style: tTextStyle500.copyWith(fontSize: 20, color: black),
+            ),
+            IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(
+                  Icons.clear,
+                  color: iconColor,
+                )),
+          ],
+        ),
+        Text(message),
+        sixteenVerticalSpace,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+          Container(
+            alignment: Alignment.center,
+            height: 35.0,
+            width: 70,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.0),
+              color: primeColor,
+            ),
+            child: TextButton(
+              child: Text(
+                'Yes',
+                style: tTextStyle600.copyWith(color: white, fontSize: 14),
+              ),
+              onPressed: () async {
+                await authState.logout(context);
+              },
+            ),
+          ),
+          Container(
+            alignment: Alignment.center,
+            height: 35.0,
+            width: 70,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.0),
+              color: primaryLight,
+            ),
+            child: TextButton(
+              child: Text(
+                'No',
+                style: tTextStyle600.copyWith(color: primeColor, fontSize: 14),
+              ),
+              onPressed: () async {
+                Navigator.pop(context);
+              },
+            ),
+          ),
+        ],),
+      ],
+    );
+  }
 
 }
