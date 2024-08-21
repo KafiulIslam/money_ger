@@ -32,17 +32,26 @@ class PrimaryButton extends StatelessWidget {
         width: double.infinity,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            image: DecorationImage(
-                image: AssetImage('assets/images/prime_button.png'),
-                fit: BoxFit.cover)),
+          borderRadius: BorderRadius.circular(12),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment(0.7, 1),
+            colors: <Color>[
+              pink,
+              primeColor,
+            ],
+            // image: DecorationImage(
+            //     image: AssetImage('assets/images/prime_button.png'),
+            //     fit: BoxFit.cover)
+          ),
+        ),
         child: isLoading
             ? const CustomLoader()
             : Text(
                 buttonTitle,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: tTextStyle600.copyWith(fontSize: 16, color: white),
+                style: tTextStyle700.copyWith(fontSize: 16, color: white),
               ),
         // ),
       ),

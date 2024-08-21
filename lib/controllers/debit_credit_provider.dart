@@ -147,23 +147,6 @@ class DebitCreditProvider extends ChangeNotifier {
           .then((value) {
         getDebtList();
       });
-      //
-      // var res = await db.createDocument(
-      //     databaseId: AppWriteConstant.primaryDBId,
-      //     collectionId: AppWriteConstant.debitCreditCollectionId,
-      //     documentId: ID.unique(),
-      //     data: {
-      //       'userID': uid,
-      //       'createdAt': DateTime.now().toString(),
-      //       'debtsName': debtsName,
-      //       'debtsType': debtsType,
-      //       'debtsAmount': debtsAmount,
-      //     }).then((value) {
-      //   getDebtList();
-      //   Navigator.pop(context);
-      //   CustomDialog.autoDialog(
-      //       context, Icons.check, 'Debt is added successfully');
-      // });
 
       notifyListeners();
     } catch (e) {

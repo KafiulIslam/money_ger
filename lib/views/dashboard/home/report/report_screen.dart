@@ -89,17 +89,17 @@ class _ReportScreenState extends State<ReportScreen> {
                                 radius: 40,
                                 color: Color(0xFF2CBD00)),
                             PieChartSectionData(
-                                value: monthlyBudgetState.legal.toDouble(),
-                                //title: 'Medicine',
-                                showTitle: false,
-                                radius: 40,
-                                color: Colors.tealAccent),
-                            PieChartSectionData(
                                 value: monthlyBudgetState.other.toDouble(),
                                 //title: 'Other',
                                 showTitle: false,
                                 radius: 40,
                                 color: Colors.purpleAccent),
+                            PieChartSectionData(
+                                value: monthlyBudgetState.legal.toDouble(),
+                                //title: 'Medicine',
+                                showTitle: false,
+                                radius: 40,
+                                color: Colors.tealAccent),
                           ])),
                         ),
                         primaryVerticalSpace,

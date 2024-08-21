@@ -6,6 +6,7 @@ class OneDayExpenseTile {
 }
 
 class ExpenseModel {
+  final String docId;
   final String monthlyBudgetId;
   final String description;
   final String expenseType;
@@ -14,7 +15,8 @@ class ExpenseModel {
   final String createdAt;
 
   ExpenseModel(
-      {required this.monthlyBudgetId,
+      {required this.docId,
+      required this.monthlyBudgetId,
       required this.description,
       required this.expenseType,
       required this.expenseAmount,

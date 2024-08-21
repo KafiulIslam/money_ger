@@ -178,6 +178,7 @@ class MonthlyBudgetProvider extends ChangeNotifier {
               AppConstant.currentMonthId == e.data['monthlyBudgetId']) {
             /// there will be list ///
             expenseList.add(ExpenseModel(
+                docId: e.$id,
                 monthlyBudgetId: e.data['monthlyBudgetId'] ?? '',
                 description: e.data['description'] ?? '',
                 expenseType: e.data['expenseType'] ?? '',
@@ -316,6 +317,7 @@ class MonthlyBudgetProvider extends ChangeNotifier {
             }
 
             final expense = ExpenseModel(
+              docId: e.$id,
               monthlyBudgetId: monthId,
               description: e.data['description'] ?? '',
               expenseType: e.data['expenseType'] ?? '',
@@ -339,7 +341,7 @@ class MonthlyBudgetProvider extends ChangeNotifier {
 
         // You can now convert the map to a list of lists if needed
         List<List<ExpenseModel>> groupedExpenseList =
-        expensesByMonth.values.toList();
+            expensesByMonth.values.toList();
         notifyListeners();
       } else {
         // CustomSnack.warningSnack('No expenses found', context);
@@ -351,4 +353,83 @@ class MonthlyBudgetProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  /// edit daily expense ///
+
+  late bool isExpenseUpdating = false;
+
+  Future<void> updateDailyExpense(
+      String docId,
+      String monthlyBudgetId,
+      String description,
+      String expenseType,
+      int expenseAmount,
+      String createdAt,
+      BuildContext context) async {
+    try {
+      isExpenseUpdating = true;
+      notifyListeners();
+
+      final uid = await AppStorage.getUserId();
+
+      var res = await db.updateDocument(
+          databaseId: AppWriteConstant.primaryDBId,
+          collectionId: AppWriteConstant.expenseListCollectionId,
+          documentId: docId,
+          data: {
+            'monthlyBudgetId': monthlyBudgetId,
+            'description': description,
+            'expenseType': expenseType,
+            'expenseAmount': expenseAmount,
+            'userID': uid,
+            'createdAt': createdAt
+          }).then((value) {
+        getMonthlyBudget();
+        getExpenseList();
+        getMonthlyHistory();
+        Navigator.pop(context);
+        CustomDialog.autoDialog(
+            context, Icons.check, 'Expense is updated successfully');
+      });
+
+      notifyListeners();
+    } catch (e) {
+      CustomSnack.warningSnack(e.toString(), context);
+    } finally {
+      isExpenseUpdating = false;
+      notifyListeners();
+    }
+  }
+
+  /// delete daily expense ///
+
+  late bool isExpenseDeleting = false;
+
+  Future<void> deleteDailyExpense(String documentId, BuildContext context) async {
+    try {
+      isExpenseDeleting = true;
+      notifyListeners();
+
+      var res = await db
+          .deleteDocument(
+          databaseId: AppWriteConstant.primaryDBId,
+          collectionId: AppWriteConstant.expenseListCollectionId,
+          documentId: documentId)
+          .then((value) {
+        getMonthlyBudget();
+        getExpenseList();
+        getMonthlyHistory();
+        CustomDialog.autoDialog(
+            context, Icons.check, 'Expense is deleted successfully');
+      });
+
+      notifyListeners();
+    } catch (e) {
+      CustomSnack.warningSnack(e.toString(), context);
+    } finally {
+      isExpenseDeleting = false;
+      notifyListeners();
+    }
+  }
+
 }

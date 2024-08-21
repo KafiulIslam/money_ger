@@ -48,7 +48,7 @@ class _AddDebitCreditBottomSheetState extends State<AddDebitCreditBottomSheet> {
                   sixteenVerticalSpace,
                   CommonTextField(
                     fieldController: _debtsName,
-                    hintText: 'Enter your debitor\'s / creditor\'s name',
+                    hintText: 'Debtor\'s / creditor\'s name',
                   ),
                   sixteenVerticalSpace,
                   _buildDebtsAmount(),
@@ -88,8 +88,8 @@ class _AddDebitCreditBottomSheetState extends State<AddDebitCreditBottomSheet> {
               color: trans,
             )),
         Text(
-          'Add Debit/Credit',
-          style: tTextStyle500.copyWith(fontSize: 20, color: black),
+          'Debit/Credit',
+          style: tTextStyle500.copyWith(fontSize: 18, color: black),
         ),
         IconButton(
             onPressed: () {
@@ -111,7 +111,7 @@ class _AddDebitCreditBottomSheetState extends State<AddDebitCreditBottomSheet> {
         filled: true,
         fillColor: assColor,
         contentPadding: const EdgeInsets.all(16),
-        hintText: 'Select transaction type',
+        hintText: 'Transaction type',
         hintStyle: hintTextStyle,
         suffixIcon: DropdownButtonHideUnderline(
           child: DropdownButton<String>(
@@ -148,7 +148,7 @@ class _AddDebitCreditBottomSheetState extends State<AddDebitCreditBottomSheet> {
         filled: true,
         fillColor: assColor,
         contentPadding: const EdgeInsets.all(16),
-        hintText: 'Enter transaction amount',
+        hintText: 'Transaction amount',
         hintStyle: hintTextStyle,
         focusedBorder: AppConstant.focusOutLineBorder,
         enabledBorder: AppConstant.enableOutLineBorder,

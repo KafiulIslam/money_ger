@@ -72,7 +72,7 @@ class _DebitCreditScreenState extends State<DebitCreditScreen> {
           floatingActionButton: FloatingActionButton(
             backgroundColor: primeColor,
             onPressed: () {
-              CustomDialog.bottomSheet(
+              CustomDialog.dialogBuilder(
                   context, const AddDebitCreditBottomSheet());
             },
             child: const Icon(

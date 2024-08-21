@@ -46,7 +46,7 @@ class _AddExpenseBottomSheetState extends State<AddExpenseBottomSheet> {
                       sixteenVerticalSpace,
                       CommonTextField(
                         fieldController: _description,
-                        hintText: 'Enter your expense description (Optional)',
+                        hintText: 'Enter expense description (Optional)',
                       ),
                       sixteenVerticalSpace,
                       _buildExpenseAmount(),
@@ -107,7 +107,7 @@ class _AddExpenseBottomSheetState extends State<AddExpenseBottomSheet> {
         filled: true,
         fillColor: assColor,
         contentPadding: const EdgeInsets.all(16),
-        hintText: 'Select your expense type',
+        hintText: 'Expense type',
         hintStyle: hintTextStyle,
         suffixIcon: DropdownButtonHideUnderline(
           child: DropdownButton<String>(
@@ -144,7 +144,7 @@ class _AddExpenseBottomSheetState extends State<AddExpenseBottomSheet> {
         filled: true,
         fillColor: assColor,
         contentPadding: const EdgeInsets.all(16),
-        hintText: 'Enter your expense amount',
+        hintText: 'Enter expense amount',
         hintStyle: hintTextStyle,
         focusedBorder: AppConstant.focusOutLineBorder,
         enabledBorder: AppConstant.enableOutLineBorder,

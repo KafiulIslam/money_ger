@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:money_ger/controllers/debit_credit_provider.dart';
 import 'package:money_ger/utils/custom_dialog.dart';
+import 'package:money_ger/widgets/components/dialog_hearder.dart';
 import 'package:provider/provider.dart';
 import '../../../../utils/color.dart';
 import '../../../../utils/constant/constant.dart';
@@ -142,7 +143,7 @@ class _DebtTileState extends State<DebtTile> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        _header(),
+        DialogHeader(title: 'Edit'),
         sixteenVerticalSpace,
         //_expenseType(),
         sixteenVerticalSpace,
@@ -155,39 +156,17 @@ class _DebtTileState extends State<DebtTile> {
         sixteenVerticalSpace,
         PrimaryButton(
           onTap: () async {
-            await debitCreditState.updateDebitCredit(_name.text,
-                widget.transactionType, int.parse(_amount.text), widget.documentId, context);
+            await debitCreditState.updateDebitCredit(
+                _name.text,
+                widget.transactionType,
+                int.parse(_amount.text),
+                widget.documentId,
+                context);
           },
-          buttonTitle: 'Save',
+          buttonTitle: 'Update',
           isLoading: debitCreditState.isDebitCreditUpdating,
         ),
         primaryVerticalSpace
-      ],
-    );
-  }
-
-  Widget _header() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.clear,
-              color: trans,
-            )),
-        Text(
-          'Edit',
-          style: tTextStyle500.copyWith(fontSize: 20, color: black),
-        ),
-        IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(
-              Icons.clear,
-              color: iconColor,
-            )),
       ],
     );
   }

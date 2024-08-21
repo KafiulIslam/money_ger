@@ -1,4 +1,3 @@
-import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mailer/flutter_mailer.dart';
 import 'package:money_ger/controllers/auth_provider.dart';
@@ -8,7 +7,6 @@ import 'package:money_ger/utils/constant/constant.dart';
 import 'package:money_ger/utils/custom_dialog.dart';
 import 'package:money_ger/utils/spacer.dart';
 import 'package:money_ger/utils/typograpgy.dart';
-import 'package:money_ger/views/dashboard/home/report/report_screen.dart';
 import 'package:money_ger/views/dashboard/home/widgets/add_budget_bottomsheet.dart';
 import 'package:money_ger/views/dashboard/home/widgets/add_expense_bottomsheet.dart';
 import 'package:money_ger/views/dashboard/home/widgets/custom_expansion_tile.dart';
@@ -16,7 +14,6 @@ import 'package:provider/provider.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 import 'package:store_redirect/store_redirect.dart';
 import '../../../utils/color.dart';
-import '../../../utils/custom_snack.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -87,6 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemBuilder: (_, index) {
                         var data = monthlyBudgetState.expenseList[index];
                         return CartExpansionTile(
+                          docId: data.docId,
                             monthlyBudgetId: data.monthlyBudgetId,
                             description: data.description,
                             expenseType: data.expenseType,
@@ -104,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
         floatingActionButton: FloatingActionButton(
           backgroundColor: primeColor,
           onPressed: () {
-            CustomDialog.bottomSheet(context, const AddExpenseBottomSheet());
+            CustomDialog.dialogBuilder(context, const AddExpenseBottomSheet());
           },
           child: const Icon(
             Icons.add,
