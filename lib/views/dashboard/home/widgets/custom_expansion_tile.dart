@@ -79,9 +79,34 @@ class _CartExpansionTileState extends State<CartExpansionTile> {
         // leading: IconButton(onPressed: (){
         //   getDateDetails();
         // }, icon: Icon(Icons.add)),
-        trailing: Text(
-          "${widget.expenseAmount.toString()} Tk",
-          style: tTextStyleBold.copyWith(color: black, fontSize: 16),
+        // trailing: Text(
+        //   "${widget.expenseAmount.toString()} Tk",
+        //   style: tTextStyleBold.copyWith(color: black, fontSize: 16),
+        // ),
+        trailing: PopupMenuButton(
+          onSelected: (value) {
+            // your logic
+          },
+          iconColor: primeColor,
+          itemBuilder: (BuildContext bc) {
+            return [
+              PopupMenuItem(
+                child: Text("Edit"),
+                value: '',
+                onTap: () {
+                  CustomDialog.dialogBuilder(context, _editDialog());
+                },
+              ),
+              PopupMenuItem(
+                child: Text("Delete"),
+                value: '/',
+                onTap: () {
+                  monthlyBudgetState.deleteDailyExpense(
+                      widget.docId, context);
+                },
+              ),
+            ];
+          },
         ),
         title: Row(
           children: [
@@ -98,71 +123,38 @@ class _CartExpansionTileState extends State<CartExpansionTile> {
                   style: tTextStyle500.copyWith(color: black, fontSize: 14),
                 ),
                 Text(
-                  widget.monthlyBudgetId,
-                  style: tTextStyle500.copyWith(color: black, fontSize: 16),
+                  "${widget.expenseAmount.toString()} Tk",
+                  style: tTextStyle600.copyWith(color: black, fontSize: 16),
                 ),
               ],
             )
           ],
         ),
         children: [
-          Row(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 1.8,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          widget.expenseType,
-                          style: tTextStyleBold.copyWith(
-                              color: black, fontSize: 16),
-                        ),
-                        const Spacer(),
-                        const SizedBox(
-                          height: 5,
-                          width: 5,
-                        ),
-                      ],
-                    ),
-                    Text(
-                      widget.description,
-                      style: tTextStyleRegular.copyWith(
-                          color: black, fontSize: 14),
-                    ),
-                  ],
-                ),
+              Row(
+                children: [
+                  Text(
+                    widget.expenseType,
+                    style: tTextStyleBold.copyWith(
+                        color: black, fontSize: 16),
+                  ),
+                  const Spacer(),
+                  const SizedBox(
+                    height: 5,
+                    width: 5,
+                  ),
+                ],
               ),
-              Spacer(),
-              PopupMenuButton(
-                onSelected: (value) {
-                  // your logic
-                },
-                iconColor: primeColor,
-                itemBuilder: (BuildContext bc) {
-                  return [
-                    PopupMenuItem(
-                      child: Text("Edit"),
-                      value: '',
-                      onTap: () {
-                        CustomDialog.dialogBuilder(context, _editDialog());
-                      },
-                    ),
-                    PopupMenuItem(
-                      child: Text("Delete"),
-                      value: '/',
-                      onTap: () {
-                        monthlyBudgetState.deleteDailyExpense(
-                            widget.docId, context);
-                      },
-                    ),
-                  ];
-                },
-              )
+              Text(
+                widget.description,
+                style: tTextStyleRegular.copyWith(
+                    color: black, fontSize: 14),
+              ),
             ],
-          )
+          ),
         ],
       );
     });

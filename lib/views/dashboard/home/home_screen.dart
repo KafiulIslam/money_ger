@@ -54,7 +54,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 )),
           ),
           title: Text(
-            '${AppConstant.currentMonth} History',
+           // '${AppConstant.currentMonth} History',
+            AppConstant.currentMonthId,
             style: tTextStyleBold.copyWith(color: white, fontSize: 20),
           ),
           // actions: [

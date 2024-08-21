@@ -1,4 +1,3 @@
-import 'package:appwrite/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:money_ger/controllers/auth_provider.dart';
 import 'package:money_ger/views/auth/signup/signup_screen.dart';
@@ -36,6 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Consumer<AuthProvider>(builder: (_, authProvider, child) {
                 return Column(
                   children: [
+
                     Text(
                       'Log in',
                       style: tTextStyle500.copyWith(
@@ -52,17 +52,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       passwordController: _password,
                       hintText: 'Enter the password',
                     ),
-                    sixteenVerticalSpace,
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            'Forgot password?',
-                            style: tTextStyleRegular.copyWith(
-                                fontSize: 12, color: textPrimaryColor),
-                          )),
-                    ),
+                    // sixteenVerticalSpace,
+                    // Align(
+                    //   alignment: Alignment.centerRight,
+                    //   child: TextButton(
+                    //       onPressed: () {},
+                    //       child: Text(
+                    //         'Forgot password?',
+                    //         style: tTextStyleRegular.copyWith(
+                    //             fontSize: 12, color: textPrimaryColor),
+                    //       )),
+                    // ),
                     primaryVerticalSpace,
                     PrimaryButton(
                       onTap: () async {
@@ -89,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Text(
                           'Sign up',
                           style: tTextStyle500.copyWith(
-                              fontSize: 16, color: secondaryColor),
+                              fontSize: 16, color: primeColor),
                         )),
                   ],
                 );
