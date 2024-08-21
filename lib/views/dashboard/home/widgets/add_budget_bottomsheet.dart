@@ -71,7 +71,8 @@ class _AddBudgetBottomSheetState extends State<AddBudgetBottomSheet> {
                               AppConstant.currentMonth,
                               context);
                     },
-                    buttonTitle: 'Save',
+                    buttonTitle:  monthlyBudgetState.monthlyBudget == 00
+                        ? 'Save' : 'Update',
                     isLoading: monthlyBudgetState.isMonthlyBudgetSetting,
                   ),
                   primaryVerticalSpace

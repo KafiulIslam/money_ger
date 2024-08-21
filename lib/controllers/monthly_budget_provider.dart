@@ -59,7 +59,7 @@ class MonthlyBudgetProvider extends ChangeNotifier {
         notifyListeners();
 
         res.documents.forEach((e) {
-          if (e.data['userID'] == uid && AppConstant.currentMonthId == e.$id) {
+          if (e.data['userID'] == uid && uid!+AppConstant.currentMonthId == e.$id) {
             monthlyBudget = e.data['monthlyBudget'] ?? 00;
             notifyListeners();
           }
@@ -90,7 +90,7 @@ class MonthlyBudgetProvider extends ChangeNotifier {
       var res = await db.createDocument(
           databaseId: AppWriteConstant.primaryDBId,
           collectionId: AppWriteConstant.monthlyBudgetCollectionId,
-          documentId: AppConstant.currentMonthId,
+          documentId: uid!+AppConstant.currentMonthId,
           data: {
             'monthlyBudget': monthlyBudget,
             'createdAt': createdAt,
@@ -102,8 +102,10 @@ class MonthlyBudgetProvider extends ChangeNotifier {
         CustomDialog.autoDialog(
             context, Icons.check, 'Budget is set successfully!');
       });
+      print('set budget error $res');
       notifyListeners();
     } catch (e) {
+      print('set budget cathc error ${e.toString()}');
       CustomSnack.warningSnack(e.toString(), context);
     } finally {
       isMonthlyBudgetSetting = false;
@@ -122,7 +124,7 @@ class MonthlyBudgetProvider extends ChangeNotifier {
       var res = await db.updateDocument(
           databaseId: AppWriteConstant.primaryDBId,
           collectionId: AppWriteConstant.monthlyBudgetCollectionId,
-          documentId: AppConstant.currentMonthId,
+          documentId: uid!+AppConstant.currentMonthId,
           data: {
             'monthlyBudget': monthlyBudget,
             'createdAt': createdAt,
