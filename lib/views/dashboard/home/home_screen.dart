@@ -278,12 +278,14 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(
               height: MediaQuery.of(context).size.height / 20,
             ),
-            _drawerTile(Icons.star, 'Ratings', () {
-              showDialog(
-                context: context,
-                barrierDismissible: true,
-                builder: (context) => _dialog,
-              );
+            _drawerTile(Icons.star, 'Ratings', () async {
+              await StoreRedirect.redirect(
+                  androidAppId: "com.kafi.money_ger", iOSAppId: "com.kafi.money_ger");
+              // showDialog(
+              //   context: context,
+              //   barrierDismissible: true,
+              //   builder: (context) => _dialog,
+              // );
             }),
             const Divider(
               color: white,

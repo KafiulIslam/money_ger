@@ -54,7 +54,8 @@ class AppConstant{
     'Consultant fee',
     'Fee & Charge',
     'Missing',
-    'Interest'
+    'Interest',
+    'Others'
   ];
   static final List<String> debtsTypeList = [
     'Debit',

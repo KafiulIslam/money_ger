@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:appwrite/appwrite.dart';
 import 'package:money_ger/views/auth/login/login_screen.dart';
+import 'package:money_ger/views/dashboard/dashboard_screen.dart';
 import '../utils/app_storage.dart';
 import '../utils/constant/appwrite_constant.dart';
 import '../utils/custom_snack.dart';
@@ -44,7 +45,7 @@ class AuthProvider extends ChangeNotifier {
         await storage.write(key: 'sessionId', value: result.$id);
         await storage.write(key: 'userId', value: result.userId);
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => HomeScreen()));
+            context, MaterialPageRoute(builder: (_) => DashboardScreen()));
         CustomSnack.successSnack('You are logged in successfully', context);
       }
     } catch (e) {
