@@ -11,9 +11,8 @@ import 'controllers/auth_provider.dart';
 
 class MyApp extends StatefulWidget {
   final Client client;
-  final String sessionId;
 
-  const MyApp({Key? key, required this.client, required this.sessionId})
+  const MyApp({Key? key, required this.client})
       : super(key: key);
 
   @override
@@ -39,6 +38,7 @@ class _MyAppState extends State<MyApp> {
       statusBarIconBrightness: Brightness.light,
     ));
 
+    //var routeConfig = AppRoute(widget.sessionId);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AuthProvider()),
@@ -76,9 +76,7 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
             drawerTheme: const DrawerThemeData(backgroundColor: white),
           ),
-        home: SplashScreen(
-          sessionId: widget.sessionId,
-        ),
+        home: SplashScreen(),
       ),
     );
   }

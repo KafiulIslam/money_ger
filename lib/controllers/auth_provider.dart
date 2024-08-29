@@ -87,14 +87,18 @@ class AuthProvider extends ChangeNotifier {
 
   logout(BuildContext context) async {
     try {
-      final sessionId = await storage.read(key: 'sessionId');
-      final res = await account.deleteSession(sessionId: sessionId!);
-      await storage.deleteAll();
 
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (_) => LoginScreen()));
+      final res = await account.deleteSession(sessionId: 'current').then((onValue) async {
+        await storage.deleteAll();
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => LoginScreen()));
+        CustomSnack.successSnack('You are logged out successfully', context);
+      });
+
+
     } catch (e) {
-      CustomSnack.warningSnack('You are logged out successfully', context);
+      Navigator.pop(context);
+      CustomSnack.warningSnack('You are failed to logg out', context);
     }
   }
 }

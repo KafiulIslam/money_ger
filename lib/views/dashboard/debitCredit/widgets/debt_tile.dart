@@ -77,7 +77,7 @@ class _DebtTileState extends State<DebtTile> {
                       widget.debtName,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: tTextStyle700.copyWith(fontSize: 18, color: black),
+                      style: tTextStyle600.copyWith(fontSize: 18, color: black),
                     ),
                   ),
                 ),

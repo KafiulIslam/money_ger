@@ -1,18 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:money_ger/controllers/auth_provider.dart';
 import 'package:money_ger/controllers/monthly_budget_provider.dart';
 import 'package:money_ger/utils/spacer.dart';
 import 'package:money_ger/utils/typograpgy.dart';
 import 'package:money_ger/views/dashboard/history/monthlyDetail/monthly_detail.dart';
-import 'package:money_ger/views/dashboard/history/widgets/monthly_history_expansion.dart';
-import 'package:money_ger/widgets/components/monthly_budget_card.dart';
 import 'package:provider/provider.dart';
 import '../../../models/expense_model.dart';
 import '../../../utils/color.dart';
-import '../../../utils/constant/constant.dart';
-import '../../../utils/custom_dialog.dart';
-import '../home/widgets/add_budget_bottomsheet.dart';
-import '../home/widgets/custom_expansion_tile.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({Key? key}) : super(key: key);
@@ -116,6 +109,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
             MaterialPageRoute(
                 builder: (_) => MonthlyDetail(
                     monthId: monthId, expensesList: expensesList)));
+       // context.go('/dashboard/history/$monthId');
       },
       child: Container(
         width: double.infinity,

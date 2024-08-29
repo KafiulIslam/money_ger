@@ -1,7 +1,6 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
 import 'package:money_ger/app.dart';
-import 'package:money_ger/utils/app_storage.dart';
 import 'package:money_ger/utils/constant/appwrite_constant.dart';
 
 
@@ -14,7 +13,5 @@ void main() async {
       .setProject(AppWriteConstant.projectId)
       .setSelfSigned(status: true);
 
-  final String sessionId = await AppStorage.getSessionId() ?? '';
-
-  runApp(MyApp(client: client, sessionId: sessionId));
+  runApp(MyApp(client: client));
 }

@@ -175,7 +175,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     // ),
                     InkWell(
                       onTap: () {
-                        CustomDialog.bottomSheet(
+                        CustomDialog.dialogBuilder(
                             context, const AddBudgetBottomSheet());
                       },
                       child: Container(

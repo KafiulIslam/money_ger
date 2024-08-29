@@ -1,25 +1,27 @@
 import 'dart:async';
+import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:money_ger/utils/app_storage.dart';
 import 'package:money_ger/utils/assets_path.dart';
 import 'package:money_ger/utils/color.dart';
 import 'package:money_ger/views/auth/login/login_screen.dart';
 import 'package:money_ger/views/dashboard/dashboard_screen.dart';
 
-
 class SplashScreen extends StatefulWidget {
-  final String sessionId;
-
-  const SplashScreen({Key? key, required this.sessionId}) : super(key: key);
+  const SplashScreen({Key? key}) : super(key: key);
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  //late Account account;
+
   @override
   void initState() {
     super.initState();
+    //account = Account(client);
     _getIsFirst();
   }
 
@@ -27,14 +29,15 @@ class _SplashScreenState extends State<SplashScreen> {
     // bool isIntro = await PrefData.getIsIntro();
     // bool docCompleted = PrefData.getDocumentCompleted();
     // const bool isAccessToken = false;
+    final String sessionId = await AppStorage.getSessionId() ?? '';
 
-    Timer(const Duration(seconds: 2), () {
-      if (widget.sessionId != '') {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (_) => const DashboardScreen()));
+    Timer(const Duration(seconds: 1), () {
+      if (sessionId != '') {
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => DashboardScreen()));
       } else {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (_) => const LoginScreen()));
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (_) => LoginScreen()));
       }
     });
   }

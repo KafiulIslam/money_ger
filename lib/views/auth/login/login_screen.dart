@@ -35,7 +35,6 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Consumer<AuthProvider>(builder: (_, authProvider, child) {
                 return Column(
                   children: [
-
                     Text(
                       'Log in',
                       style: tTextStyle500.copyWith(
@@ -84,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (_) => const SignUpScreen()));
+                                  builder: (_) => SignUpScreen()));
                         },
                         child: Text(
                           'Sign up',
