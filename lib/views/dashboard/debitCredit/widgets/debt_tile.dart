@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:money_ger/controllers/debit_credit_provider.dart';
 import 'package:money_ger/utils/custom_dialog.dart';
+import 'package:money_ger/views/dashboard/dashboard_screen.dart';
 import 'package:money_ger/widgets/components/dialog_hearder.dart';
 import 'package:provider/provider.dart';
 import '../../../../utils/color.dart';
@@ -124,7 +125,7 @@ class _DebtTileState extends State<DebtTile> {
                   ),
                   const Spacer(),
                   Text(
-                    "${widget.amount.toString()} TK",
+                    "$userCurrency ${widget.amount.toString()}",
                     style:
                         tTextStyle600.copyWith(fontSize: 16, color: iconColor),
                   ),

@@ -31,7 +31,7 @@ class _PasswordInputFieldState extends State<PasswordInputField> {
       decoration: InputDecoration(
         filled: true,
         fillColor: textFieldFillColor,
-        contentPadding: const EdgeInsets.all(12),
+        contentPadding: const EdgeInsets.all(16),
         hintText: widget.hintText,
         hintStyle: hintTextStyle,
         suffixIcon: GestureDetector(

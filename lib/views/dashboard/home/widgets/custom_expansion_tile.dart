@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:money_ger/controllers/monthly_budget_provider.dart';
+import 'package:money_ger/utils/app_storage.dart';
 import 'package:money_ger/utils/spacer.dart';
 import 'package:money_ger/utils/typograpgy.dart';
+import 'package:money_ger/views/dashboard/dashboard_screen.dart';
 import 'package:money_ger/widgets/components/dialog_hearder.dart';
 import 'package:provider/provider.dart';
 import '../../../../../utils/color.dart';
@@ -41,6 +43,7 @@ class _CartExpansionTileState extends State<CartExpansionTile> {
   late String date = '';
   late TextEditingController _description;
   late TextEditingController _expenseAmount;
+  //late String _currency = '';
 
   getDateDetails() {
     setState(() {
@@ -49,12 +52,18 @@ class _CartExpansionTileState extends State<CartExpansionTile> {
     });
   }
 
+  // Future<void> getUserCurrency () async {
+  //   _currency = await AppStorage.getCurrency() ?? '';
+  //   setState(() {});
+  // }
+
   @override
   void initState() {
     getDateDetails();
     _description = TextEditingController(text: widget.description);
     _expenseAmount =
         TextEditingController(text: widget.expenseAmount.toString());
+    //getUserCurrency();
     super.initState();
   }
 
@@ -122,10 +131,19 @@ class _CartExpansionTileState extends State<CartExpansionTile> {
                   dateName,
                   style: tTextStyle500.copyWith(color: black, fontSize: 14),
                 ),
-                Text(
-                  "${widget.expenseAmount.toString()} Tk",
-                  style: tTextStyle600.copyWith(color: black, fontSize: 16),
+                RichText(
+                  text: TextSpan(
+                    text: '$userCurrency ',
+                    style: tTextStyle600.copyWith(color: iconColor, fontSize: 16),
+                    children: <TextSpan>[
+                      TextSpan(text: widget.expenseAmount.toString(), style: tTextStyle600.copyWith(color: black, fontSize: 16)),
+                    ],
+                  ),
                 ),
+                // Text(
+                //   "$_currency ${widget.expenseAmount.toString()}",
+                //   style: tTextStyle600.copyWith(color: black, fontSize: 16),
+                // ),
               ],
             )
           ],

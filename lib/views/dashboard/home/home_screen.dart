@@ -1,12 +1,15 @@
+import 'package:currency_picker/currency_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mailer/flutter_mailer.dart';
 import 'package:money_ger/controllers/auth_provider.dart';
 import 'package:money_ger/controllers/monthly_budget_provider.dart';
+import 'package:money_ger/utils/app_storage.dart';
 import 'package:money_ger/utils/assets_path.dart';
 import 'package:money_ger/utils/constant/constant.dart';
 import 'package:money_ger/utils/custom_dialog.dart';
 import 'package:money_ger/utils/spacer.dart';
 import 'package:money_ger/utils/typograpgy.dart';
+import 'package:money_ger/views/dashboard/dashboard_screen.dart';
 import 'package:money_ger/views/dashboard/home/widgets/add_budget_bottomsheet.dart';
 import 'package:money_ger/views/dashboard/home/widgets/add_expense_bottomsheet.dart';
 import 'package:money_ger/views/dashboard/home/widgets/custom_expansion_tile.dart';
@@ -24,6 +27,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+  final TextEditingController _currency = TextEditingController();
+  late String _selectedCurrencySymbol = '';
 
   @override
   Widget build(BuildContext context) {
@@ -304,6 +309,25 @@ class _HomeScreenState extends State<HomeScreen> {
             const Divider(
               color: white,
             ),
+            _drawerTile(Icons.currency_exchange_outlined, 'Currency ($userCurrency)', () async {
+              showCurrencyPicker(
+                context: context,
+                showFlag: true,
+                showCurrencyName: true,
+                showCurrencyCode: true,
+                onSelect: (Currency currency) async {
+                  _currency.text = currency.name;
+                  _selectedCurrencySymbol = currency.symbol;
+                  await storage.write(key: 'currency', value: currency.symbol);
+                  getUserCurrency();
+                  setState(() {});
+
+                },
+              );
+            }),
+            const Divider(
+              color: white,
+            ),
             _drawerTile(Icons.logout_outlined, 'Logout', () {
               CustomDialog.dialogBuilder(context, _logoutColumn('Logout','Are you sure, you want to logout ?.'));
             }),
@@ -456,6 +480,42 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],),
       ],
+    );
+  }
+
+  Widget _buildCurrency() {
+    return TextFormField(
+      controller: _currency,
+      onTap: () {
+        showCurrencyPicker(
+          context: context,
+          showFlag: true,
+          showCurrencyName: true,
+          showCurrencyCode: true,
+          onSelect: (Currency currency) {
+            setState(() {
+              _currency.text = currency.name;
+              _selectedCurrencySymbol = currency.symbol;
+            });
+          },
+        );
+      },
+      autofocus: false,
+      cursorColor: primeColor,
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: assColor,
+        contentPadding: const EdgeInsets.all(16),
+        hintText: 'Select your currency',
+        hintStyle: hintTextStyle,
+        focusedBorder: AppConstant.focusOutLineBorder,
+        enabledBorder: AppConstant.enableOutLineBorder,
+        errorBorder: AppConstant.outlineErrorBorder,
+        focusedErrorBorder: AppConstant.outlineErrorBorder,
+        focusColor: secondaryColor,
+      ),
+      autovalidateMode: AutovalidateMode.onUserInteraction,
     );
   }
 

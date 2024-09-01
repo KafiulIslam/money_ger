@@ -60,8 +60,8 @@ class AuthProvider extends ChangeNotifier {
 
   late bool isAccountCreating = false;
 
-  Future<void> signUp(
-      String email, String password, String name, BuildContext context) async {
+  Future<void> signUp(String email, String password, String name,
+      String currency, BuildContext context) async {
     try {
       isAccountCreating = true;
       notifyListeners();
@@ -73,6 +73,7 @@ class AuthProvider extends ChangeNotifier {
         name: name,
       );
       if (result.$id.isNotEmpty) {
+        await storage.write(key: 'currency', value: currency);
         Navigator.push(
             context, MaterialPageRoute(builder: (_) => const LoginScreen()));
         CustomSnack.successSnack('Account is created successfully', context);
@@ -87,15 +88,14 @@ class AuthProvider extends ChangeNotifier {
 
   logout(BuildContext context) async {
     try {
-
-      final res = await account.deleteSession(sessionId: 'current').then((onValue) async {
-        await storage.deleteAll();
+      final res = await account
+          .deleteSession(sessionId: 'current')
+          .then((onValue) async {
+        await storage.delete(key: 'sessionId');
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (_) => LoginScreen()));
         CustomSnack.successSnack('You are logged out successfully', context);
       });
-
-
     } catch (e) {
       Navigator.pop(context);
       CustomSnack.warningSnack('You are failed to logg out', context);

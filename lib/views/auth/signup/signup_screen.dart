@@ -1,9 +1,11 @@
+import 'package:currency_picker/currency_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:money_ger/controllers/auth_provider.dart';
 import 'package:money_ger/views/auth/login/login_screen.dart';
 import 'package:provider/provider.dart';
 import '../../../utils/color.dart';
+import '../../../utils/constant/constant.dart';
 import '../../../utils/custom_snack.dart';
 import '../../../utils/spacer.dart';
 import '../../../utils/typograpgy.dart';
@@ -23,6 +25,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _name = TextEditingController();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
+  final TextEditingController _currency = TextEditingController();
+  late String _selectedCurrencySymbol = '';
 
   @override
   Widget build(BuildContext context) {
@@ -59,13 +63,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       passwordController: _password,
                       hintText: 'Enter the password',
                     ),
+                    sixteenVerticalSpace,
+                    _buildCurrency(),
                     primaryVerticalSpace,
                     PrimaryButton(
                       onTap: () {
                         if (_email.text.isNotEmpty &&
-                            _password.text.isNotEmpty) {
-                          authProvider.signUp(
-                              _email.text, _password.text, _name.text, context);
+                            _password.text.isNotEmpty &&
+                            _selectedCurrencySymbol.isNotEmpty) {
+                          authProvider.signUp(_email.text, _password.text,
+                              _name.text, _selectedCurrencySymbol, context);
                         } else {
                           CustomSnack.warningSnack(
                               'Please enter all information', context);
@@ -83,10 +90,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     TextButton(
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => LoginScreen()));
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (_) => LoginScreen()));
                         },
                         child: Text(
                           'Log in',
@@ -101,6 +106,42 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildCurrency() {
+    return TextFormField(
+      controller: _currency,
+      onTap: () {
+        showCurrencyPicker(
+          context: context,
+          showFlag: true,
+          showCurrencyName: true,
+          showCurrencyCode: true,
+          onSelect: (Currency currency) {
+            setState(() {
+              _currency.text = currency.name;
+              _selectedCurrencySymbol = currency.symbol;
+            });
+          },
+        );
+      },
+      autofocus: false,
+      cursorColor: primeColor,
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: assColor,
+        contentPadding: const EdgeInsets.all(16),
+        hintText: 'Select your currency',
+        hintStyle: hintTextStyle,
+        focusedBorder: AppConstant.focusOutLineBorder,
+        enabledBorder: AppConstant.enableOutLineBorder,
+        errorBorder: AppConstant.outlineErrorBorder,
+        focusedErrorBorder: AppConstant.outlineErrorBorder,
+        focusColor: secondaryColor,
+      ),
+      autovalidateMode: AutovalidateMode.onUserInteraction,
     );
   }
 }

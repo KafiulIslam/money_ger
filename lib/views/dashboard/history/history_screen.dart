@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:money_ger/controllers/monthly_budget_provider.dart';
 import 'package:money_ger/utils/spacer.dart';
 import 'package:money_ger/utils/typograpgy.dart';
+import 'package:money_ger/views/dashboard/dashboard_screen.dart';
 import 'package:money_ger/views/dashboard/history/monthlyDetail/monthly_detail.dart';
 import 'package:provider/provider.dart';
 import '../../../models/expense_model.dart';
+import '../../../utils/app_storage.dart';
 import '../../../utils/color.dart';
+
+
+
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({Key? key}) : super(key: key);
@@ -15,6 +20,20 @@ class HistoryScreen extends StatefulWidget {
 }
 
 class _HistoryScreenState extends State<HistoryScreen> {
+
+  // late String _currency = '';
+  //
+  // Future<void> getUserCurrency () async {
+  //   _currency = await AppStorage.getCurrency() ?? '';
+  //   setState(() {});
+  // }
+
+  @override
+  void initState() {
+    //getUserCurrency();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<MonthlyBudgetProvider>(
@@ -56,43 +75,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
 
                     return _historyTile(
                         monthlyBudgetId, monthlyTotal, expenses);
-
-                    // return ExpansionTile(
-                    //   collapsedBackgroundColor: white,
-                    //   backgroundColor: trans,
-                    //   collapsedTextColor: textColorBold,
-                    //   textColor: black,
-                    //   collapsedShape: RoundedRectangleBorder(
-                    //       borderRadius: BorderRadius.circular(12.0),
-                    //       side: BorderSide(color: borderColor)),
-                    //   shape: RoundedRectangleBorder(
-                    //       borderRadius: BorderRadius.circular(12.0),
-                    //       side: BorderSide(color: borderColor)),
-                    //   collapsedIconColor: black,
-                    //   iconColor: iconColor,
-                    //   childrenPadding: const EdgeInsets.all(16.0),
-                    //   title: Text(
-                    //     monthlyBudgetId,
-                    //     style:
-                    //         tTextStyle700.copyWith(color: black, fontSize: 16),
-                    //   ),
-                    //   subtitle: Text(
-                    //     "${monthlyTotal.toString()} Tk",
-                    //     style:
-                    //     tTextStyle600.copyWith(color: black, fontSize: 14),
-                    //   ),
-                    //   children: expenses.map((expense) {
-                    //     return ListTile(
-                    //       title: Text(expense.description, style:
-                    //       tTextStyle600.copyWith(color: black, fontSize: 14)),
-                    //       subtitle: Text(expense.expenseType,style:
-                    //       tTextStyleRegular.copyWith(color: black, fontSize: 14)),
-                    //       trailing:
-                    //           Text('${expense.expenseAmount.toString()} Tk', style:
-                    //           tTextStyle700.copyWith(color: iconColor, fontSize: 14)),
-                    //     );
-                    //   }).toList(),
-                    // );
                   },
                 ),
         ),
@@ -131,9 +113,18 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   SizedBox(
                     height: 4,
                   ),
-                  Text(
-                    "${monthlyTotal.toString()} Tk",
-                    style: tTextStyle600.copyWith(color: black, fontSize: 14),
+                  // Text(
+                  //   "${monthlyTotal.toString()}",
+                  //   style: tTextStyle600.copyWith(color: black, fontSize: 14),
+                  // ),
+                  RichText(
+                    text: TextSpan(
+                      text: '$userCurrency ',
+                      style: tTextStyle600.copyWith(color: iconColor, fontSize: 16),
+                      children: <TextSpan>[
+                        TextSpan(text: monthlyTotal.toString(), style: tTextStyle600.copyWith(color: black, fontSize: 14)),
+                      ],
+                    ),
                   ),
                 ],
               ),

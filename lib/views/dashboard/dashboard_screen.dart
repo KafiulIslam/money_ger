@@ -2,8 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:money_ger/views/dashboard/debitCredit/debit_credit_screen.dart';
 import 'package:money_ger/views/dashboard/history/history_screen.dart';
 import 'package:money_ger/views/dashboard/home/report/report_screen.dart';
+import '../../utils/app_storage.dart';
 import '../../utils/color.dart';
 import 'home/home_screen.dart';
+
+late String userCurrency = '';
+
+Future<void> getUserCurrency () async {
+  userCurrency = await AppStorage.getCurrency() ?? '';
+  print('kafi user $userCurrency');
+  // setState(() {});
+}
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -26,6 +35,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    getUserCurrency();
+    super.initState();
   }
 
   @override

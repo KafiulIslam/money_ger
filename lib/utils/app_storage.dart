@@ -19,6 +19,11 @@ class AppStorage{
     return userId;
   }
 
+  static Future<String?> getCurrency() async {
+    String? currency = await storage.read(key: 'currency');
+    return currency;
+  }
+
   static Future<String?> getImageUrl() async {
     String? imageUrl = await storage.read(key: 'imageUrl');
     return imageUrl;

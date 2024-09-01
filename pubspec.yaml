@@ -49,6 +49,7 @@ dependencies:
   rating_dialog: ^2.0.4
   store_redirect: ^2.0.2
   flutter_mailer: ^2.1.2
+  currency_picker: ^2.0.21
 #  google_mobile_ads: ^5.1.0
 
 
