@@ -10,8 +10,6 @@ late String userCurrency = '';
 
 Future<void> getUserCurrency () async {
   userCurrency = await AppStorage.getCurrency() ?? '';
-  print('kafi user $userCurrency');
-  // setState(() {});
 }
 
 class DashboardScreen extends StatefulWidget {

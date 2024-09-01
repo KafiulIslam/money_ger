@@ -112,6 +112,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget _buildCurrency() {
     return TextFormField(
       controller: _currency,
+      readOnly: true,
       onTap: () {
         showCurrencyPicker(
           context: context,
