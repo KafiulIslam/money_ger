@@ -8,7 +8,6 @@ import 'package:money_ger/views/dashboard/history/monthlyDetail/monthly_detail.d
 import 'package:provider/provider.dart';
 import '../../../models/expense_model.dart';
 import '../../../routes/route_path.dart';
-import '../../../utils/app_storage.dart';
 import '../../../utils/color.dart';
 
 class HistoryScreen extends StatefulWidget {
@@ -19,18 +18,6 @@ class HistoryScreen extends StatefulWidget {
 }
 
 class _HistoryScreenState extends State<HistoryScreen> {
-  // late String _currency = '';
-  //
-  // Future<void> getUserCurrency () async {
-  //   _currency = await AppStorage.getCurrency() ?? '';
-  //   setState(() {});
-  // }
-
-  @override
-  void initState() {
-    //getUserCurrency();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

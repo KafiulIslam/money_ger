@@ -1,12 +1,9 @@
 import 'package:go_router/go_router.dart';
-import 'package:money_ger/models/expense_model.dart';
 import 'package:money_ger/routes/route_path.dart';
 import 'package:money_ger/views/auth/login/login_screen.dart';
 import 'package:money_ger/views/auth/signup/signup_screen.dart';
 import 'package:money_ger/views/dashboard/dashboard_screen.dart';
-import 'package:money_ger/views/dashboard/history/history_screen.dart';
 import 'package:money_ger/views/dashboard/history/monthlyDetail/monthly_detail.dart';
-
 import '../splash_screen.dart';
 
 class AppRoutes {

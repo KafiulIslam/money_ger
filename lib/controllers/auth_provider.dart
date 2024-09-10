@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:appwrite/appwrite.dart';
 import 'package:go_router/go_router.dart';
 import 'package:money_ger/routes/route_path.dart';
-import 'package:money_ger/views/auth/login/login_screen.dart';
-import 'package:money_ger/views/dashboard/dashboard_screen.dart';
 import '../utils/app_storage.dart';
 import '../utils/constant/appwrite_constant.dart';
 import '../utils/custom_snack.dart';
-import '../views/dashboard/home/home_screen.dart';
 
 class AuthProvider extends ChangeNotifier {
   Client client = Client();

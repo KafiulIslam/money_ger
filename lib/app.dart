@@ -5,7 +5,6 @@ import 'package:money_ger/controllers/debit_credit_provider.dart';
 import 'package:money_ger/controllers/monthly_budget_provider.dart';
 import 'package:money_ger/controllers/monthly_detail_controller.dart';
 import 'package:money_ger/routes/app_routes.dart';
-import 'package:money_ger/splash_screen.dart';
 import 'package:money_ger/utils/color.dart';
 import 'package:provider/provider.dart';
 import 'controllers/auth_provider.dart';
@@ -38,8 +37,6 @@ class _MyAppState extends State<MyApp> {
       statusBarBrightness: Brightness.light,
       statusBarIconBrightness: Brightness.light,
     ));
-
-    //var routeConfig = AppRoute(widget.sessionId);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AuthProvider()),
@@ -78,7 +75,6 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
             drawerTheme: const DrawerThemeData(backgroundColor: white),
           ),
-        //home: SplashScreen(),
       ),
     );
   }
