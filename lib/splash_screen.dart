@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
+import 'package:money_ger/routes/route_path.dart';
 import 'package:money_ger/utils/app_storage.dart';
 import 'package:money_ger/utils/assets_path.dart';
 import 'package:money_ger/utils/color.dart';
@@ -33,11 +35,13 @@ class _SplashScreenState extends State<SplashScreen> {
 
     Timer(const Duration(seconds: 1), () {
       if (sessionId != '') {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => DashboardScreen()));
+        // Navigator.pushReplacement(
+        //     context, MaterialPageRoute(builder: (_) => DashboardScreen()));
+        context.go(RouterPath.dashboard);
       } else {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => LoginScreen()));
+        // Navigator.pushReplacement(
+        //     context, MaterialPageRoute(builder: (_) => LoginScreen()));
+        context.go(RouterPath.login);
       }
     });
   }

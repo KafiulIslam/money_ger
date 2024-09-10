@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:money_ger/controllers/debit_credit_provider.dart';
 import 'package:money_ger/controllers/monthly_budget_provider.dart';
 import 'package:money_ger/controllers/monthly_detail_controller.dart';
+import 'package:money_ger/routes/app_routes.dart';
 import 'package:money_ger/splash_screen.dart';
 import 'package:money_ger/utils/color.dart';
 import 'package:provider/provider.dart';
@@ -70,13 +71,14 @@ class _MyAppState extends State<MyApp> {
         // ChangeNotifierProvider(create: (context) => ProfileProvider()),
         // ChangeNotifierProvider(create: (context) => TaskProvider()),
       ],
-      child: MaterialApp(
+      child: MaterialApp.router(
+        routerConfig: AppRoutes.router,
         title: "MoneyGer",
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
             drawerTheme: const DrawerThemeData(backgroundColor: white),
           ),
-        home: SplashScreen(),
+        //home: SplashScreen(),
       ),
     );
   }

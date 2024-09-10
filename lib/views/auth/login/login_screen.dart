@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:money_ger/controllers/auth_provider.dart';
+import 'package:money_ger/routes/app_routes.dart';
+import 'package:money_ger/routes/route_path.dart';
 import 'package:money_ger/views/auth/signup/signup_screen.dart';
 import 'package:money_ger/widgets/components/inputFields/common_textfield.dart';
 import 'package:money_ger/widgets/components/inputFields/password_inputfield.dart';
@@ -80,10 +83,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     TextButton(
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => SignUpScreen()));
+                          // Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (_) => SignUpScreen()));
+                          context.go(RouterPath.signup);
                         },
                         child: Text(
                           'Sign up',

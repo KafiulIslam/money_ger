@@ -1,7 +1,9 @@
 import 'package:currency_picker/currency_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:money_ger/controllers/auth_provider.dart';
+import 'package:money_ger/routes/route_path.dart';
 import 'package:money_ger/views/auth/login/login_screen.dart';
 import 'package:provider/provider.dart';
 import '../../../utils/color.dart';
@@ -90,8 +92,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     ),
                     TextButton(
                         onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (_) => LoginScreen()));
+                          // Navigator.push(context,
+                          //     MaterialPageRoute(builder: (_) => LoginScreen()));
+                          context.go(RouterPath.login);
                         },
                         child: Text(
                           'Log in',

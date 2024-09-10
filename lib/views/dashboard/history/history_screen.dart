@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:money_ger/controllers/monthly_budget_provider.dart';
 import 'package:money_ger/utils/spacer.dart';
 import 'package:money_ger/utils/typograpgy.dart';
@@ -6,11 +7,9 @@ import 'package:money_ger/views/dashboard/dashboard_screen.dart';
 import 'package:money_ger/views/dashboard/history/monthlyDetail/monthly_detail.dart';
 import 'package:provider/provider.dart';
 import '../../../models/expense_model.dart';
+import '../../../routes/route_path.dart';
 import '../../../utils/app_storage.dart';
 import '../../../utils/color.dart';
-
-
-
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({Key? key}) : super(key: key);
@@ -20,7 +19,6 @@ class HistoryScreen extends StatefulWidget {
 }
 
 class _HistoryScreenState extends State<HistoryScreen> {
-
   // late String _currency = '';
   //
   // Future<void> getUserCurrency () async {
@@ -86,12 +84,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
       String monthId, int monthlyTotal, List<ExpenseModel> expensesList) {
     return InkWell(
       onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (_) => MonthlyDetail(
-                    monthId: monthId, expensesList: expensesList)));
-       // context.go('/dashboard/history/$monthId');
+        MonthlyDetail data =
+            MonthlyDetail(monthId: monthId, expensesList: expensesList);
+        context.goNamed(RouterPath.monthlyDetail, extra: data);
       },
       child: Container(
         width: double.infinity,
@@ -120,9 +115,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   RichText(
                     text: TextSpan(
                       text: '$userCurrency ',
-                      style: tTextStyle600.copyWith(color: iconColor, fontSize: 16),
+                      style: tTextStyle600.copyWith(
+                          color: iconColor, fontSize: 16),
                       children: <TextSpan>[
-                        TextSpan(text: monthlyTotal.toString(), style: tTextStyle600.copyWith(color: black, fontSize: 14)),
+                        TextSpan(
+                            text: monthlyTotal.toString(),
+                            style: tTextStyle600.copyWith(
+                                color: black, fontSize: 14)),
                       ],
                     ),
                   ),

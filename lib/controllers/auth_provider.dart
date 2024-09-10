@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:appwrite/appwrite.dart';
+import 'package:go_router/go_router.dart';
+import 'package:money_ger/routes/route_path.dart';
 import 'package:money_ger/views/auth/login/login_screen.dart';
 import 'package:money_ger/views/dashboard/dashboard_screen.dart';
 import '../utils/app_storage.dart';
@@ -44,8 +46,7 @@ class AuthProvider extends ChangeNotifier {
       if (result.userId.isNotEmpty) {
         await storage.write(key: 'sessionId', value: result.$id);
         await storage.write(key: 'userId', value: result.userId);
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => DashboardScreen()));
+        context.pushReplacement(RouterPath.dashboard);
         CustomSnack.successSnack('You are logged in successfully', context);
       }
     } catch (e) {
@@ -74,8 +75,7 @@ class AuthProvider extends ChangeNotifier {
       );
       if (result.$id.isNotEmpty) {
         await storage.write(key: 'currency', value: currency);
-        Navigator.push(
-            context, MaterialPageRoute(builder: (_) => const LoginScreen()));
+        context.go(RouterPath.login);
         CustomSnack.successSnack('Account is created successfully', context);
       }
     } catch (e) {
@@ -92,8 +92,7 @@ class AuthProvider extends ChangeNotifier {
           .deleteSession(sessionId: 'current')
           .then((onValue) async {
         await storage.delete(key: 'sessionId');
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => LoginScreen()));
+        context.pushReplacement(RouterPath.login);
         CustomSnack.successSnack('You are logged out successfully', context);
       });
     } catch (e) {
