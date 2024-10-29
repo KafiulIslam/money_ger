@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mailer/flutter_mailer.dart';
 import 'package:money_ger/controllers/auth_provider.dart';
 import 'package:money_ger/controllers/monthly_budget_provider.dart';
+import 'package:money_ger/controllers/notification_services.dart';
 import 'package:money_ger/utils/app_storage.dart';
 import 'package:money_ger/utils/assets_path.dart';
 import 'package:money_ger/utils/constant/constant.dart';
@@ -13,9 +14,11 @@ import 'package:money_ger/views/dashboard/dashboard_screen.dart';
 import 'package:money_ger/views/dashboard/home/widgets/add_budget_bottomsheet.dart';
 import 'package:money_ger/views/dashboard/home/widgets/add_expense_bottomsheet.dart';
 import 'package:money_ger/views/dashboard/home/widgets/custom_expansion_tile.dart';
+import 'package:money_ger/widgets/components/buttons/primary_button.dart';
 import 'package:provider/provider.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 import 'package:store_redirect/store_redirect.dart';
+import '../../../main.dart';
 import '../../../utils/color.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -26,9 +29,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  //NotificationServices _notificationServices = NotificationServices();
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   final TextEditingController _currency = TextEditingController();
   late String _selectedCurrencySymbol = '';
+
+  @override
+  void initState() {
+    sendDailyNotification();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +95,15 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 _monthlyBudgetCard(context),
                 sixteenVerticalSpace,
+                PrimaryButton(onTap: (){
+                  sendNotification();
+                }, buttonTitle: 'Notification'),
+                sixteenVerticalSpace,
+                PrimaryButton(onTap: (){
+                  sendDailyNotification();
+                }, buttonTitle: 'Schedule'),
+                sixteenVerticalSpace,
+                PrimaryButton(onTap: (){}, buttonTitle: 'Cancel'),
                 Expanded(
                   child: ListView.separated(
                       itemBuilder: (_, index) {
