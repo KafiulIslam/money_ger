@@ -6,64 +6,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
-void sendNotification() async {
-
-
-  if (await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-      AndroidFlutterLocalNotificationsPlugin>()
-      ?.requestNotificationsPermission() ??
-      false) {
-
-
-    AndroidNotificationDetails androidNotificationDetails =
-    AndroidNotificationDetails('channelId', 'channelName',
-        importance: Importance.max,
-        priority: Priority.high,
-        playSound: true);
-
-    NotificationDetails notificationDetails =
-    NotificationDetails(android: androidNotificationDetails);
-
-
-    await flutterLocalNotificationsPlugin.show(
-        0, 'MoneyGer', 'Notification from moneyger', notificationDetails);
-
-
-  }
-
-
-}
-
-void sendDailyNotification() async {
-
-
-  if (await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-      AndroidFlutterLocalNotificationsPlugin>()
-      ?.requestNotificationsPermission() ??
-      false) {
-
-
-    AndroidNotificationDetails androidNotificationDetails =
-    AndroidNotificationDetails('channelId', 'channelName',
-        importance: Importance.max,
-        priority: Priority.high,
-        playSound: true);
-
-    NotificationDetails notificationDetails =
-    NotificationDetails(android: androidNotificationDetails);
-
-
-    await flutterLocalNotificationsPlugin.periodicallyShow(
-        0, 'schedule', 'schedule lkadjfl Notification from moneyger', RepeatInterval.everyMinute,notificationDetails);
-
-
-  }
-
-
-}
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 

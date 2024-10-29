@@ -36,7 +36,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    sendDailyNotification();
+    final monthlyBudgetState =
+    Provider.of<MonthlyBudgetProvider>(context, listen: false);
+
+    NotificationServices.sendDailyNotification((monthlyBudgetState.monthlyBudget -
+        monthlyBudgetState.totalMonthlyExpense)
+        .toString());
     super.initState();
   }
 
@@ -95,15 +100,6 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 _monthlyBudgetCard(context),
                 sixteenVerticalSpace,
-                PrimaryButton(onTap: (){
-                  sendNotification();
-                }, buttonTitle: 'Notification'),
-                sixteenVerticalSpace,
-                PrimaryButton(onTap: (){
-                  sendDailyNotification();
-                }, buttonTitle: 'Schedule'),
-                sixteenVerticalSpace,
-                PrimaryButton(onTap: (){}, buttonTitle: 'Cancel'),
                 Expanded(
                   child: ListView.separated(
                       itemBuilder: (_, index) {
