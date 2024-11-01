@@ -102,10 +102,9 @@ class MonthlyBudgetProvider extends ChangeNotifier {
         CustomDialog.autoDialog(
             context, Icons.check, 'Budget is set successfully!');
       });
-      print('set budget error $res');
+
       notifyListeners();
     } catch (e) {
-      print('set budget cathc error ${e.toString()}');
       CustomSnack.warningSnack(e.toString(), context);
     } finally {
       isMonthlyBudgetSetting = false;
