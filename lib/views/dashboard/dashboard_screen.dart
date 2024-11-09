@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:money_ger/views/dashboard/debitCredit/debit_credit_screen.dart';
+import 'package:money_ger/views/dashboard/fixedCost/fixed_cost_screen.dart';
 import 'package:money_ger/views/dashboard/history/history_screen.dart';
 import 'package:money_ger/views/dashboard/home/report/report_screen.dart';
 import '../../utils/app_storage.dart';
@@ -26,7 +27,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
     HomeScreen(),
     ReportScreen(),
     HistoryScreen(),
-    DebitCreditScreen()
+    DebitCreditScreen(),
+    FixedCostScreen()
   ];
 
   void _onItemTapped(int index) {
@@ -62,6 +64,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.credit_score_sharp),
             label: 'Debts',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.gps_fixed),
+            label: 'Fixed Cost',
           ),
         ],
         elevation: 0.0,
