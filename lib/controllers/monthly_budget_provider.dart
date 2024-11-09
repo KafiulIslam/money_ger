@@ -269,9 +269,9 @@ class MonthlyBudgetProvider extends ChangeNotifier {
         getMonthlyBudget();
         getExpenseList();
         getMonthlyHistory();
-        Navigator.pop(context);
-        CustomDialog.autoDialog(
-            context, Icons.check, 'Expense is added successfully');
+        // Navigator.pop(context);
+        // CustomDialog.autoDialog(
+        //     context, Icons.check, 'Expense is added successfully');
       });
 
       notifyListeners();

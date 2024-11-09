@@ -5,6 +5,7 @@ import 'package:money_ger/widgets/components/inputFields/common_textfield.dart';
 import 'package:provider/provider.dart';
 import '../../../../utils/color.dart';
 import '../../../../utils/constant/constant.dart';
+import '../../../../utils/custom_dialog.dart';
 import '../../../../utils/spacer.dart';
 import '../../../../utils/typograpgy.dart';
 
@@ -57,7 +58,11 @@ class _AddExpenseBottomSheetState extends State<AddExpenseBottomSheet> {
                             monthlyBudgetState.addExpense(
                                 AppConstant.currentMonthId, _description.text,
                                 _selectedExpenseType.text, int.parse(_expenseAmount.text),
-                                context);
+                                context).then((value){
+                              Navigator.pop(context);
+                              CustomDialog.autoDialog(
+                                  context, Icons.check, 'Expense is added successfully');
+                            });
                           }
                         },
                         buttonTitle: 'Save',

@@ -42,21 +42,21 @@ class FixedCostTile extends StatefulWidget {
 }
 
 class _FixedCostTileState extends State<FixedCostTile> {
-  late String dateName = '';
-  late String date = '';
+  // late String dateName = '';
+  // late String date = '';
   late TextEditingController _description;
   late TextEditingController _expenseAmount;
-
-  getDateDetails() {
-    setState(() {
-      date = DateFormat.d().format(DateTime.parse(widget.createdAt)).toString();
-      dateName = DateFormat('EEEE').format(DateTime.parse(widget.createdAt));
-    });
-  }
+  //
+  // getDateDetails() {
+  //   setState(() {
+  //     date = DateFormat.d().format(DateTime.parse(widget.createdAt)).toString();
+  //     dateName = DateFormat('EEEE').format(DateTime.parse(widget.createdAt));
+  //   });
+  // }
 
   @override
   void initState() {
-    getDateDetails();
+   // getDateDetails();
     _description = TextEditingController(text: widget.description);
     _expenseAmount =
         TextEditingController(text: widget.expenseAmount.toString());
@@ -65,7 +65,8 @@ class _FixedCostTileState extends State<FixedCostTile> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<FixedCostProvider>(builder: (_, fixedCostState, child) {
+    return Consumer2<FixedCostProvider, MonthlyBudgetProvider>(
+        builder: (_, fixedCostState, monthlyBudgetState, child) {
       return ExpansionTile(
         collapsedBackgroundColor: white,
         backgroundColor: trans,
@@ -81,13 +82,29 @@ class _FixedCostTileState extends State<FixedCostTile> {
         iconColor: black,
         childrenPadding: const EdgeInsets.all(16.0),
         leading: IconButton(
-            onPressed: () {},
-            icon: Icon(
-              widget.isPaid
-                  ? Icons.check_box_outlined
-                  : Icons.check_box_outline_blank,
-              color: widget.isPaid ? primeColor : iconColor,
-            )),
+            onPressed: () async {
+              if (widget.monthlyBudgetId != AppConstant.currentMonthId ||
+                  !widget.isPaid) {
+                await fixedCostState
+                    .makePayment(
+                        widget.docId,
+                        AppConstant.currentMonthId,
+                        widget.description,
+                        widget.expenseType,
+                        widget.expenseAmount,
+                        widget.createdAt,
+                        true,
+                        context).then((value) {
+                  monthlyBudgetState.addExpense(
+                      AppConstant.currentMonthId,
+                      widget.description,
+                      widget.expenseType,
+                      widget.expenseAmount,
+                      context);
+                });
+              }
+            },
+            icon: _buildCheckIcon(widget.monthlyBudgetId, widget.isPaid)),
         trailing: PopupMenuButton(
           onSelected: (value) {
             // your logic
@@ -106,7 +123,7 @@ class _FixedCostTileState extends State<FixedCostTile> {
                 child: Text("Delete"),
                 value: '/',
                 onTap: () {
-                    fixedCostState.deleteFixedCost(widget.docId, context);
+                  fixedCostState.deleteFixedCost(widget.docId, context);
                 },
               ),
             ];
@@ -225,5 +242,19 @@ class _FixedCostTileState extends State<FixedCostTile> {
       ),
       autovalidateMode: AutovalidateMode.onUserInteraction,
     );
+  }
+
+  Icon _buildCheckIcon(String monthId, bool isPaid) {
+    if (monthId == AppConstant.currentMonthId && isPaid) {
+      return Icon(
+        Icons.check_box_outlined,
+        color: primeColor,
+      );
+    } else {
+      return Icon(
+        Icons.check_box_outline_blank,
+        color: borderColor,
+      );
+    }
   }
 }

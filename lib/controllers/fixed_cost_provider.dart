@@ -25,11 +25,6 @@ class FixedCostProvider extends ChangeNotifier {
     getFixedCostList();
   }
 
-  /// Monthly Budget ///
-
-  late bool isBudgetLoading = false;
-  late int monthlyBudget = 00;
-
   /// fixed cost list ///
 
   late int totalFixedCost = 00;
@@ -84,7 +79,7 @@ class FixedCostProvider extends ChangeNotifier {
     }
   }
 
-  /// add expense ///
+  /// add fixed cost in list ///
 
   late bool isFixedCostAdding = false;
 
@@ -129,7 +124,7 @@ class FixedCostProvider extends ChangeNotifier {
     }
   }
 
-  /// edit daily expense ///
+  /// edit fixed cost ///
 
   late bool isFixedCostUpdating = false;
 
@@ -176,7 +171,7 @@ class FixedCostProvider extends ChangeNotifier {
     }
   }
 
-  /// delete daily expense ///
+  /// delete fixed cost ///
 
   late bool isFixedCostDeleting = false;
 
@@ -205,4 +200,50 @@ class FixedCostProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+
+  /// fixed cost payment ///
+
+  late bool isPaying = false;
+
+  Future<void> makePayment(
+      String docId,
+      String monthlyBudgetId,
+      String description,
+      String expenseType,
+      int expenseAmount,
+      String createdAt,
+      bool isPaid,
+      BuildContext context) async {
+    try {
+
+      final uid = await AppStorage.getUserId();
+
+      var res = await db.updateDocument(
+          databaseId: AppWriteConstant.primaryDBId,
+          collectionId: AppWriteConstant.fixedCostCollectionId,
+          documentId: docId,
+          data: {
+            'monthlyBudgetId': monthlyBudgetId,
+            'description': description,
+            'expenseType': expenseType,
+            'expenseAmount': expenseAmount,
+            'userID': uid,
+            'createdAt': createdAt,
+            'isPaid': isPaid
+          });
+
+      if(res.data.isNotEmpty){
+        getFixedCostList();
+        CustomDialog.autoDialog(
+            context, Icons.check, '$expenseType is paid successfully');
+      }
+
+      notifyListeners();
+    } catch (e) {
+      CustomSnack.warningSnack(e.toString(), context);
+    }
+  }
+
+
 }
