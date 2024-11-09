@@ -30,8 +30,6 @@ class FixedCostProvider extends ChangeNotifier {
   late bool isBudgetLoading = false;
   late int monthlyBudget = 00;
 
-
-
   /// fixed cost list ///
 
   late int totalFixedCost = 00;
@@ -71,10 +69,8 @@ class FixedCostProvider extends ChangeNotifier {
                 uid: e.data['userID'] ?? '',
                 createdAt: e.data['createdAt'] ?? '',
                 isPaid: e.data['isPaid'] ?? false));
-            totalFixedCost =
-                totalFixedCost + e.data['expenseAmount'] as int;
+            totalFixedCost = totalFixedCost + e.data['expenseAmount'] as int;
             notifyListeners();
-
           }
         });
       } else {
@@ -118,9 +114,7 @@ class FixedCostProvider extends ChangeNotifier {
             'createdAt': DateTime.now().toString(),
             'isPaid': isPaid
           }).then((value) {
-        // getMonthlyBudget();
-        // getExpenseList();
-        // getMonthlyHistory();
+        getFixedCostList();
         Navigator.pop(context);
         CustomDialog.autoDialog(
             context, Icons.check, 'Fixed cost is added successfully');
@@ -137,25 +131,26 @@ class FixedCostProvider extends ChangeNotifier {
 
   /// edit daily expense ///
 
-  late bool isExpenseUpdating = false;
+  late bool isFixedCostUpdating = false;
 
-  Future<void> updateDailyExpense(
+  Future<void> updateFixedCostExpense(
       String docId,
       String monthlyBudgetId,
       String description,
       String expenseType,
       int expenseAmount,
       String createdAt,
+      bool isPaid,
       BuildContext context) async {
     try {
-      isExpenseUpdating = true;
+      isFixedCostUpdating = true;
       notifyListeners();
 
       final uid = await AppStorage.getUserId();
 
       var res = await db.updateDocument(
           databaseId: AppWriteConstant.primaryDBId,
-          collectionId: AppWriteConstant.expenseListCollectionId,
+          collectionId: AppWriteConstant.fixedCostCollectionId,
           documentId: docId,
           data: {
             'monthlyBudgetId': monthlyBudgetId,
@@ -163,20 +158,21 @@ class FixedCostProvider extends ChangeNotifier {
             'expenseType': expenseType,
             'expenseAmount': expenseAmount,
             'userID': uid,
-            'createdAt': createdAt
+            'createdAt': createdAt,
+            'isPaid': isPaid
           }).then((value) {
         getFixedCostList();
 
         Navigator.pop(context);
         CustomDialog.autoDialog(
-            context, Icons.check, 'Expense is updated successfully');
+            context, Icons.check, 'Fixed Cost is updated successfully');
       });
 
       notifyListeners();
     } catch (e) {
       CustomSnack.warningSnack(e.toString(), context);
     } finally {
-      isExpenseUpdating = false;
+      isFixedCostUpdating = false;
       notifyListeners();
     }
   }

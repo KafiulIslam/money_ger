@@ -49,85 +49,90 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Consumer2<AuthProvider, MonthlyBudgetProvider>(
         builder: (_, authState, monthlyBudgetState, child) {
-      return Scaffold(
-        backgroundColor: scaffoldColor,
-        key: _scaffoldKey,
-        resizeToAvoidBottomInset: true,
-        appBar: AppBar(
-          backgroundColor: primeColor,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(32),
-                bottomRight: Radius.circular(32)),
+      return GestureDetector(
+        onTap: () {
+          FocusManager.instance.primaryFocus?.unfocus();
+        },
+        child: Scaffold(
+          backgroundColor: scaffoldColor,
+          key: _scaffoldKey,
+          resizeToAvoidBottomInset: true,
+          appBar: AppBar(
+            backgroundColor: primeColor,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(32),
+                  bottomRight: Radius.circular(32)),
+            ),
+            automaticallyImplyLeading: false,
+            centerTitle: true,
+            leading: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: IconButton(
+                  onPressed: () {
+                    _scaffoldKey.currentState?.openDrawer();
+                  },
+                  icon: Icon(
+                    Icons.menu,
+                    color: white,
+                  )),
+            ),
+            title: Text(
+             // '${AppConstant.currentMonth} History',
+              AppConstant.currentMonthId,
+              style: tTextStyleBold.copyWith(color: white, fontSize: 20),
+            ),
+            // actions: [
+            //   IconButton(
+            //       onPressed: () {
+            //         authState.logout(context);
+            //       },
+            //       icon: const Icon(
+            //         Icons.logout,
+            //         color: white,
+            //       ))
+            // ],
           ),
-          automaticallyImplyLeading: false,
-          centerTitle: true,
-          leading: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: IconButton(
-                onPressed: () {
-                  _scaffoldKey.currentState?.openDrawer();
-                },
-                icon: Icon(
-                  Icons.menu,
-                  color: white,
-                )),
-          ),
-          title: Text(
-           // '${AppConstant.currentMonth} History',
-            AppConstant.currentMonthId,
-            style: tTextStyleBold.copyWith(color: white, fontSize: 20),
-          ),
-          // actions: [
-          //   IconButton(
-          //       onPressed: () {
-          //         authState.logout(context);
-          //       },
-          //       icon: const Icon(
-          //         Icons.logout,
-          //         color: white,
-          //       ))
-          // ],
-        ),
-        drawer: _drawer(),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: RefreshIndicator(
-            onRefresh: () {
-              return monthlyBudgetState.getExpenseList();
-            },
-            child: Column(
-              children: [
-                _monthlyBudgetCard(context),
-                sixteenVerticalSpace,
-                Expanded(
-                  child: ListView.separated(
-                      itemBuilder: (_, index) {
-                        var data = monthlyBudgetState.expenseList[index];
-                        return CartExpansionTile(
-                          docId: data.docId,
-                            monthlyBudgetId: data.monthlyBudgetId,
-                            description: data.description,
-                            expenseType: data.expenseType,
-                            expenseAmount: data.expenseAmount,
-                            uid: data.uid,
-                            createdAt: data.createdAt);
-                      },
-                      separatorBuilder: (_, index) => sixteenVerticalSpace,
-                      itemCount: monthlyBudgetState.expenseList.length),
-                )
-              ],
+          drawer: _drawer(),
+          body: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: RefreshIndicator(
+              onRefresh: () {
+                return monthlyBudgetState.getExpenseList();
+              },
+              child: Column(
+                children: [
+                  _monthlyBudgetCard(context),
+                  sixteenVerticalSpace,
+                  Expanded(
+                    child: ListView.separated(
+                        itemBuilder: (_, index) {
+                          var data = monthlyBudgetState.expenseList[index];
+                          return CartExpansionTile(
+                            docId: data.docId,
+                              monthlyBudgetId: data.monthlyBudgetId,
+                              description: data.description,
+                              expenseType: data.expenseType,
+                              expenseAmount: data.expenseAmount,
+                              uid: data.uid,
+                              createdAt: data.createdAt);
+                        },
+                        separatorBuilder: (_, index) => sixteenVerticalSpace,
+                        itemCount: monthlyBudgetState.expenseList.length),
+                  )
+                ],
+              ),
             ),
           ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: primeColor,
-          onPressed: () {
-            CustomDialog.dialogBuilder(context, const AddExpenseBottomSheet());
-          },
-          child: const Icon(
-            Icons.add,
-            color: white,
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: primeColor,
+            onPressed: () {
+              CustomDialog.dialogBuilder(context, const AddExpenseBottomSheet());
+            },
+            child: const Icon(
+              Icons.add,
+              color: white,
+            ),
           ),
         ),
       );

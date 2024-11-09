@@ -36,43 +36,46 @@ class _FixedCostScreenState extends State<FixedCostScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer<FixedCostProvider>(builder: (_, fixedCostState, child) {
-      return Scaffold(
-        backgroundColor: scaffoldColor,
-        resizeToAvoidBottomInset: true,
-        appBar: AppBar(
-          backgroundColor: primeColor,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(32),
-                bottomRight: Radius.circular(32)),
+      return GestureDetector(
+        onTap: () {
+          FocusManager.instance.primaryFocus?.unfocus();
+        },
+        child: Scaffold(
+          backgroundColor: scaffoldColor,
+          resizeToAvoidBottomInset: true,
+          appBar: AppBar(
+            backgroundColor: primeColor,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(32),
+                  bottomRight: Radius.circular(32)),
+            ),
+            automaticallyImplyLeading: false,
+            centerTitle: true,
+            title: Column(
+              children: [
+                Text(
+                  'Fixed Cost',
+                  style: tTextStyleBold.copyWith(color: white, fontSize: 20),
+                ),
+                Text(
+                  fixedCostState.totalFixedCost.toString(),
+                  style: tTextStyle500.copyWith(color: white, fontSize: 16),
+                )
+              ],
+            ),
           ),
-          automaticallyImplyLeading: false,
-          centerTitle: true,
-          title: Column(
-            children: [
-              Text(
-                'Fixed Cost',
-                style: tTextStyleBold.copyWith(color: white, fontSize: 20),
-              ),
-              Text(
-                fixedCostState.totalFixedCost.toString(),
-                style: tTextStyle500.copyWith(color: white, fontSize: 16),
-              )
-            ],
-          ),
-        ),
-        //body: Center(child: Text('Please create your monthly fixed cost list')),
-        body: _buildBody(),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: primeColor,
-          onPressed: () {
-            fixedCostState.getFixedCostList();
-            // CustomDialog.dialogBuilder(
-            //     context, const AddFixedCostBottomSheet());
-          },
-          child: const Icon(
-            Icons.add,
-            color: white,
+          body: _buildBody(),
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: primeColor,
+            onPressed: () {
+              CustomDialog.dialogBuilder(
+                  context, const AddFixedCostBottomSheet());
+            },
+            child: const Icon(
+              Icons.add,
+              color: white,
+            ),
           ),
         ),
       );

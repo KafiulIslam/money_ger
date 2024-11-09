@@ -21,63 +21,74 @@ class _DebitCreditScreenState extends State<DebitCreditScreen> {
     return Consumer<DebitCreditProvider>(builder: (_, debitCreditState, child) {
       return DefaultTabController(
         length: 2,
-        child: Scaffold(
-          backgroundColor: scaffoldColor,
-          resizeToAvoidBottomInset: true,
-          appBar: AppBar(
-            backgroundColor: primeColor,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(32),
-                  bottomRight: Radius.circular(32)),
+        child: GestureDetector(
+          onTap: () {
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
+          child: Scaffold(
+            backgroundColor: scaffoldColor,
+            resizeToAvoidBottomInset: true,
+            appBar: AppBar(
+              backgroundColor: primeColor,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(32),
+                    bottomRight: Radius.circular(32)),
+              ),
+              automaticallyImplyLeading: false,
+              centerTitle: true,
+              title: Text(
+                'Debit Credit',
+                style: tTextStyleBold.copyWith(color: white, fontSize: 20),
+              ),
+              bottom: TabBar(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                dividerColor: trans,
+                indicatorSize: TabBarIndicatorSize.label,
+                indicatorColor: primaryLight,
+                indicatorWeight: 5,
+                // indicator: UnderlineTabIndicator(
+                //     borderSide: BorderSide(width: 5.0),
+                //     insets: EdgeInsets.symmetric(horizontal:8.0)
+                // ),
+                labelStyle: tTextStyle700.copyWith(color: white),
+                unselectedLabelColor: primaryLight,
+                tabs: [
+                  Tab(
+                      child: Column(
+                    children: [
+                      const Text('Debtors'),
+                      Text(debitCreditState.totalDebit.toString())
+                    ],
+                  )),
+                  Tab(
+                      child: Column(
+                    children: [
+                      const Text('Creditors'),
+                      Text(debitCreditState.totalCredit.toString())
+                    ],
+                  )),
+                ],
+              ),
             ),
-            automaticallyImplyLeading: false,
-            centerTitle: true,
-            title: Text(
-              'Debit Credit',
-              style: tTextStyleBold.copyWith(color: white, fontSize: 20),
-            ),
-            bottom: TabBar(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              dividerColor: trans,
-              indicatorSize: TabBarIndicatorSize.label,
-              indicatorColor: primaryLight,
-              indicatorWeight: 5,
-              // indicator: UnderlineTabIndicator(
-              //     borderSide: BorderSide(width: 5.0),
-              //     insets: EdgeInsets.symmetric(horizontal:8.0)
-              // ),
-              labelStyle: tTextStyle700.copyWith(color: white),
-              unselectedLabelColor: primaryLight,
-              tabs: [
-                Tab(child: Column(children: [
-                  const Text('Debtors'),
-                  Text(debitCreditState.totalDebit.toString())
-                ],)),
-                Tab(child: Column(children: [
-                  const Text('Creditors'),
-                  Text(debitCreditState.totalCredit.toString())
-                ],)),
-              ],
-            ),
-          ),
-          body: debitCreditState.isDebtListLoading
-              ? const Center(child: CircularProgressIndicator())
-              : TabBarView(
-                  children: [
-                    _debitors(),
-                    _creditors(),
-                  ],
-                ),
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: primeColor,
-            onPressed: () {
-              CustomDialog.dialogBuilder(
-                  context, const AddDebitCreditBottomSheet());
-            },
-            child: const Icon(
-              Icons.add,
-              color: white,
+            body: debitCreditState.isDebtListLoading
+                ? const Center(child: CircularProgressIndicator())
+                : TabBarView(
+                    children: [
+                      _debitors(),
+                      _creditors(),
+                    ],
+                  ),
+            floatingActionButton: FloatingActionButton(
+              backgroundColor: primeColor,
+              onPressed: () {
+                CustomDialog.dialogBuilder(
+                    context, const AddDebitCreditBottomSheet());
+              },
+              child: const Icon(
+                Icons.add,
+                color: white,
+              ),
             ),
           ),
         ),
@@ -92,18 +103,18 @@ class _DebitCreditScreenState extends State<DebitCreditScreen> {
       padding: const EdgeInsets.all(16.0),
       child: debitCreditState.debitList.isEmpty
           ? Center(
-            child: Text(
+              child: Text(
                 'You have no debtors',
                 style: tTextStyle600.copyWith(color: black),
               ),
-          )
+            )
           : ListView.separated(
               shrinkWrap: true,
               itemCount: debitCreditState.debitList.length,
               itemBuilder: (_, index) {
                 var item = debitCreditState.debitList[index];
                 return DebtTile(
-                  documentId: item.id,
+                    documentId: item.id,
                     debtName: item.debtsName,
                     transactionType: item.debtsType,
                     createdAt: item.createdAt,
@@ -121,11 +132,11 @@ class _DebitCreditScreenState extends State<DebitCreditScreen> {
       padding: const EdgeInsets.all(16.0),
       child: debitCreditState.creditList.isEmpty
           ? Center(
-            child: Text(
+              child: Text(
                 'You have no creditors',
                 style: tTextStyle600.copyWith(color: black),
               ),
-          )
+            )
           : ListView.separated(
               shrinkWrap: true,
               itemCount: debitCreditState.creditList.length,

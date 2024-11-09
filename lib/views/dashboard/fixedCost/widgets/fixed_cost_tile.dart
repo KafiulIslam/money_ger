@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:money_ger/controllers/fixed_cost_provider.dart';
 import 'package:money_ger/controllers/monthly_budget_provider.dart';
 import 'package:money_ger/utils/app_storage.dart';
 import 'package:money_ger/utils/spacer.dart';
@@ -59,14 +60,12 @@ class _FixedCostTileState extends State<FixedCostTile> {
     _description = TextEditingController(text: widget.description);
     _expenseAmount =
         TextEditingController(text: widget.expenseAmount.toString());
-    //getUserCurrency();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MonthlyBudgetProvider>(
-        builder: (_, monthlyBudgetState, child) {
+    return Consumer<FixedCostProvider>(builder: (_, fixedCostState, child) {
       return ExpansionTile(
         collapsedBackgroundColor: white,
         backgroundColor: trans,
@@ -81,8 +80,14 @@ class _FixedCostTileState extends State<FixedCostTile> {
         collapsedIconColor: black,
         iconColor: black,
         childrenPadding: const EdgeInsets.all(16.0),
-        leading:
-            IconButton(onPressed: () {}, icon: Icon(Icons.check_box_outlined)),
+        leading: IconButton(
+            onPressed: () {},
+            icon: Icon(
+              widget.isPaid
+                  ? Icons.check_box_outlined
+                  : Icons.check_box_outline_blank,
+              color: widget.isPaid ? primeColor : iconColor,
+            )),
         trailing: PopupMenuButton(
           onSelected: (value) {
             // your logic
@@ -101,7 +106,7 @@ class _FixedCostTileState extends State<FixedCostTile> {
                 child: Text("Delete"),
                 value: '/',
                 onTap: () {
-                  monthlyBudgetState.deleteDailyExpense(widget.docId, context);
+                  // monthlyBudgetState.deleteDailyExpense(widget.docId, context);
                 },
               ),
             ];
@@ -117,13 +122,12 @@ class _FixedCostTileState extends State<FixedCostTile> {
             RichText(
               text: TextSpan(
                 text: '$userCurrency ',
-                style:
-                tTextStyle600.copyWith(color: iconColor, fontSize: 16),
+                style: tTextStyle600.copyWith(color: iconColor, fontSize: 16),
                 children: <TextSpan>[
                   TextSpan(
                       text: widget.expenseAmount.toString(),
-                      style: tTextStyle600.copyWith(
-                          color: black, fontSize: 16)),
+                      style:
+                          tTextStyle600.copyWith(color: black, fontSize: 16)),
                 ],
               ),
             ),
@@ -162,8 +166,8 @@ class _FixedCostTileState extends State<FixedCostTile> {
   }
 
   Widget _editDialog() {
-    final monthlyExpenseState =
-        Provider.of<MonthlyBudgetProvider>(context, listen: false);
+    final fixedCostState =
+        Provider.of<FixedCostProvider>(context, listen: false);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -171,7 +175,7 @@ class _FixedCostTileState extends State<FixedCostTile> {
         sixteenVerticalSpace,
         CommonTextField(
           fieldController: _description,
-          hintText: 'Enter expense description',
+          hintText: 'Enter fixed cost description',
         ),
         sixteenVerticalSpace,
         _buildExpenseAmount(),
@@ -180,20 +184,21 @@ class _FixedCostTileState extends State<FixedCostTile> {
           onTap: () {
             if (_description.text != widget.description ||
                 _expenseAmount.text != widget.expenseAmount) {
-              monthlyExpenseState.updateDailyExpense(
+              fixedCostState.updateFixedCostExpense(
                   widget.docId,
                   widget.monthlyBudgetId,
                   _description.text,
                   widget.expenseType,
                   int.parse(_expenseAmount.text),
                   widget.createdAt,
+                  widget.isPaid,
                   context);
             } else {
               Navigator.pop(context);
             }
           },
           buttonTitle: 'Update',
-          isLoading: monthlyExpenseState.isExpenseUpdating,
+          isLoading: fixedCostState.isFixedCostUpdating,
         ),
         primaryVerticalSpace
       ],
@@ -210,7 +215,7 @@ class _FixedCostTileState extends State<FixedCostTile> {
         filled: true,
         fillColor: assColor,
         contentPadding: const EdgeInsets.all(16),
-        hintText: 'Enter expense amount',
+        hintText: 'Enter fixed cost amount',
         hintStyle: hintTextStyle,
         focusedBorder: AppConstant.focusOutLineBorder,
         enabledBorder: AppConstant.enableOutLineBorder,
