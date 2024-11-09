@@ -162,7 +162,6 @@ class FixedCostProvider extends ChangeNotifier {
             'isPaid': isPaid
           }).then((value) {
         getFixedCostList();
-
         Navigator.pop(context);
         CustomDialog.autoDialog(
             context, Icons.check, 'Fixed Cost is updated successfully');
@@ -179,31 +178,30 @@ class FixedCostProvider extends ChangeNotifier {
 
   /// delete daily expense ///
 
-  late bool isExpenseDeleting = false;
+  late bool isFixedCostDeleting = false;
 
-  Future<void> deleteDailyExpense(
+  Future<void> deleteFixedCost(
       String documentId, BuildContext context) async {
     try {
-      isExpenseDeleting = true;
+      isFixedCostDeleting = true;
       notifyListeners();
 
       var res = await db
           .deleteDocument(
               databaseId: AppWriteConstant.primaryDBId,
-              collectionId: AppWriteConstant.expenseListCollectionId,
+              collectionId: AppWriteConstant.fixedCostCollectionId,
               documentId: documentId)
           .then((value) {
         getFixedCostList();
-
         CustomDialog.autoDialog(
-            context, Icons.check, 'Expense is deleted successfully');
+            context, Icons.check, 'Fixed cost is deleted successfully');
       });
 
       notifyListeners();
     } catch (e) {
       CustomSnack.warningSnack(e.toString(), context);
     } finally {
-      isExpenseDeleting = false;
+      isFixedCostDeleting = false;
       notifyListeners();
     }
   }

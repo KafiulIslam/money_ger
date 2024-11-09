@@ -106,7 +106,7 @@ class _FixedCostTileState extends State<FixedCostTile> {
                 child: Text("Delete"),
                 value: '/',
                 onTap: () {
-                  // monthlyBudgetState.deleteDailyExpense(widget.docId, context);
+                    fixedCostState.deleteFixedCost(widget.docId, context);
                 },
               ),
             ];
