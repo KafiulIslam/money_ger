@@ -42,21 +42,12 @@ class FixedCostTile extends StatefulWidget {
 }
 
 class _FixedCostTileState extends State<FixedCostTile> {
-  // late String dateName = '';
-  // late String date = '';
   late TextEditingController _description;
   late TextEditingController _expenseAmount;
-  //
-  // getDateDetails() {
-  //   setState(() {
-  //     date = DateFormat.d().format(DateTime.parse(widget.createdAt)).toString();
-  //     dateName = DateFormat('EEEE').format(DateTime.parse(widget.createdAt));
-  //   });
-  // }
+
 
   @override
   void initState() {
-   // getDateDetails();
     _description = TextEditingController(text: widget.description);
     _expenseAmount =
         TextEditingController(text: widget.expenseAmount.toString());

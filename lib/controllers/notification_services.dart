@@ -1,8 +1,8 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:workmanager/workmanager.dart';
 import '../main.dart';
 
 class NotificationServices {
-
   static void sendNotification() async {
     if (await flutterLocalNotificationsPlugin
             .resolvePlatformSpecificImplementation<
@@ -23,7 +23,7 @@ class NotificationServices {
     }
   }
 
-  static void sendDailyNotification(String balance) async {
+  static Future<bool> sendDailyNotification(String balance) async {
     if (await flutterLocalNotificationsPlugin
             .resolvePlatformSpecificImplementation<
                 AndroidFlutterLocalNotificationsPlugin>()
@@ -41,10 +41,13 @@ class NotificationServices {
       await flutterLocalNotificationsPlugin.periodicallyShow(
           0,
           'MoneyGer',
-          'Record today\'s expenses in MoneyGer. Current balance: $balance',
+          //'Record today\'s expenses in MoneyGer. Current balance: $balance',
+          'Record today\'s expenses in MoneyGer.',
           RepeatInterval.daily,
           notificationDetails);
+      return true;
+    } else {
+      return false;
     }
   }
-
 }

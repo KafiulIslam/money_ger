@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:money_ger/utils/assets_path.dart';
 import 'package:money_ger/views/dashboard/debitCredit/debit_credit_screen.dart';
 import 'package:money_ger/views/dashboard/fixedCost/fixed_cost_screen.dart';
 import 'package:money_ger/views/dashboard/history/history_screen.dart';
@@ -9,7 +11,7 @@ import 'home/home_screen.dart';
 
 late String userCurrency = '';
 
-Future<void> getUserCurrency () async {
+Future<void> getUserCurrency() async {
   userCurrency = await AppStorage.getCurrency() ?? '';
 }
 
@@ -48,25 +50,40 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Scaffold(
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_filled),
+            icon: SvgPicture.asset(
+              homeIcon,
+              color: _selectedIndex == 0 ? primeColor : iconColor,
+            ),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.bar_chart),
+            icon: SvgPicture.asset(
+              reportIcon,
+              color: _selectedIndex == 1 ? primeColor : iconColor,
+            ),
             label: 'Report',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.history),
+            icon: SvgPicture.asset(
+              historyIcon,
+              color: _selectedIndex == 2 ? primeColor : iconColor,
+            ),
             label: 'History',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.credit_score_sharp),
+            icon: SvgPicture.asset(
+              debtIcon,
+              color: _selectedIndex == 3 ? primeColor : iconColor,
+            ),
             label: 'Debts',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.gps_fixed),
+            icon: SvgPicture.asset(
+              fixedCostIcon,
+              color: _selectedIndex == 4 ? primeColor : iconColor,
+            ),
             label: 'Fixed Cost',
           ),
         ],
