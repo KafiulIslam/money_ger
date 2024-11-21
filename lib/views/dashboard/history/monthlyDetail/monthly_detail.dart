@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:money_ger/controllers/monthly_detail_controller.dart';
+import 'package:money_ger/utils/assets_path.dart';
 import 'package:money_ger/utils/spacer.dart';
 import 'package:money_ger/utils/typograpgy.dart';
 import 'package:money_ger/views/dashboard/dashboard_screen.dart';
@@ -12,9 +13,7 @@ class MonthlyDetail extends StatefulWidget {
   final List<ExpenseModel> expensesList;
 
   const MonthlyDetail(
-      {Key? key,
-      required this.monthId,
-      required this.expensesList})
+      {Key? key, required this.monthId, required this.expensesList})
       : super(key: key);
 
   @override
@@ -29,27 +28,24 @@ class _MonthlyDetailState extends State<MonthlyDetail> {
         backgroundColor: scaffoldColor,
         resizeToAvoidBottomInset: true,
         appBar: AppBar(
-          backgroundColor: primeColor,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(32),
-                bottomRight: Radius.circular(32)),
-          ),
+          backgroundColor: scaffoldColor,
           centerTitle: true,
-          iconTheme: IconThemeData(color: white),
+          iconTheme: IconThemeData(color: textPrimaryColor),
           title: Text(
             widget.monthId,
-            style: tTextStyleBold.copyWith(color: white, fontSize: 20),
+            style:
+                tTextStyleBold.copyWith(color: textPrimaryColor, fontSize: 20),
           ),
           actions: [
-            IconButton(
-                onPressed: () async {
+            InkWell(
+                onTap: () async {
                   await detailState.sharePdf(
                       widget.monthId, widget.expensesList);
                 },
-                icon: Icon(
-                  Icons.share_outlined,
-                  color: white,
+                child: Image.asset(
+                  shareIcon,
+                  height: 28,
+                  width: 28,
                 )),
             sixteenHorizontalSpace
           ],
@@ -70,7 +66,8 @@ class _MonthlyDetailState extends State<MonthlyDetail> {
                       subtitle: Text(item.expenseType,
                           style: tTextStyleRegular.copyWith(
                               color: black, fontSize: 14)),
-                      trailing: Text('$userCurrency ${item.expenseAmount.toString()}',
+                      trailing: Text(
+                          '$userCurrency ${item.expenseAmount.toString()}',
                           style: tTextStyle700.copyWith(
                               color: iconColor, fontSize: 14)),
                     );

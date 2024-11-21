@@ -22,109 +22,107 @@ class _ReportScreenState extends State<ReportScreen> {
   Widget build(BuildContext context) {
     return Consumer2<AuthProvider, MonthlyBudgetProvider>(
         builder: (_, authState, monthlyBudgetState, child) {
-      return Scaffold(
-        backgroundColor: scaffoldColor,
-        key: _scaffoldKey,
-        resizeToAvoidBottomInset: true,
-        appBar: AppBar(
-          backgroundColor: primeColor,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(32),
-                bottomRight: Radius.circular(32)),
+      return SafeArea(
+        top: false,
+        child: Scaffold(
+          backgroundColor: scaffoldColor,
+          key: _scaffoldKey,
+          resizeToAvoidBottomInset: true,
+          appBar: AppBar(
+            backgroundColor: scaffoldColor,
+            centerTitle: true,
+            automaticallyImplyLeading: false,
+            title: Text(
+              '${AppConstant.currentMonth} Report',
+              style: tTextStyleBold.copyWith(color: textPrimaryColor, fontSize: 20),
+            ),
           ),
-          centerTitle: true,
-          automaticallyImplyLeading: false,
-          title: Text(
-            '${AppConstant.currentMonth} Report',
-            style: tTextStyleBold.copyWith(color: white, fontSize: 20),
-          ),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    color: white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: assBold.withOpacity(0.1),
-                        spreadRadius: 0,
-                        blurRadius: 50,
-                        offset:
-                            const Offset(0, 9), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height / 4,
-                          width: double.infinity,
-                          child: PieChart(PieChartData(sections: [
-                            PieChartSectionData(
-                                value: monthlyBudgetState.basic.toDouble(),
-                                showTitle: false,
-                                radius: 40,
-                                color: Color(0xFF1937FE)),
-                            PieChartSectionData(
-                                value: monthlyBudgetState.enjoyment.toDouble(),
-                                showTitle: false,
-                                radius: 40,
-                                color: Color(0xFFFAD400)),
-                            PieChartSectionData(
-                                value: monthlyBudgetState.donation.toDouble(),
-                                showTitle: false,
-                                radius: 40,
-                                color: Color(0xFFFC5800)),
-                            PieChartSectionData(
-                                value: monthlyBudgetState.healthCare.toDouble(),
-                                showTitle: false,
-                                radius: 40,
-                                color: Color(0xFF2CBD00)),
-                            PieChartSectionData(
-                                value: monthlyBudgetState.other.toDouble(),
-                                //title: 'Other',
-                                showTitle: false,
-                                radius: 40,
-                                color: Colors.purpleAccent),
-                            PieChartSectionData(
-                                value: monthlyBudgetState.legal.toDouble(),
-                                //title: 'Medicine',
-                                showTitle: false,
-                                radius: 40,
-                                color: Colors.tealAccent),
-                          ])),
+          body: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: assBold.withOpacity(0.1),
+                          spreadRadius: 0,
+                          blurRadius: 50,
+                          offset:
+                              const Offset(0, 9), // changes position of shadow
                         ),
-                        primaryVerticalSpace,
-                        _buildColorIndicator(),
                       ],
                     ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height / 4,
+                            width: double.infinity,
+                            child: PieChart(PieChartData(sections: [
+                              PieChartSectionData(
+                                  value: monthlyBudgetState.basic.toDouble(),
+                                  showTitle: false,
+                                  radius: 40,
+                                  color: Color(0xFF1937FE)),
+                              PieChartSectionData(
+                                  value: monthlyBudgetState.enjoyment.toDouble(),
+                                  showTitle: false,
+                                  radius: 40,
+                                  color: Color(0xFFFAD400)),
+                              PieChartSectionData(
+                                  value: monthlyBudgetState.donation.toDouble(),
+                                  showTitle: false,
+                                  radius: 40,
+                                  color: Color(0xFFFC5800)),
+                              PieChartSectionData(
+                                  value: monthlyBudgetState.healthCare.toDouble(),
+                                  showTitle: false,
+                                  radius: 40,
+                                  color: Color(0xFF2CBD00)),
+                              PieChartSectionData(
+                                  value: monthlyBudgetState.other.toDouble(),
+                                  //title: 'Other',
+                                  showTitle: false,
+                                  radius: 40,
+                                  color: Colors.purpleAccent),
+                              PieChartSectionData(
+                                  value: monthlyBudgetState.legal.toDouble(),
+                                  //title: 'Medicine',
+                                  showTitle: false,
+                                  radius: 40,
+                                  color: Colors.tealAccent),
+                            ])),
+                          ),
+                          primaryVerticalSpace,
+                          _buildColorIndicator(),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-                primaryVerticalSpace,
-                _infoTile('Basic', monthlyBudgetState.basic.toString()),
-                sixteenVerticalSpace,
-                _infoTile('Enjoyment', monthlyBudgetState.enjoyment.toString()),
-                sixteenVerticalSpace,
-                _infoTile('Donation', monthlyBudgetState.donation.toString()),
-                sixteenVerticalSpace,
-                _infoTile('HealthCare', monthlyBudgetState.healthCare.toString()),
-                 sixteenVerticalSpace,
-                 _infoTile('Legal', monthlyBudgetState.legal.toString()),
-                sixteenVerticalSpace,
-                _infoTile('Other', monthlyBudgetState.other.toString()),
-                const Divider(),
-                _infoTile('Total Expense',
-                    monthlyBudgetState.totalMonthlyExpense.toString()),
-                primaryVerticalSpace,
-              ],
+                  primaryVerticalSpace,
+                  _infoTile('Basic', monthlyBudgetState.basic.toString()),
+                  sixteenVerticalSpace,
+                  _infoTile('Enjoyment', monthlyBudgetState.enjoyment.toString()),
+                  sixteenVerticalSpace,
+                  _infoTile('Donation', monthlyBudgetState.donation.toString()),
+                  sixteenVerticalSpace,
+                  _infoTile('HealthCare', monthlyBudgetState.healthCare.toString()),
+                   sixteenVerticalSpace,
+                   _infoTile('Legal', monthlyBudgetState.legal.toString()),
+                  sixteenVerticalSpace,
+                  _infoTile('Other', monthlyBudgetState.other.toString()),
+                  const Divider(),
+                  _infoTile('Total Expense',
+                      monthlyBudgetState.totalMonthlyExpense.toString()),
+                  primaryVerticalSpace,
+                ],
+              ),
             ),
           ),
         ),

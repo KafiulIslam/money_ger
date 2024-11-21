@@ -18,50 +18,48 @@ class HistoryScreen extends StatefulWidget {
 }
 
 class _HistoryScreenState extends State<HistoryScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Consumer<MonthlyBudgetProvider>(
         builder: (_, monthlyBudgetState, child) {
-      return Scaffold(
-        backgroundColor: scaffoldColor,
-        resizeToAvoidBottomInset: true,
-        appBar: AppBar(
-          backgroundColor: primeColor,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(32),
-                bottomRight: Radius.circular(32)),
+      return SafeArea(
+        top: false,
+        child: Scaffold(
+          backgroundColor: scaffoldColor,
+          resizeToAvoidBottomInset: true,
+          appBar: AppBar(
+            backgroundColor: scaffoldColor,
+            automaticallyImplyLeading: false,
+            centerTitle: true,
+            title: Text(
+              'History',
+              style: tTextStyleBold.copyWith(
+                  color: textPrimaryColor, fontSize: 20),
+            ),
           ),
-          automaticallyImplyLeading: false,
-          centerTitle: true,
-          title: Text(
-            'History',
-            style: tTextStyleBold.copyWith(color: white, fontSize: 20),
+          body: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: monthlyBudgetState.expensesByMonth.isEmpty
+                ? const Center(child: Text('No available history'))
+                : ListView.separated(
+                    itemCount: monthlyBudgetState.expensesByMonth.length,
+                    separatorBuilder: (_, index) => sixteenVerticalSpace,
+                    itemBuilder: (context, index) {
+                      String monthlyBudgetId = monthlyBudgetState
+                          .expensesByMonth.keys
+                          .elementAt(index);
+                      int monthlyTotal = monthlyBudgetState
+                          .totalExpensesByMonth.values
+                          .elementAt(index);
+
+                      List<ExpenseModel> expenses =
+                          monthlyBudgetState.expensesByMonth[monthlyBudgetId]!;
+
+                      return _historyTile(
+                          monthlyBudgetId, monthlyTotal, expenses);
+                    },
+                  ),
           ),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: monthlyBudgetState.expensesByMonth.isEmpty
-              ? const Center(child: Text('No available history'))
-              : ListView.separated(
-                  itemCount: monthlyBudgetState.expensesByMonth.length,
-                  separatorBuilder: (_, index) => sixteenVerticalSpace,
-                  itemBuilder: (context, index) {
-                    String monthlyBudgetId = monthlyBudgetState
-                        .expensesByMonth.keys
-                        .elementAt(index);
-                    int monthlyTotal = monthlyBudgetState
-                        .totalExpensesByMonth.values
-                        .elementAt(index);
-
-                    List<ExpenseModel> expenses =
-                        monthlyBudgetState.expensesByMonth[monthlyBudgetId]!;
-
-                    return _historyTile(
-                        monthlyBudgetId, monthlyTotal, expenses);
-                  },
-                ),
         ),
       );
     });

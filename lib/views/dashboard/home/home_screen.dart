@@ -81,10 +81,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   )),
               title: Text(
                 AppConstant.currentMonthId,
-                style: tTextStyleBold.copyWith(color: black, fontSize: 20),
+                style: tTextStyleBold.copyWith(
+                    color: textPrimaryColor, fontSize: 20),
               ),
               actions: [
-                CustomAddIcon(onTap: (){
+                CustomAddIcon(onTap: () {
                   CustomDialog.dialogBuilder(
                       context, const AddExpenseBottomSheet());
                 }),
@@ -181,23 +182,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     const Spacer(),
-                    // InkWell(
-                    //   onTap: () {
-                    //     CustomDialog.bottomSheet(
-                    //         context, const AddBudgetBottomSheet());
-                    //   },
-                    //   child: CircleAvatar(
-                    //     radius: 15,
-                    //     backgroundColor: white,
-                    //     child: Icon(
-                    //       monthlyBudgetState.monthlyBudget == 00
-                    //           ? Icons.add
-                    //           : Icons.edit,
-                    //       size: 20,
-                    //       color: secondaryColor,
-                    //     ),
-                    //   ),
-                    // ),
                     InkWell(
                       onTap: () {
                         CustomDialog.dialogBuilder(
@@ -206,11 +190,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Container(
                         height: 36,
                         width: 42,
-                        decoration: const BoxDecoration(
-                            color: primeColor,
-                            borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(12),
-                                topRight: Radius.circular(12))),
+                        decoration: BoxDecoration(
+                          color: primeColor,
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(12),
+                              topRight: Radius.circular(12)),
+                        ),
                         child: Icon(
                           monthlyBudgetState.monthlyBudget == 00
                               ? Icons.add

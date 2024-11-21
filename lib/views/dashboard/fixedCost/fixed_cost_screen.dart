@@ -17,6 +17,7 @@ import 'package:money_ger/views/dashboard/fixedCost/widgets/fixed_cost_tile.dart
 import 'package:money_ger/views/dashboard/home/widgets/add_budget_bottomsheet.dart';
 import 'package:money_ger/views/dashboard/home/widgets/add_expense_bottomsheet.dart';
 import 'package:money_ger/views/dashboard/home/widgets/custom_expansion_tile.dart';
+import 'package:money_ger/widgets/components/buttons/custom_add_icon.dart';
 import 'package:money_ger/widgets/components/buttons/primary_button.dart';
 import 'package:money_ger/widgets/components/custom_loader.dart';
 import 'package:provider/provider.dart';
@@ -36,46 +37,41 @@ class _FixedCostScreenState extends State<FixedCostScreen> {
   @override
   Widget build(BuildContext context) {
     return Consumer<FixedCostProvider>(builder: (_, fixedCostState, child) {
-      return GestureDetector(
-        onTap: () {
-          FocusManager.instance.primaryFocus?.unfocus();
-        },
-        child: Scaffold(
-          backgroundColor: scaffoldColor,
-          resizeToAvoidBottomInset: true,
-          appBar: AppBar(
-            backgroundColor: primeColor,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(32),
-                  bottomRight: Radius.circular(32)),
-            ),
-            automaticallyImplyLeading: false,
-            centerTitle: true,
-            title: Column(
-              children: [
-                Text(
-                  'Fixed Cost',
-                  style: tTextStyleBold.copyWith(color: white, fontSize: 20),
-                ),
-                Text(
-                  fixedCostState.totalFixedCost.toString(),
-                  style: tTextStyle500.copyWith(color: white, fontSize: 16),
-                )
+      return SafeArea(
+        top: false,
+        child: GestureDetector(
+          onTap: () {
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
+          child: Scaffold(
+            backgroundColor: scaffoldColor,
+            resizeToAvoidBottomInset: true,
+            appBar: AppBar(
+              backgroundColor: scaffoldColor,
+              automaticallyImplyLeading: false,
+              centerTitle: true,
+              title: Column(
+                children: [
+                  Text(
+                    'Fixed Cost',
+                    style: tTextStyleBold.copyWith(
+                        color: textPrimaryColor, fontSize: 20),
+                  ),
+                  Text(
+                    fixedCostState.totalFixedCost.toString(),
+                    style: tTextStyle500.copyWith(color: iconColor, fontSize: 16),
+                  )
+                ],
+              ),
+              actions: [
+                CustomAddIcon(onTap: (){
+                  CustomDialog.dialogBuilder(
+                      context, const AddFixedCostBottomSheet());
+                }),
+                sixteenHorizontalSpace
               ],
             ),
-          ),
-          body: _buildBody(),
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: primeColor,
-            onPressed: () {
-              CustomDialog.dialogBuilder(
-                  context, const AddFixedCostBottomSheet());
-            },
-            child: const Icon(
-              Icons.add,
-              color: white,
-            ),
+            body: _buildBody(),
           ),
         ),
       );

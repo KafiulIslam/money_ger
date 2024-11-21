@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:money_ger/controllers/debit_credit_provider.dart';
 import 'package:money_ger/views/dashboard/debitCredit/widgets/add_debit_credit_bottom.dart';
 import 'package:money_ger/views/dashboard/debitCredit/widgets/debt_tile.dart';
+import 'package:money_ger/widgets/components/buttons/custom_add_icon.dart';
 import 'package:provider/provider.dart';
 import '../../../utils/color.dart';
 import '../../../utils/custom_dialog.dart';
@@ -29,30 +30,25 @@ class _DebitCreditScreenState extends State<DebitCreditScreen> {
             backgroundColor: scaffoldColor,
             resizeToAvoidBottomInset: true,
             appBar: AppBar(
-              backgroundColor: primeColor,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(32),
-                    bottomRight: Radius.circular(32)),
-              ),
+              backgroundColor: scaffoldColor,
               automaticallyImplyLeading: false,
               centerTitle: true,
               title: Text(
                 'Debit Credit',
-                style: tTextStyleBold.copyWith(color: white, fontSize: 20),
+                style: tTextStyleBold.copyWith(color: textPrimaryColor, fontSize: 20),
               ),
               bottom: TabBar(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                dividerColor: trans,
+               // padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                dividerColor: primaryLight,
                 indicatorSize: TabBarIndicatorSize.label,
-                indicatorColor: primaryLight,
+                indicatorColor: primeColor,
                 indicatorWeight: 5,
                 // indicator: UnderlineTabIndicator(
                 //     borderSide: BorderSide(width: 5.0),
                 //     insets: EdgeInsets.symmetric(horizontal:8.0)
                 // ),
-                labelStyle: tTextStyle700.copyWith(color: white),
-                unselectedLabelColor: primaryLight,
+                labelStyle: tTextStyle700.copyWith(color: textPrimaryColor),
+                unselectedLabelColor: iconColor,
                 tabs: [
                   Tab(
                       child: Column(
@@ -70,6 +66,13 @@ class _DebitCreditScreenState extends State<DebitCreditScreen> {
                   )),
                 ],
               ),
+              actions: [
+                CustomAddIcon(onTap: (){
+                  CustomDialog.dialogBuilder(
+                      context, const AddDebitCreditBottomSheet());
+                }),
+                sixteenHorizontalSpace
+              ],
             ),
             body: debitCreditState.isDebtListLoading
                 ? const Center(child: CircularProgressIndicator())
@@ -79,17 +82,6 @@ class _DebitCreditScreenState extends State<DebitCreditScreen> {
                       _creditors(),
                     ],
                   ),
-            floatingActionButton: FloatingActionButton(
-              backgroundColor: primeColor,
-              onPressed: () {
-                CustomDialog.dialogBuilder(
-                    context, const AddDebitCreditBottomSheet());
-              },
-              child: const Icon(
-                Icons.add,
-                color: white,
-              ),
-            ),
           ),
         ),
       );
