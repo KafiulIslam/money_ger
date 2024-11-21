@@ -1,6 +1,7 @@
 import 'package:currency_picker/currency_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mailer/flutter_mailer.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:money_ger/controllers/auth_provider.dart';
 import 'package:money_ger/controllers/monthly_budget_provider.dart';
 import 'package:money_ger/controllers/notification_services.dart';
@@ -14,6 +15,7 @@ import 'package:money_ger/views/dashboard/dashboard_screen.dart';
 import 'package:money_ger/views/dashboard/home/widgets/add_budget_bottomsheet.dart';
 import 'package:money_ger/views/dashboard/home/widgets/add_expense_bottomsheet.dart';
 import 'package:money_ger/views/dashboard/home/widgets/custom_expansion_tile.dart';
+import 'package:money_ger/widgets/components/buttons/custom_add_icon.dart';
 import 'package:money_ger/widgets/components/buttons/primary_button.dart';
 import 'package:provider/provider.dart';
 import 'package:rating_dialog/rating_dialog.dart';
@@ -37,11 +39,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     final monthlyBudgetState =
-    Provider.of<MonthlyBudgetProvider>(context, listen: false);
+        Provider.of<MonthlyBudgetProvider>(context, listen: false);
 
-    NotificationServices.sendDailyNotification((monthlyBudgetState.monthlyBudget -
-        monthlyBudgetState.totalMonthlyExpense)
-        .toString());
+    NotificationServices.sendDailyNotification(
+        (monthlyBudgetState.monthlyBudget -
+                monthlyBudgetState.totalMonthlyExpense)
+            .toString());
     super.initState();
   }
 
@@ -49,90 +52,87 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Consumer2<AuthProvider, MonthlyBudgetProvider>(
         builder: (_, authState, monthlyBudgetState, child) {
-      return GestureDetector(
-        onTap: () {
-          FocusManager.instance.primaryFocus?.unfocus();
-        },
-        child: Scaffold(
-          backgroundColor: scaffoldColor,
-          key: _scaffoldKey,
-          resizeToAvoidBottomInset: true,
-          appBar: AppBar(
-            backgroundColor: primeColor,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(32),
-                  bottomRight: Radius.circular(32)),
-            ),
-            automaticallyImplyLeading: false,
-            centerTitle: true,
-            leading: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: IconButton(
-                  onPressed: () {
+      return SafeArea(
+        top: false,
+        child: GestureDetector(
+          onTap: () {
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
+          child: Scaffold(
+            backgroundColor: scaffoldColor,
+            key: _scaffoldKey,
+            resizeToAvoidBottomInset: true,
+            appBar: AppBar(
+              backgroundColor: scaffoldColor,
+              // shape: const RoundedRectangleBorder(
+              //   borderRadius: BorderRadius.only(
+              //       bottomLeft: Radius.circular(32),
+              //       bottomRight: Radius.circular(32)),
+              // ),
+              automaticallyImplyLeading: false,
+              centerTitle: true,
+              leading: InkWell(
+                  onTap: () {
                     _scaffoldKey.currentState?.openDrawer();
                   },
-                  icon: Icon(
-                    Icons.menu,
-                    color: white,
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: SvgPicture.asset(menuIcon),
                   )),
+              title: Text(
+                AppConstant.currentMonthId,
+                style: tTextStyleBold.copyWith(color: black, fontSize: 20),
+              ),
+              actions: [
+                CustomAddIcon(onTap: (){
+                  CustomDialog.dialogBuilder(
+                      context, const AddExpenseBottomSheet());
+                }),
+                sixteenHorizontalSpace
+              ],
             ),
-            title: Text(
-             // '${AppConstant.currentMonth} History',
-              AppConstant.currentMonthId,
-              style: tTextStyleBold.copyWith(color: white, fontSize: 20),
-            ),
-            // actions: [
-            //   IconButton(
-            //       onPressed: () {
-            //         authState.logout(context);
-            //       },
-            //       icon: const Icon(
-            //         Icons.logout,
-            //         color: white,
-            //       ))
-            // ],
-          ),
-          drawer: _drawer(),
-          body: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: RefreshIndicator(
-              onRefresh: () {
-                return monthlyBudgetState.getExpenseList();
-              },
-              child: Column(
-                children: [
-                  _monthlyBudgetCard(context),
-                  sixteenVerticalSpace,
-                  Expanded(
-                    child: ListView.separated(
-                        itemBuilder: (_, index) {
-                          var data = monthlyBudgetState.expenseList[index];
-                          return CartExpansionTile(
-                            docId: data.docId,
-                              monthlyBudgetId: data.monthlyBudgetId,
-                              description: data.description,
-                              expenseType: data.expenseType,
-                              expenseAmount: data.expenseAmount,
-                              uid: data.uid,
-                              createdAt: data.createdAt);
-                        },
-                        separatorBuilder: (_, index) => sixteenVerticalSpace,
-                        itemCount: monthlyBudgetState.expenseList.length),
-                  )
-                ],
+            drawer: _drawer(),
+            body: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: RefreshIndicator(
+                onRefresh: () {
+                  return monthlyBudgetState.getExpenseList();
+                },
+                child: Column(
+                  children: [
+                    _monthlyBudgetCard(context),
+                    sixteenVerticalSpace,
+                    Expanded(
+                      child: ListView.separated(
+                          itemBuilder: (_, index) {
+                            var data = monthlyBudgetState.expenseList[index];
+                            return CartExpansionTile(
+                                docId: data.docId,
+                                monthlyBudgetId: data.monthlyBudgetId,
+                                description: data.description,
+                                expenseType: data.expenseType,
+                                expenseAmount: data.expenseAmount,
+                                uid: data.uid,
+                                createdAt: data.createdAt);
+                          },
+                          separatorBuilder: (_, index) => sixteenVerticalSpace,
+                          itemCount: monthlyBudgetState.expenseList.length),
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: primeColor,
-            onPressed: () {
-              CustomDialog.dialogBuilder(context, const AddExpenseBottomSheet());
-            },
-            child: const Icon(
-              Icons.add,
-              color: white,
-            ),
+            // floatingActionButton: FloatingActionButton(
+            //   backgroundColor: primeColor,
+            //   onPressed: () {
+            //     CustomDialog.dialogBuilder(
+            //         context, const AddExpenseBottomSheet());
+            //   },
+            //   child: const Icon(
+            //     Icons.add,
+            //     color: white,
+            //   ),
+            // ),
           ),
         ),
       );
@@ -305,7 +305,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             _drawerTile(Icons.star, 'Ratings', () async {
               await StoreRedirect.redirect(
-                  androidAppId: "com.kafi.money_ger", iOSAppId: "com.kafi.money_ger");
+                  androidAppId: "com.kafi.money_ger",
+                  iOSAppId: "com.kafi.money_ger");
               // showDialog(
               //   context: context,
               //   barrierDismissible: true,
@@ -329,7 +330,9 @@ class _HomeScreenState extends State<HomeScreen> {
             const Divider(
               color: white,
             ),
-            _drawerTile(Icons.currency_exchange_outlined, 'Currency ($userCurrency)', () async {
+            _drawerTile(
+                Icons.currency_exchange_outlined, 'Currency ($userCurrency)',
+                () async {
               showCurrencyPicker(
                 context: context,
                 showFlag: true,
@@ -341,7 +344,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   await storage.write(key: 'currency', value: currency.symbol);
                   getUserCurrency();
                   setState(() {});
-
                 },
               );
             }),
@@ -349,13 +351,19 @@ class _HomeScreenState extends State<HomeScreen> {
               color: white,
             ),
             _drawerTile(Icons.logout_outlined, 'Logout', () {
-              CustomDialog.dialogBuilder(context, _logoutColumn('Logout','Are you sure, you want to logout ?.'));
+              CustomDialog.dialogBuilder(
+                  context,
+                  _logoutColumn(
+                      'Logout', 'Are you sure, you want to logout ?.'));
             }),
             const Divider(
               color: white,
             ),
             _drawerTile(Icons.delete_outline, 'Delete Account', () {
-              CustomDialog.dialogBuilder(context, _logoutColumn('Delete Account','Are you sure, you want to Delete account ?.'));
+              CustomDialog.dialogBuilder(
+                  context,
+                  _logoutColumn('Delete Account',
+                      'Are you sure, you want to Delete account ?.'));
             }),
           ],
         ),
@@ -375,9 +383,14 @@ class _HomeScreenState extends State<HomeScreen> {
               color: primeColor,
             ),
             sixteenHorizontalSpace,
-            Text(title, style: tTextStyle600.copyWith(color: primeColor, fontSize: 16)),
+            Text(title,
+                style: tTextStyle600.copyWith(color: primeColor, fontSize: 16)),
             Spacer(),
-            Icon(Icons.arrow_forward_ios, color: primeColor, size: 16,)
+            Icon(
+              Icons.arrow_forward_ios,
+              color: primeColor,
+              size: 16,
+            )
           ],
         ),
       ),
@@ -408,9 +421,9 @@ class _HomeScreenState extends State<HomeScreen> {
     ),
     image: Image.asset(
       splashLogo,
-     height: 100,
-     width: 100,
-     // fit: BoxFit.contain,
+      height: 100,
+      width: 100,
+      // fit: BoxFit.contain,
     ),
     submitButtonText: 'Submit',
     submitButtonTextStyle: const TextStyle(color: primeColor, fontSize: 16.0),
@@ -418,7 +431,7 @@ class _HomeScreenState extends State<HomeScreen> {
     onCancelled: () {},
     onSubmitted: (response) async {
       if (response.rating < 2.0) {
-      //  CustomSnack.warningSnack('You have to give more than two star!', context);
+        //  CustomSnack.warningSnack('You have to give more than two star!', context);
       } else {
         await StoreRedirect.redirect(
             androidAppId: "com.kafi.money_ger", iOSAppId: "com.kafi.money_ger");
@@ -427,8 +440,7 @@ class _HomeScreenState extends State<HomeScreen> {
   );
 
   Widget _logoutColumn(String header, String message) {
-    final authState =
-    Provider.of<AuthProvider>(context, listen: false);
+    final authState = Provider.of<AuthProvider>(context, listen: false);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
@@ -462,43 +474,45 @@ class _HomeScreenState extends State<HomeScreen> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-          Container(
-            alignment: Alignment.center,
-            height: 35.0,
-            width: 70,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
-              color: primeColor,
-            ),
-            child: TextButton(
-              child: Text(
-                'Yes',
-                style: tTextStyle600.copyWith(color: white, fontSize: 14),
+            Container(
+              alignment: Alignment.center,
+              height: 35.0,
+              width: 70,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: primeColor,
               ),
-              onPressed: () async {
-                await authState.logout(context);
-              },
-            ),
-          ),
-          Container(
-            alignment: Alignment.center,
-            height: 35.0,
-            width: 70,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
-              color: primaryLight,
-            ),
-            child: TextButton(
-              child: Text(
-                'No',
-                style: tTextStyle600.copyWith(color: primeColor, fontSize: 14),
+              child: TextButton(
+                child: Text(
+                  'Yes',
+                  style: tTextStyle600.copyWith(color: white, fontSize: 14),
+                ),
+                onPressed: () async {
+                  await authState.logout(context);
+                },
               ),
-              onPressed: () async {
-                Navigator.pop(context);
-              },
             ),
-          ),
-        ],),
+            Container(
+              alignment: Alignment.center,
+              height: 35.0,
+              width: 70,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: primaryLight,
+              ),
+              child: TextButton(
+                child: Text(
+                  'No',
+                  style:
+                      tTextStyle600.copyWith(color: primeColor, fontSize: 14),
+                ),
+                onPressed: () async {
+                  Navigator.pop(context);
+                },
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }
@@ -538,5 +552,4 @@ class _HomeScreenState extends State<HomeScreen> {
       autovalidateMode: AutovalidateMode.onUserInteraction,
     );
   }
-
 }

@@ -2,6 +2,7 @@
 /// images path ///
 
 const splashLogo = 'assets/images/moneyGer.png';
+const addIcon = 'assets/images/add_icon.png';
 
 
 /// svg paths ///
@@ -11,6 +12,7 @@ const reportIcon = 'assets/svgs/report.svg';
 const historyIcon = 'assets/svgs/history.svg';
 const debtIcon = 'assets/svgs/debit_credit.svg';
 const fixedCostIcon = 'assets/svgs/fixed_cost.svg';
+const menuIcon = 'assets/svgs/menu.svg';
 
 
 
