@@ -49,15 +49,6 @@ void main() async {
   runApp(MyApp(client: client));
 }
 
-// @pragma('vm:entry-point')
-// void callbackDispatcher() {
-//   Workmanager().executeTask((task, inputData) async {
-//     await NotificationServices.sendDailyNotification(
-//         00.toString());
-//     return Future.value(true);
-//   });
-// }
-
 @pragma('vm:entry-point')
 void callbackDispatcher() {
   Workmanager().executeTask((task, inputData) {

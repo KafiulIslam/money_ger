@@ -1,6 +1,6 @@
 import 'package:currency_picker/currency_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mailer/flutter_mailer.dart';
+//import 'package:flutter_mailer/flutter_mailer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:money_ger/controllers/auth_provider.dart';
 import 'package:money_ger/controllers/monthly_budget_provider.dart';
@@ -16,11 +16,9 @@ import 'package:money_ger/views/dashboard/home/widgets/add_budget_bottomsheet.da
 import 'package:money_ger/views/dashboard/home/widgets/add_expense_bottomsheet.dart';
 import 'package:money_ger/views/dashboard/home/widgets/custom_expansion_tile.dart';
 import 'package:money_ger/widgets/components/buttons/custom_add_icon.dart';
-import 'package:money_ger/widgets/components/buttons/primary_button.dart';
 import 'package:provider/provider.dart';
 import 'package:rating_dialog/rating_dialog.dart';
 import 'package:store_redirect/store_redirect.dart';
-import '../../../main.dart';
 import '../../../utils/color.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -298,20 +296,20 @@ class _HomeScreenState extends State<HomeScreen> {
               //   builder: (context) => _dialog,
               // );
             }),
-            const Divider(
-              color: white,
-            ),
-            _drawerTile(Icons.feedback_outlined, 'Feedback', () async {
-              await FlutterMailer.send(MailOptions(
-                body: 'Hi MoneyGer Team,',
-                subject: 'Feedback on MoneyGer',
-                recipients: ['kafiulislam2022@gmail.com'],
-                isHTML: true,
-                attachments: [
-                  'path/to/image.png',
-                ],
-              ));
-            }),
+            // const Divider(
+            //   color: white,
+            // ),
+            // _drawerTile(Icons.feedback_outlined, 'Feedback', () async {
+            //   await FlutterMailer.send(MailOptions(
+            //     body: 'Hi MoneyGer Team,',
+            //     subject: 'Feedback on MoneyGer',
+            //     recipients: ['kafiulislam2022@gmail.com'],
+            //     isHTML: true,
+            //     attachments: [
+            //       'path/to/image.png',
+            //     ],
+            //   ));
+            // }),
             const Divider(
               color: white,
             ),

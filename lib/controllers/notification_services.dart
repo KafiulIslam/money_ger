@@ -42,9 +42,10 @@ class NotificationServices {
           0,
           'MoneyGer',
           //'Record today\'s expenses in MoneyGer. Current balance: $balance',
-          'Record today\'s expenses in MoneyGer.',
+          'Record today\'s transactions in MoneyGer.',
           RepeatInterval.daily,
-          notificationDetails);
+          notificationDetails,
+          androidScheduleMode: AndroidScheduleMode.exact);
       return true;
     } else {
       return false;
