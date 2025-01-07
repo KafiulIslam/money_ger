@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:appwrite/appwrite.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -28,9 +27,6 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   _getIsFirst() async {
-    // bool isIntro = await PrefData.getIsIntro();
-    // bool docCompleted = PrefData.getDocumentCompleted();
-    // const bool isAccessToken = false;
     final String sessionId = await AppStorage.getSessionId() ?? '';
 
     Timer(const Duration(seconds: 1), () {
@@ -48,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(const Duration(milliseconds: 400), () {
+    Future.delayed(const Duration(seconds: 1), () {
       lightStatusBar();
     });
     return Scaffold(

@@ -1,6 +1,11 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-const storage = FlutterSecureStorage();
+
+AndroidOptions _getAndroidOptions() => const AndroidOptions(
+  encryptedSharedPreferences: true,
+);
+
+final storage = FlutterSecureStorage(aOptions: _getAndroidOptions());
 
 class AppStorage{
 
