@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:money_ger/controllers/monthly_detail_controller.dart';
 import 'package:money_ger/utils/assets_path.dart';
 import 'package:money_ger/utils/spacer.dart';
@@ -21,6 +22,13 @@ class MonthlyDetail extends StatefulWidget {
 }
 
 class _MonthlyDetailState extends State<MonthlyDetail> {
+
+  String getDateDetails(String createdAt) {
+    final String date =
+        DateFormat('dd-MM-yyyy').format(DateTime.parse(createdAt));
+    return date;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<MonthlyDetailController>(builder: (_, detailState, child) {
@@ -56,25 +64,51 @@ class _MonthlyDetailState extends State<MonthlyDetail> {
               ? const Center(child: Text('No available history'))
               : ListView.separated(
                   itemCount: widget.expensesList.length,
-                  separatorBuilder: (_, index) => eightVerticalSpace,
+                  separatorBuilder: (_, index) => sixteenVerticalSpace,
                   itemBuilder: (context, index) {
                     var item = widget.expensesList[index];
-                    return ListTile(
-                      title: Text(item.description,
-                          style: tTextStyle600.copyWith(
-                              color: black, fontSize: 14)),
-                      subtitle: Text(item.expenseType,
-                          style: tTextStyleRegular.copyWith(
-                              color: black, fontSize: 14)),
-                      trailing: Text(
-                          '$userCurrency ${item.expenseAmount.toString()}',
-                          style: tTextStyle700.copyWith(
-                              color: iconColor, fontSize: 14)),
-                    );
+                    return _optionTile(
+                        item.description,
+                        item.expenseType,
+                        getDateDetails(item.createdAt),
+                        '$userCurrency ${item.expenseAmount.toString()}');
                   },
                 ),
         ),
       );
     });
+  }
+
+  Widget _optionTile(
+      String description, String type, String date, String amount) {
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: borderColor)),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(description,
+                    style: tTextStyle600.copyWith(color: black, fontSize: 14)),
+                SizedBox(
+                  height: 8,
+                ),
+                Text(date,
+                    style:
+                        tTextStyleRegular.copyWith(color: black, fontSize: 12)),
+              ],
+            ),
+            Text(amount,
+                style: tTextStyle700.copyWith(color: iconColor, fontSize: 14)),
+          ],
+        ),
+      ),
+    );
   }
 }
