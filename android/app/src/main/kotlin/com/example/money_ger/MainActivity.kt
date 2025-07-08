@@ -1,4 +1,4 @@
-package com.example.money_ger
+package com.kafi.money_ger
 
 import io.flutter.embedding.android.FlutterActivity
 

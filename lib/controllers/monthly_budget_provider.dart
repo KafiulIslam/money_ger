@@ -47,19 +47,21 @@ class MonthlyBudgetProvider extends ChangeNotifier {
       isBudgetLoading = true;
       notifyListeners();
 
-      final String? uid = await AppStorage.getUserId();
+      final String uid = await AppStorage.getUserId() ?? '';
 
       final res = await db.listDocuments(
-        databaseId: AppWriteConstant.primaryDBId,
-        collectionId: AppWriteConstant.monthlyBudgetCollectionId,
-      );
+          databaseId: AppWriteConstant.primaryDBId,
+          collectionId: AppWriteConstant.monthlyBudgetCollectionId,
+          queries: [
+            Query.equal('userID', uid),
+          ]);
 
       if (res.documents.isNotEmpty) {
         monthlyBudgetList.clear();
         notifyListeners();
 
         res.documents.forEach((e) {
-          if (e.data['userID'] == uid && uid!+AppConstant.currentMonthId == e.$id) {
+          if (uid+AppConstant.currentMonthId == e.$id) {
             monthlyBudget = e.data['monthlyBudget'] ?? 00;
             notifyListeners();
           }
@@ -85,12 +87,12 @@ class MonthlyBudgetProvider extends ChangeNotifier {
       isMonthlyBudgetSetting = true;
       notifyListeners();
 
-      final uid = await AppStorage.getUserId();
+      final uid = await AppStorage.getUserId() ?? '';
 
       var res = await db.createDocument(
           databaseId: AppWriteConstant.primaryDBId,
           collectionId: AppWriteConstant.monthlyBudgetCollectionId,
-          documentId: uid!+AppConstant.currentMonthId,
+          documentId: uid + AppConstant.currentMonthId,
           data: {
             'monthlyBudget': monthlyBudget,
             'createdAt': createdAt,
@@ -98,7 +100,6 @@ class MonthlyBudgetProvider extends ChangeNotifier {
             'userID': uid
           }).then((value) {
         getMonthlyBudget();
-        Navigator.pop(context);
         CustomDialog.autoDialog(
             context, Icons.check, 'Budget is set successfully!');
       });
@@ -107,6 +108,7 @@ class MonthlyBudgetProvider extends ChangeNotifier {
     } catch (e) {
       CustomSnack.warningSnack(e.toString(), context);
     } finally {
+      Navigator.pop(context);
       isMonthlyBudgetSetting = false;
       notifyListeners();
     }
@@ -123,7 +125,7 @@ class MonthlyBudgetProvider extends ChangeNotifier {
       var res = await db.updateDocument(
           databaseId: AppWriteConstant.primaryDBId,
           collectionId: AppWriteConstant.monthlyBudgetCollectionId,
-          documentId: uid!+AppConstant.currentMonthId,
+          documentId: uid! + AppConstant.currentMonthId,
           data: {
             'monthlyBudget': monthlyBudget,
             'createdAt': createdAt,
@@ -406,16 +408,17 @@ class MonthlyBudgetProvider extends ChangeNotifier {
 
   late bool isExpenseDeleting = false;
 
-  Future<void> deleteDailyExpense(String documentId, BuildContext context) async {
+  Future<void> deleteDailyExpense(
+      String documentId, BuildContext context) async {
     try {
       isExpenseDeleting = true;
       notifyListeners();
 
       var res = await db
           .deleteDocument(
-          databaseId: AppWriteConstant.primaryDBId,
-          collectionId: AppWriteConstant.expenseListCollectionId,
-          documentId: documentId)
+              databaseId: AppWriteConstant.primaryDBId,
+              collectionId: AppWriteConstant.expenseListCollectionId,
+              documentId: documentId)
           .then((value) {
         getMonthlyBudget();
         getExpenseList();
@@ -432,5 +435,4 @@ class MonthlyBudgetProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-
 }

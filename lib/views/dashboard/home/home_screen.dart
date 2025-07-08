@@ -62,11 +62,6 @@ class _HomeScreenState extends State<HomeScreen> {
             resizeToAvoidBottomInset: true,
             appBar: AppBar(
               backgroundColor: scaffoldColor,
-              // shape: const RoundedRectangleBorder(
-              //   borderRadius: BorderRadius.only(
-              //       bottomLeft: Radius.circular(32),
-              //       bottomRight: Radius.circular(32)),
-              // ),
               automaticallyImplyLeading: false,
               centerTitle: true,
               leading: InkWell(
@@ -121,17 +116,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            // floatingActionButton: FloatingActionButton(
-            //   backgroundColor: primeColor,
-            //   onPressed: () {
-            //     CustomDialog.dialogBuilder(
-            //         context, const AddExpenseBottomSheet());
-            //   },
-            //   child: const Icon(
-            //     Icons.add,
-            //     color: white,
-            //   ),
-            // ),
           ),
         ),
       );
