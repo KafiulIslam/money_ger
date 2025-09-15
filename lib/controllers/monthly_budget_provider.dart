@@ -166,7 +166,8 @@ class MonthlyBudgetProvider extends ChangeNotifier {
           databaseId: AppWriteConstant.primaryDBId,
           collectionId: AppWriteConstant.expenseListCollectionId,
           queries: [
-            Query.limit(5000),
+            Query.limit(500000),
+            Query.orderAsc('createdAt'),
           ]);
 
       if (res.documents.isNotEmpty) {
@@ -444,4 +445,5 @@ class MonthlyBudgetProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
 }
