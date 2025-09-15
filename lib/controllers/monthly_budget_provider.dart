@@ -81,7 +81,8 @@ class MonthlyBudgetProvider extends ChangeNotifier {
 
   late bool isMonthlyBudgetSetting = false;
 
-  Future<void> setMonthlyBudget(int monthlyBudget, String createdAt,
+  Future<void> setMonthlyBudget(
+      int monthlyBudget, String createdAt,
       String monthName, BuildContext context) async {
     try {
       isMonthlyBudgetSetting = true;
@@ -89,62 +90,72 @@ class MonthlyBudgetProvider extends ChangeNotifier {
 
       final uid = await AppStorage.getUserId() ?? '';
 
-      var res = await db.createDocument(
-          databaseId: AppWriteConstant.primaryDBId,
-          collectionId: AppWriteConstant.monthlyBudgetCollectionId,
-          documentId: uid + AppConstant.currentMonthId,
-          data: {
-            'monthlyBudget': monthlyBudget,
-            'createdAt': createdAt,
-            'monthName': monthName,
-            'userID': uid
-          }).then((value) {
-        getMonthlyBudget();
-        CustomDialog.autoDialog(
-            context, Icons.check, 'Budget is set successfully!');
-      });
+      await db.createDocument(
+        databaseId: AppWriteConstant.primaryDBId,
+        collectionId: AppWriteConstant.monthlyBudgetCollectionId,
+        documentId: uid + AppConstant.currentMonthId,
+        data: {
+          'monthlyBudget': monthlyBudget,
+          'createdAt': createdAt,
+          'monthName': monthName,
+          'userID': uid
+        },
+      );
 
-      notifyListeners();
+
+      Navigator.pop(context);
+      await getMonthlyBudget();
+      CustomDialog.autoDialog(
+          context, Icons.check, 'Budget is set successfully!');
+
     } catch (e) {
+      Navigator.pop(context);
       CustomSnack.warningSnack(e.toString(), context);
     } finally {
-      Navigator.pop(context);
       isMonthlyBudgetSetting = false;
       notifyListeners();
     }
   }
 
-  Future<void> editMonthlyBudget(int monthlyBudget, String createdAt,
+
+  Future<void> editMonthlyBudget(
+      int monthlyBudget, String createdAt,
       String monthName, BuildContext context) async {
     try {
       isMonthlyBudgetSetting = true;
       notifyListeners();
 
-      final uid = await AppStorage.getUserId();
+      final uid = await AppStorage.getUserId() ?? '';
 
-      var res = await db.updateDocument(
-          databaseId: AppWriteConstant.primaryDBId,
-          collectionId: AppWriteConstant.monthlyBudgetCollectionId,
-          documentId: uid! + AppConstant.currentMonthId,
-          data: {
-            'monthlyBudget': monthlyBudget,
-            'createdAt': createdAt,
-            'monthName': monthName,
-            'userID': uid
-          }).then((value) {
-        getMonthlyBudget();
-        Navigator.pop(context);
-        CustomDialog.autoDialog(
-            context, Icons.check, 'Budget is updated successfully!');
-      });
-      notifyListeners();
+      await db.updateDocument(
+        databaseId: AppWriteConstant.primaryDBId,
+        collectionId: AppWriteConstant.monthlyBudgetCollectionId,
+        documentId: uid + AppConstant.currentMonthId,
+        data: {
+          'monthlyBudget': monthlyBudget,
+          'createdAt': createdAt,
+          'monthName': monthName,
+          'userID': uid
+        },
+      );
+
+      Navigator.pop(context);
+      await getMonthlyBudget();
+      CustomDialog.autoDialog(
+        context,
+        Icons.check,
+        'Budget is updated successfully!',
+      );
+
     } catch (e) {
+      Navigator.pop(context);
       CustomSnack.warningSnack(e.toString(), context);
     } finally {
       isMonthlyBudgetSetting = false;
       notifyListeners();
     }
   }
+
 
   /// daily expense list ///
 

@@ -21,6 +21,12 @@ class _AddBudgetBottomSheetState extends State<AddBudgetBottomSheet> {
   final TextEditingController _budgetController = TextEditingController();
 
   @override
+  void dispose() {
+    _budgetController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Material(
       color: Colors.transparent,
@@ -71,8 +77,9 @@ class _AddBudgetBottomSheetState extends State<AddBudgetBottomSheet> {
                               AppConstant.currentMonth,
                               context);
                     },
-                    buttonTitle:  monthlyBudgetState.monthlyBudget == 00
-                        ? 'Save' : 'Update',
+                    buttonTitle: monthlyBudgetState.monthlyBudget == 00
+                        ? 'Save'
+                        : 'Update',
                     isLoading: monthlyBudgetState.isMonthlyBudgetSetting,
                   ),
                   primaryVerticalSpace
