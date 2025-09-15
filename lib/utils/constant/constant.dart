@@ -55,6 +55,7 @@ class AppConstant{
     'Fee & Charge',
     'Missing',
     'Interest',
+    'Smoke & Waste'
     'Others'
   ];
   static final List<String> debtsTypeList = [
@@ -77,20 +78,8 @@ class AppConstant{
   static String userImageUrl = '';
 
  /// base url ///
-static const baseUrl = 'http://arabic.live.pwtech.pw:9001/';
+//static const baseUrl = 'http://arabic.live.pwtech.pw:9001/';
 
 }
 
 
-// InputDecoration(
-// filled: true,
-// fillColor: assColor,
-// contentPadding: const EdgeInsets.all(12),
-// hintText: 'Enter your this month\'s budget',
-// hintStyle: hintTextStyle,
-// focusedBorder: AppConstant.focusOutLineBorder,
-// enabledBorder: AppConstant.enableOutLineBorder,
-// errorBorder: AppConstant.outlineErrorBorder,
-// focusedErrorBorder: AppConstant.outlineErrorBorder,
-// focusColor: primaryColor,
-// )

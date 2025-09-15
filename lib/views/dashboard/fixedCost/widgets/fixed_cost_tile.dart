@@ -45,7 +45,6 @@ class _FixedCostTileState extends State<FixedCostTile> {
   late TextEditingController _description;
   late TextEditingController _expenseAmount;
 
-
   @override
   void initState() {
     _description = TextEditingController(text: widget.description);
@@ -85,11 +84,13 @@ class _FixedCostTileState extends State<FixedCostTile> {
                         widget.expenseAmount,
                         widget.createdAt,
                         true,
-                        context).then((value) {
+                        context)
+                    .then((value) {
                   monthlyBudgetState.addExpense(
                       AppConstant.currentMonthId,
                       widget.description,
                       widget.expenseType,
+                      DateTime.now().toString(),
                       widget.expenseAmount,
                       context);
                 });

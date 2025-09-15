@@ -61,7 +61,7 @@ class MonthlyBudgetProvider extends ChangeNotifier {
         notifyListeners();
 
         res.documents.forEach((e) {
-          if (uid+AppConstant.currentMonthId == e.$id) {
+          if (uid + AppConstant.currentMonthId == e.$id) {
             monthlyBudget = e.data['monthlyBudget'] ?? 00;
             notifyListeners();
           }
@@ -81,8 +81,7 @@ class MonthlyBudgetProvider extends ChangeNotifier {
 
   late bool isMonthlyBudgetSetting = false;
 
-  Future<void> setMonthlyBudget(
-      int monthlyBudget, String createdAt,
+  Future<void> setMonthlyBudget(int monthlyBudget, String createdAt,
       String monthName, BuildContext context) async {
     try {
       isMonthlyBudgetSetting = true;
@@ -102,12 +101,10 @@ class MonthlyBudgetProvider extends ChangeNotifier {
         },
       );
 
-
       Navigator.pop(context);
       await getMonthlyBudget();
       CustomDialog.autoDialog(
           context, Icons.check, 'Budget is set successfully!');
-
     } catch (e) {
       Navigator.pop(context);
       CustomSnack.warningSnack(e.toString(), context);
@@ -117,9 +114,7 @@ class MonthlyBudgetProvider extends ChangeNotifier {
     }
   }
 
-
-  Future<void> editMonthlyBudget(
-      int monthlyBudget, String createdAt,
+  Future<void> editMonthlyBudget(int monthlyBudget, String createdAt,
       String monthName, BuildContext context) async {
     try {
       isMonthlyBudgetSetting = true;
@@ -146,7 +141,6 @@ class MonthlyBudgetProvider extends ChangeNotifier {
         Icons.check,
         'Budget is updated successfully!',
       );
-
     } catch (e) {
       Navigator.pop(context);
       CustomSnack.warningSnack(e.toString(), context);
@@ -155,7 +149,6 @@ class MonthlyBudgetProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-
 
   /// daily expense list ///
 
@@ -259,8 +252,13 @@ class MonthlyBudgetProvider extends ChangeNotifier {
 
   /// add expense ///
 
-  Future<void> addExpense(String monthlyBudgetId, String description,
-      String expenseType, int expenseAmount, BuildContext context) async {
+  Future<void> addExpense(
+      String monthlyBudgetId,
+      String description,
+      String expenseType,
+      String expenseDate,
+      int expenseAmount,
+      BuildContext context) async {
     try {
       isExpenseAdding = true;
       notifyListeners();
@@ -277,7 +275,7 @@ class MonthlyBudgetProvider extends ChangeNotifier {
             'expenseType': expenseType,
             'expenseAmount': expenseAmount,
             'userID': uid,
-            'createdAt': DateTime.now().toString()
+            'createdAt': expenseDate
           }).then((value) {
         getMonthlyBudget();
         getExpenseList();
