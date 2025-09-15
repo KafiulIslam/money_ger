@@ -166,8 +166,10 @@ class MonthlyBudgetProvider extends ChangeNotifier {
           databaseId: AppWriteConstant.primaryDBId,
           collectionId: AppWriteConstant.expenseListCollectionId,
           queries: [
-            Query.limit(500000),
+            Query.equal('userID', uid),
+            Query.equal('monthlyBudgetId', AppConstant.currentMonthId),
             Query.orderAsc('createdAt'),
+            Query.limit(50000),
           ]);
 
       if (res.documents.isNotEmpty) {
@@ -182,62 +184,55 @@ class MonthlyBudgetProvider extends ChangeNotifier {
         notifyListeners();
 
         res.documents.forEach((e) {
-          if (e.data['userID'] == uid &&
-              AppConstant.currentMonthId == e.data['monthlyBudgetId']) {
-            /// there will be list ///
-            expenseList.add(ExpenseModel(
-                docId: e.$id,
-                monthlyBudgetId: e.data['monthlyBudgetId'] ?? '',
-                description: e.data['description'] ?? '',
-                expenseType: e.data['expenseType'] ?? '',
-                expenseAmount: e.data['expenseAmount'] ?? '',
-                uid: e.data['userID'] ?? '',
-                createdAt: e.data['createdAt'] ?? ''));
-            totalMonthlyExpense =
-                totalMonthlyExpense + e.data['expenseAmount'] as int;
-            notifyListeners();
+          /// there will be list ///
+          expenseList.add(ExpenseModel(
+              docId: e.$id,
+              monthlyBudgetId: e.data['monthlyBudgetId'] ?? '',
+              description: e.data['description'] ?? '',
+              expenseType: e.data['expenseType'] ?? '',
+              expenseAmount: e.data['expenseAmount'] ?? '',
+              uid: e.data['userID'] ?? '',
+              createdAt: e.data['createdAt'] ?? ''));
+          totalMonthlyExpense =
+              totalMonthlyExpense + e.data['expenseAmount'] as int;
 
-            /// for report ///
+          /// for report ///
 
-            if (e.data['expenseType'] == 'Food or Drinks' ||
-                e.data['expenseType'] == 'Phone Bill' ||
-                e.data['expenseType'] == 'Transport' ||
-                e.data['expenseType'] == 'House Rent' ||
-                e.data['expenseType'] == 'Electricity Bill' ||
-                e.data['expenseType'] == 'Fuel Bill' ||
-                e.data['expenseType'] == 'Fix & Maintenance' ||
-                e.data['expenseType'] == 'Cosmetics' ||
-                e.data['expenseType'] == 'Groceries' ||
-                e.data['expenseType'] == 'Internet Bill' ||
-                e.data['expenseType'] == 'Kids') {
-              basic = basic + e.data['expenseAmount'] as int;
-              notifyListeners();
-            } else if (e.data['expenseType'] == 'Entertainment' ||
-                e.data['expenseType'] == 'Fashion' ||
-                e.data['expenseType'] == 'Travel' ||
-                e.data['expenseType'] == 'Party') {
-              enjoyment = enjoyment + e.data['expenseAmount'] as int;
-              notifyListeners();
-            } else if (e.data['expenseType'] == 'Gift' ||
-                e.data['expenseType'] == 'Donation' ||
-                e.data['expenseType'] == 'Social Work') {
-              donation = donation + e.data['expenseAmount'] as int;
-              notifyListeners();
-            } else if (e.data['expenseType'] == 'Doctor' ||
-                e.data['expenseType'] == 'Medicine' ||
-                e.data['expenseType'] == 'Insurance') {
-              healthCare = healthCare + e.data['expenseAmount'] as int;
-              notifyListeners();
-            } else if (e.data['expenseType'] == 'Properties' ||
-                e.data['expenseType'] == 'Vehicle' ||
-                e.data['expenseType'] == 'Sue' ||
-                e.data['expenseType'] == 'Consultant fee') {
-              legal = legal + e.data['expenseAmount'] as int;
-            } else {
-              other = other + e.data['expenseAmount'] as int;
-            }
+          if (e.data['expenseType'] == 'Food or Drinks' ||
+              e.data['expenseType'] == 'Phone Bill' ||
+              e.data['expenseType'] == 'Transport' ||
+              e.data['expenseType'] == 'House Rent' ||
+              e.data['expenseType'] == 'Electricity Bill' ||
+              e.data['expenseType'] == 'Fuel Bill' ||
+              e.data['expenseType'] == 'Fix & Maintenance' ||
+              e.data['expenseType'] == 'Cosmetics' ||
+              e.data['expenseType'] == 'Groceries' ||
+              e.data['expenseType'] == 'Internet Bill' ||
+              e.data['expenseType'] == 'Kids') {
+            basic = basic + e.data['expenseAmount'] as int;
+          } else if (e.data['expenseType'] == 'Entertainment' ||
+              e.data['expenseType'] == 'Fashion' ||
+              e.data['expenseType'] == 'Travel' ||
+              e.data['expenseType'] == 'Party') {
+            enjoyment = enjoyment + e.data['expenseAmount'] as int;
+          } else if (e.data['expenseType'] == 'Gift' ||
+              e.data['expenseType'] == 'Donation' ||
+              e.data['expenseType'] == 'Social Work') {
+            donation = donation + e.data['expenseAmount'] as int;
+          } else if (e.data['expenseType'] == 'Doctor' ||
+              e.data['expenseType'] == 'Medicine' ||
+              e.data['expenseType'] == 'Insurance') {
+            healthCare = healthCare + e.data['expenseAmount'] as int;
+          } else if (e.data['expenseType'] == 'Properties' ||
+              e.data['expenseType'] == 'Vehicle' ||
+              e.data['expenseType'] == 'Sue' ||
+              e.data['expenseType'] == 'Consultant fee') {
+            legal = legal + e.data['expenseAmount'] as int;
+          } else {
+            other = other + e.data['expenseAmount'] as int;
           }
         });
+        notifyListeners();
       } else {
         //CustomSnack.warningSnack('No task on your queue', context);
       }
@@ -445,5 +440,4 @@ class MonthlyBudgetProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-
 }
