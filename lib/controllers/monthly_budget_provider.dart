@@ -409,6 +409,7 @@ class MonthlyBudgetProvider extends ChangeNotifier {
     }
   }
 
+
   /// delete daily expense ///
 
   late bool isExpenseDeleting = false;
@@ -440,4 +441,5 @@ class MonthlyBudgetProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
 }
