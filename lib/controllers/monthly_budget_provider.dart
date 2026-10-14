@@ -48,33 +48,35 @@ class MonthlyBudgetProvider extends ChangeNotifier {
       notifyListeners();
 
       final String uid = await AppStorage.getUserId() ?? '';
-
-      final res = await db.listDocuments(
-          databaseId: AppWriteConstant.primaryDBId,
-          collectionId: AppWriteConstant.monthlyBudgetCollectionId,
-          queries: [
-            Query.equal('userID', uid),
-          ]);
-
-      if (res.documents.isNotEmpty) {
-        monthlyBudgetList.clear();
-        notifyListeners();
-
-        res.documents.forEach((e) {
-          if (uid + AppConstant.currentMonthId == e.$id) {
-            monthlyBudget = e.data['monthlyBudget'] ?? 00;
-            notifyListeners();
-          }
-        });
-      } else {
-        //CustomSnack.warningSnack('No task on your queue', context);
+      if (uid.isEmpty) {
+        monthlyBudget = 0;
+        return;
       }
-    } catch (e) {
-      // CustomSnack.warningSnack(e.toString(), context);
+
+      final doc = await db.getDocument(
+        databaseId: AppWriteConstant.primaryDBId,
+        collectionId: AppWriteConstant.monthlyBudgetCollectionId,
+        documentId: uid + AppConstant.currentMonthId,
+      );
+      monthlyBudget = _readAmount(doc.data['monthlyBudget']);
+    } on AppwriteException catch (e) {
+      // No budget has been saved for this month yet.
+      if (e.code == 404) {
+        monthlyBudget = 0;
+      }
+    } catch (_) {
+      // Keep the last known amount when the request fails.
     } finally {
       isBudgetLoading = false;
       notifyListeners();
     }
+  }
+
+  int _readAmount(dynamic value) {
+    if (value is int) return value;
+    if (value is num) return value.toInt();
+    if (value is String) return int.tryParse(value) ?? 0;
+    return 0;
   }
 
   /// add budget state ///

@@ -89,12 +89,13 @@ class _HomeScreenState extends State<HomeScreen> {
             body: Padding(
               padding: const EdgeInsets.all(16.0),
               child: RefreshIndicator(
-                onRefresh: () {
-                  return monthlyBudgetState.getExpenseList();
+                onRefresh: () async {
+                  await monthlyBudgetState.getMonthlyBudget();
+                  await monthlyBudgetState.getExpenseList();
                 },
                 child: Column(
                   children: [
-                    _monthlyBudgetCard(context),
+                    _monthlyBudgetCard(monthlyBudgetState),
                     sixteenVerticalSpace,
                     Expanded(
                       child: ListView.separated(
@@ -122,10 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  Widget _monthlyBudgetCard(BuildContext context) {
-    final monthlyBudgetState =
-        Provider.of<MonthlyBudgetProvider>(context, listen: false);
-
+  Widget _monthlyBudgetCard(MonthlyBudgetProvider monthlyBudgetState) {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
