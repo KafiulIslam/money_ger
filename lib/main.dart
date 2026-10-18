@@ -15,6 +15,7 @@ void main() async {
   try {
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('ic_launcher');
+
     await flutterLocalNotificationsPlugin.initialize(
       const InitializationSettings(android: initializationSettingsAndroid),
     );
@@ -27,6 +28,7 @@ void main() async {
 
   try {
     await Workmanager().initialize(callbackDispatcher, isInDebugMode: false);
+
     await Workmanager().registerPeriodicTask(
       'dailyNotificationTask',
       'dailyNotificationTask',
