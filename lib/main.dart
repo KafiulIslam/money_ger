@@ -10,41 +10,31 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
 
-  /// for notification ///
+  try {
+    const AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings('ic_launcher');
+    await flutterLocalNotificationsPlugin.initialize(
+      const InitializationSettings(android: initializationSettingsAndroid),
+    );
+  } catch (_) {}
 
-  const AndroidInitializationSettings initializationSettingsAndroid =
-      AndroidInitializationSettings('@mipmap/ic_launcher');
+  final client = Client()
+    ..setEndpoint(AppWriteConstant.endPoint)
+    ..setProject(AppWriteConstant.projectId)
+    ..setSelfSigned(status: true);
 
-  final InitializationSettings initializationSettings = InitializationSettings(
-    android: initializationSettingsAndroid,
-  );
-
-  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-
-  /// for appwrite ///
-
-  Client client = Client();
-  client
-      .setEndpoint(AppWriteConstant.endPoint)
-      .setProject(AppWriteConstant.projectId)
-      .setSelfSigned(status: true);
-
-
-  /// Initialize WorkManager
-
-  Workmanager().initialize(callbackDispatcher, isInDebugMode: false);
-
-  // Schedule the periodic task
-  Workmanager().registerPeriodicTask(
-    "dailyNotificationTask",
-    "dailyNotificationTask",
-    frequency: Duration(hours: 24),
-    initialDelay: Duration(hours: 24),
-    inputData: <String, dynamic>{'balance': '3000'}, // Pass data if needed
-  );
+  try {
+    await Workmanager().initialize(callbackDispatcher, isInDebugMode: false);
+    await Workmanager().registerPeriodicTask(
+      'dailyNotificationTask',
+      'dailyNotificationTask',
+      frequency: const Duration(hours: 24),
+      initialDelay: const Duration(hours: 24),
+      inputData: <String, dynamic>{'balance': '3000'},
+    );
+  } catch (_) {}
 
   runApp(MyApp(client: client));
 }
